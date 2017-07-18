@@ -1,0 +1,38 @@
+/*旋转：风车轮子*/
+.rotateLoop {
+  transform-origin: 87px 86px;
+  animation: rotateLoop 30s infinite linear;
+}
+@keyframes rotateLoop {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/*水波纹*/
+.ripple {
+  animation: ripple 6s infinite linear both;
+}
+/*马路线*/
+@keyframes crossing {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-160px);
+  }
+}
+@keyframes ripple {
+  from {
+    opacity: 0.8;
+    width: 100px;
+    height: 100px;
+  }
+  to {
+    opacity: 0;
+    width: 150px;
+    height: 150px;
+  }
+}

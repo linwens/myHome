@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/stylesheets/blog.css' />
+	<script src='/javascripts/jquery.js'></script>
+	<script src="/javascripts/underscore-min.js"></script>
+	<script src='/javascripts/util.js'></script>
+</head>
+<body>
+	<% include ./header%>
+	<div class="bl-bd">
+		<div class="m-ct-box">
+			<ul class="m-ct m-index" id="J_articleList">
+				<li>
+					<div class="u-date">
+						<p></p>
+						<span></span>
+					</div>
+					<div class="u-article">
+						<a href="javascript:;"></a>
+						<div class="u-txt">
+							<h2><a href="javascript:;"></a></h2>
+							<p></p>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<% include ./sidebar%>
+		</div>
+		<div class="u-page">
+			<button class="f-fl" id="btn-prev" data-page="1">Prev</button>
+			<button class="f-fr" id="btn-next" data-page="2">Next</button>
+		</div>
+	</div>
+	<% include ./footer%>
+	<script type="text/template" id="tpl_articleList">
+		<#console.log(data)#>
+		<#for(var i = 0;i<data.length;i++){#>
+			<li>
+				<div class="u-date">
+					<p><#= data[i].day #></p>
+					<span><#= data[i].month #></span>
+				</div>
+				<div class="u-article">
+					<a href="/blog/detail?id=<#=data[i].aid#>">图片展示</a>
+					<div class="u-txt">
+						<h2><a href="/blog/detail?id=<#=data[i].aid#>"><#= data[i].title #></a></h2>
+						<p><#= data[i].text #></p>
+					</div>
+				</div>
+			</li>
+		<#}#>
+	</script>
+	<!-- <script type="text/template" id="tpl_tags">
+		<#for(var i = 0;i<data.length;i++){#>
+			<span onclick="getList(1,'<#= data[i]#>');"><#= data[i]#></span>
+			<a href="/blog?tag='<#= data[i]#>'"><#= data[i]#></a>
+		<#}#>
+	</script> -->
+	<script>
+		$(function(){
+			var tag = Utils.getUrlquery('tag');
+			if(tag){
+				getList(1,tag);
+			}else{
+				getList(1,'');
+			}
+			//getTags();
+		});
+		//分页限制
+		$('#btn-prev').on('click', function(){
+			if($('#btn-prev').attr('data-page')<=0){
+				return;
+			}else{
+				getList($('#btn-prev').attr('data-page'), $('#schWork').val());
+				$('#btn-next').attr({'disabled':false});
+			}
+		});
+		$('#btn-next').on('click', function(){
+			if($('#btn-next').attr('data-page')<=0){
+				return;
+			}else{
+				getList($('#btn-next').attr('data-page'), $('#schWork').val());
+			}
+		});
+		//搜索
+		$('#btn_sch').on('click', function(){
+			var schWord = $('#schWork').val();
+			// schWord = schWord.replace(/select|update|delete|truncate|join|union|exec|insert|drop|count|script|%22|%3E|%3C|'|"|>|<|\\/gi, "_");
+			getList(1, schWord);
+		});
+		//请求文章数据
+		function getList(cur, sch){
+			$.ajax({
+				url:'/ajax/getList',
+				type:'GET',
+				dataType:'JSON',
+				data:{curPage:cur,schWord:sch},
+				success:function(rslt){
+					if(rslt.res_code==2){
+						alert(rslt.res_msg);
+						window.location.href="/blog";
+					}else{
+						//增加月日
+						for(var i = 0;i<rslt.articleList.length;i++){
+							rslt.articleList[i].day = timeStr(rslt.articleList[i].time).day
+							rslt.articleList[i].month = timeStr(rslt.articleList[i].time).month
+						}
+
+						var html = $('#tpl_articleList').html();//banner上的标展示
+						_.templateSettings = {	//避免前端模板被ejs语法解析
+							evaluate    : /<#([\s\S]+?)#>/g,
+						    interpolate : /<#=([\s\S]+?)#>/g,
+						    escape      : /<#-([\s\S]+?)#>/g
+						};
+						var template = _.template(html);
+						var tpl = template({data:rslt.articleList});
+						
+						$('#J_articleList').html(tpl);
+						//分页信息
+						$('#btn-prev').attr({'data-page':parseInt(rslt.page)-1});
+						if((rslt.page-1)*rslt.page_size+rslt.articleList.length==rslt.total){
+							$('#btn-next').attr({'disabled':true});
+						}else{
+							$('#btn-next').attr({'data-page':parseInt(rslt.page)+1});
+						}
+					}
+				},
+				error:function(rslt){}
+			})
+		};
+		// //请求标签数据
+		// function getTags(){
+		// 	$.ajax({
+		// 		url:"/ajax/getTags",
+		// 		type:"GET",
+		// 		dataType:"JSON",
+		// 		success:function(rslt){
+		// 			if(rslt.res_code==2){
+		// 				alert(rslt.res_msg);
+		// 			}else{
+		// 				var html = $('#tpl_tags').html();//banner上的标展示
+		// 				_.templateSettings = {	//避免前端模板被ejs语法解析
+		// 					evaluate    : /<#([\s\S]+?)#>/g,
+		// 				    interpolate : /<#=([\s\S]+?)#>/g,
+		// 				    escape      : /<#-([\s\S]+?)#>/g
+		// 				};
+		// 				var template = _.template(html);
+		// 				var tpl = template({data:rslt.tags});
+		// 				$('#J_tags').html(tpl);
+		// 			}
+		// 		},
+		// 		error:function(){}
+		// 	});
+		// }
+		//时间格式化
+		function timeStr(val){
+			var openDate = new Date();
+			openDate.setTime(val*1000);
+			var MM = openDate.getMonth()+1; //获取当前月份
+			var DD = openDate.getDate(); // 获取系统日
+			var month = null;
+			switch(MM){
+				case 1:month = 'Jan.';
+					break;
+				case 2:month = 'Feb.';
+					break;
+				case 3:month = 'Mar.';
+					break;
+				case 4:month = 'Apr.';
+					break;
+				case 5:month = 'May.';
+					break;
+				case 6:month = 'Jun.';
+					break;
+				case 7:month = 'Jul.';
+					break;
+				case 8:month = 'Aug.';
+					break;
+				case 9:month = 'Sep.';
+					break;
+				case 10:month = 'Oct.';
+					break;
+				case 11:month = 'Nov.';
+					break;
+				case 12:month = 'Dec.';
+					break;
+				default:break;
+			}
+			var obj = {
+				day:DD,
+				month:month
+			}
+			return obj;
+		}
+	</script>
+</body>
+</html>

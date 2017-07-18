@@ -1,0 +1,53 @@
+<div class="m-sidebar">
+	<div class="m-categ">
+		<h4>CATEGORIES</h4>
+		<ul>
+			<li><a href="/blog?tag=Javascript">Javascript</a></li>
+			<li><a href="/blog?tag=css3">css3</a></li>
+			<li><a href="/blog?tag=html5">html5</a></li>
+		</ul>
+	</div>
+	<div class="m-tags">
+		<h4 style="height: 55px;">TAGS</h4>
+		<div id="J_tags">
+			<a href="/blog?tag=javascript">javascript</a>
+			<a href="/blog?tag=css3">css3</a>
+			<a href="/blog?tag=html5">html5</a>
+		</div>
+	</div>
+</div>
+<script type="text/template" id="tpl_tags">
+	<#for(var i = 0;i<data.length;i++){#>
+		<!-- <span onclick="getList(1,'<#= data[i]#>');"><#= data[i]#></span> -->
+		<a href="/blog?tag=<#= data[i]#>"><#= data[i]#></a>
+	<#}#>
+</script>
+<script>
+	$(function(){
+		getTags()
+	});
+	//请求标签数据
+	function getTags(){
+		$.ajax({
+			url:"/ajax/getTags",
+			type:"GET",
+			dataType:"JSON",
+			success:function(rslt){
+				if(rslt.res_code==2){
+					alert(rslt.res_msg);
+				}else{
+					var html = $('#tpl_tags').html();//banner上的标展示
+					_.templateSettings = {	//避免前端模板被ejs语法解析
+						evaluate    : /<#([\s\S]+?)#>/g,
+					    interpolate : /<#=([\s\S]+?)#>/g,
+					    escape      : /<#-([\s\S]+?)#>/g
+					};
+					var template = _.template(html);
+					var tpl = template({data:rslt.tags});
+					$('#J_tags').html(tpl);
+				}
+			},
+			error:function(){}
+		});
+	}
+</script>

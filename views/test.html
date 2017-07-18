@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src='/javascripts/jquery.js'></script>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <button id="getBtn">get</button>
+    <button id="postBtn1">注册</button>
+    <form id="form1">
+      用户名：  <input type="text" name="username"/><br />
+      密码：    <input type="password" name="password"/><br />
+    </form>
+    <button id="postBtn2">登录</button>
+    <form id="form2">
+      用户名：  <input type="text" name="username"/><br />
+      密码：    <input type="password" name="password"/><br />
+    </form>
+    <form id="articleForm">
+        <p>标题</p>
+        <input type="text" name="title" id="title">
+        <p>正文</p>
+        <textarea name="text" id="text" cols="30" rows="10"></textarea>
+        <input type="button" value="发布" id="fabuBtn">
+    </form>
+    <input type="button" value="获取文章" id="getArticle">
+    <div class="showArticle">
+        
+    </div>
+    <script>
+    	$(function(){
+            //获取文章
+            $('#getArticle').on('click',function(){
+                $.ajax({
+                    url:'/ajax/getArticle',
+                    type:'GET',
+                    dataType:'JSON',
+                    data:{'title':'dsa'},
+                    success:function(rslt){
+                        $('.showArticle').html(rslt.articleDetail.text);
+                    },
+                    error:function(){}
+                })
+            });
+            //文章发布
+            $('#fabuBtn').on('click',function(){
+                var data = $('#articleForm').serialize();
+                $.ajax({
+                    url:'/ajax/subArticle',
+                    type:'POST',
+                    dataType:'JSON',
+                    data:data,
+                    success:function(){
+                        console.log('success');
+                    },
+                    error:function(){
+                        console.log('error');
+                    }
+                })
+            });
+            //测试
+    		$('#getBtn').on('click',function(){
+    			$.ajax({
+    				url:'/ajax/getData',
+    				type:'GET',
+    				dataType:'JSON',
+    				data:{'name':'lws'},
+    				success:function(){},
+    				error:function(){}
+    			})
+    		});
+            //注册
+    		$('#postBtn1').on('click',function(){
+                var data = $('#form1').serialize();
+    			$.ajax({
+    				url:'/ajax/regist',
+    				type:'POST',
+    				dataType:'JSON',
+    				data:data,
+    				success:function(rslt){
+                        console.log('id==='+rslt.uid);
+                    },
+    				error:function(){
+                        console.log('error');
+                    }
+    			})
+    		});
+            //登录
+            $('#postBtn2').on('click',function(){
+                var data = $('#form2').serialize();
+                $.ajax({
+                    url:'/ajax/login',
+                    type:'POST',
+                    dataType:'JSON',
+                    data:data,
+                    success:function(){
+                        console.log('success');
+                    },
+                    error:function(){
+                        console.log('error');
+                    }
+                })
+            });
+    	});
+    </script>
+  </body>
+</html>
