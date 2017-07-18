@@ -2,14 +2,17 @@ var Articles = require('./mongoose').Articles;
 var marked = require('marked');
 var uuid = require('node-uuid');
 marked.setOptions({
-  renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: false,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: false
+	renderer: new marked.Renderer(),
+	gfm: true,
+	tables: true,
+	breaks: false,
+	pedantic: false,
+	sanitize: true,
+	smartLists: true,
+	smartypants: false,
+	highlight: function (code) {
+		return require('highlight.js').highlightAuto(code).value;
+	}
 });
 //文章发布
 exports.Subarticle = function(req, res, next){
