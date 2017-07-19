@@ -37,7 +37,7 @@
 	</div>
 	<% include ./footer%>
 	<script type="text/template" id="tpl_articleList">
-		<#console.log(data)#>
+		<#var imgArr = ['css','css3','html5','javascript','node','gulp','vue','less','jquery'];#>
 		<#for(var i = 0;i<data.length;i++){#>
 			<li>
 				<div class="u-date">
@@ -46,7 +46,11 @@
 				</div>
 				<div class="u-article">
 					<a href="/blog/detail?id=<#=data[i].aid#>">
+					<#if(imgArr.indexOf(data[i].tags[0])<=0){#>
+						<img src="/images/titleImg/default.jpg" alt="">
+					<#}else{#>
 						<img src="/images/titleImg/<#=data[i].tags[0]#>.jpg" alt="">
+					<#}#>
 					</a>
 					<div class="u-txt">
 						<h2><a href="/blog/detail?id=<#=data[i].aid#>"><#= data[i].title #></a></h2>
