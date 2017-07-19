@@ -55,6 +55,27 @@ exports.Subarticle = function(req, res, next){
 		})
 	}
 };
+//文章删除
+exports.Removearticle = function(req, res, next){
+	console.log('query==getArticle=='+JSON.stringify(req.query));
+	Articles.remove({aid:req.query.aid},function(err, data){
+		if(err){
+		    console.log(err);
+		}else{
+			if(data&&data!=''){
+				res.json({
+				    res_code:1,
+				    res_msg:'文章删除成功'
+				})
+			}else{
+				res.json({
+					res_code:2,
+					res_msg:'文章不存在'
+				})
+			}
+		}
+	});
+};
 //文章详情获取
 exports.Getarticle = function(req, res, next){
 	console.log('query==getArticle=='+JSON.stringify(req.query));

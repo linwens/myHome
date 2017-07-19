@@ -23,7 +23,7 @@
 						<a href="javascript:;"></a>
 						<div class="u-txt">
 							<h2><a href="javascript:;"></a></h2>
-							<p></p>
+							<div></div>
 						</div>
 					</div>
 				</li>
@@ -31,8 +31,8 @@
 			<% include ./sidebar%>
 		</div>
 		<div class="u-page">
-			<button class="f-fl" id="btn-prev" data-page="1">Prev</button>
-			<button class="f-fr" id="btn-next" data-page="2">Next</button>
+			<a href="#" class="f-fl" id="btn-prev" data-page="1">Prev</a>
+			<a href="#" class="f-fr" id="btn-next" data-page="2">Next</a>
 		</div>
 	</div>
 	<% include ./footer%>
@@ -45,10 +45,12 @@
 					<span><#= data[i].month #></span>
 				</div>
 				<div class="u-article">
-					<a href="/blog/detail?id=<#=data[i].aid#>">图片展示</a>
+					<a href="/blog/detail?id=<#=data[i].aid#>">
+						<img src="/images/titleImg/<#=data[i].tags[0]#>.jpg" alt="">
+					</a>
 					<div class="u-txt">
 						<h2><a href="/blog/detail?id=<#=data[i].aid#>"><#= data[i].title #></a></h2>
-						<p><#= data[i].text #></p>
+						<div><#= data[i].text #></div>
 					</div>
 				</div>
 			</li>
