@@ -12,20 +12,11 @@ var Gettags = require('../modules/articles').Gettags;
 //图片操作
 var ImgUpload = require('../modules/imgHandler').ImgUpload;
 var ImgInfosave = require('../modules/imgHandler').ImgInfosave;
-/* GET home page. */
-// router.get('/getData', function(req, res, next) {
-// 	console.log('query==='+JSON.stringify(req.query));
-//   	res.json(['success', "get的数据"]);
-// });
-// router.post('/postData', function(req, res, next){
-//      req.body对象
-//        包含POST请求参数。
-//        这样命名是因为POST请求参数在REQUEST正文中传递，而不是像查询字符串在URL中传递。
-//        要使req.body可用，可使用中间件body-parser
-    
-//     console.log('body=fdsafsfsf=='+JSON.stringify(req.body));
-//     res.json(['success', "post的数据"]);
-// });
+//html5相关操作----功能重复后期考虑优化
+var subH5 = require('../modules/html5').subH5;
+var RemoveH5 = require('../modules/html5').RemoveH5;
+var Geth5list = require('../modules/html5').Geth5list;
+var GetH5 = require('../modules/html5').GetH5;
 
 //登录
 router.post('/login',function(req, res, next){
@@ -62,5 +53,20 @@ router.post('/uploadImg', function(req, res, next){
 //图片信息存储
 router.post('/saveImg', function(req, res, next){
     ImgInfosave(req, res, next);
+});
+//提交H5
+router.post('/subH5', function(req, res, next){
+    subH5(req, res, next);
+});
+//删除H5
+router.post('/removeH5', function(req, res, next){
+    RemoveH5(req, res, next);
+});
+router.get('/getH5', function(req, res, next){
+    GetH5(req, res, next);
+});
+//获取H5列表
+router.get('/getH5list',function(req, res, next){
+    Geth5list(req, res, next);
 });
 module.exports = router;

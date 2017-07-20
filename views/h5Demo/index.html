@@ -6,44 +6,15 @@
 	<link rel='stylesheet' href='/stylesheets/style.css' />
 	<link rel='stylesheet' href='/stylesheets/h5demo.css' />
 	<script src='/javascripts/jquery.js'></script>
+	<script src="/javascripts/underscore-min.js"></script>
 </head>
 <body>
 	<div class="h5-hd"></div>
 	<div class="h5-bd">
-		<ul class="h5-list">
+		<ul class="h5-list" id="J_worksList">
 			<li class="list-item">
-				<div class="it-ct" style="background:#21B3FC;">
-					<a href="javascript:;"></a>
-					<p class="it-desc">作品描述</p>
-				</div>
-			</li>
-			<li class="list-item">
-				<div class="it-ct" style="background:#21B3FC;">
-					<a href="javascript:;"></a>
-					<p class="it-desc">作品描述作品描述作品描述作品描述</p>
-				</div>
-			</li>
-			<li class="list-item">
-				<div class="it-ct" style="background:#21B3FC;">
-					<a href="javascript:;"></a>
-					<p class="it-desc">作品描述</p>
-				</div>
-			</li>
-			<li class="list-item">
-				<div class="it-ct" style="background:#21B3FC;">
-					<a href="javascript:;"></a>
-					<p class="it-desc">作品描述</p>
-				</div>
-			</li>
-			<li class="list-item">
-				<div class="it-ct" style="background:#21B3FC;">
-					<a href="javascript:;"></a>
-					<p class="it-desc">作品描述作品描述作品描述作品描述作品描述作品描述作品描述作品描述作品描述作品描述</p>
-				</div>
-			</li>
-			<li class="list-item">
-				<div class="it-ct" style="background:#21B3FC;">
-					<a href="javascript:;"></a>
+				<div class="it-ct" style="background:#21B3FC url();">
+					<a href="#"></a>
 					<p class="it-desc">作品描述</p>
 				</div>
 			</li>
@@ -53,5 +24,30 @@
 	<div class="h5-ft">
 		<p>做着玩</p>
 	</div>
+	<script type="text/template" id="tpl_worksList">
+		<#var works = [{name:'first',desc:'老板不发年终奖'},{name:'second',desc:'second'}];#>
+		<#for(var i = 0;i<works.length;i++){#>
+			<li class="list-item">
+				<div class="it-ct" style="background:#21B3FC url(/h5static/<#=works[i].name#>/img/data/intro.jpg) no-repeat center;background-size: 100% 100%;">
+					<a href="/H5Demo/<#=works[i].name#>"></a>
+					<p class="it-desc"><#=works[i].desc#></p>
+				</div>
+			</li>
+		<#}#>
+	</script>
+	<script>
+		//  ↑↑↑↑↑↑↑↑↑  数据直接写死在前端肯定不行
+		$(function(){
+			var html = $('#tpl_worksList').html();
+			_.templateSettings = {	//避免前端模板被ejs语法解析
+				evaluate    : /<#([\s\S]+?)#>/g,
+			    interpolate : /<#=([\s\S]+?)#>/g,
+			    escape      : /<#-([\s\S]+?)#>/g
+			};
+			var template = _.template(html);
+			var tpl = template();
+			$('#J_worksList').html(tpl);
+		})
+	</script>
 </body>
 </html>

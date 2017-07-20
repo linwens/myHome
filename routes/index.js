@@ -9,6 +9,9 @@ router.get('/', function(req, res, next) {
 router.get('/h5Demo', function(req, res, next) {
   res.render('h5Demo/index', { title: 'h5Demo' });
 });
+router.get('/h5Demo/:name', function(req, res, next) {
+  	res.render('h5Demo/'+req.params.name+'/index', { title: req.params.name });
+});
 //个人摄影作品
 router.get('/gallery', function(req, res, next) {
   res.render('gallery', { title: 'gallery' });

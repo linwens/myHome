@@ -23,3 +23,11 @@ var ImgSchema = new Schema({
     url:String
 });
 exports.Img = mongoose.model('Img', ImgSchema);
+//H5作品存储
+var H5Schema = new Schema({
+    time: String,
+    name: String,
+    desc:String,
+    hid:String
+});
+exports.Html5 = mongoose.model('html5', H5Schema);

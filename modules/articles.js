@@ -141,14 +141,18 @@ exports.Getlist = function(req, res, next){
 		    		}
 		    		res.json({
 		    		    res_code:1,
-		    		    articleList:data,
+		    		    dataList:data,
 		    		    page:curPage,
 		    		    page_size:pageSize,
 		    		    total:total
 		    		})
 		    	}else{
 		    		res.json({
-		    			res_code:2,
+		    			res_code:1,
+		    			dataList:data,
+		    		    page:curPage,
+		    		    page_size:pageSize,
+		    		    total:total,
 		    			res_msg:'暂无文章'
 		    		})
 		    	}
@@ -168,7 +172,7 @@ exports.Getlist = function(req, res, next){
 	// 	    		}
 	// 	    		res.json({
 	// 	    		    res_code:1,
-	// 	    		    articleList:data,
+	// 	    		    dataList:data,
 	// 	    		    page:curPage
 	// 	    		})
 	// 	    	}else{

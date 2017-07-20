@@ -111,24 +111,24 @@
 						window.location.href="/blog";
 					}else{
 						//增加月日
-						for(var i = 0;i<rslt.articleList.length;i++){
-							rslt.articleList[i].day = timeStr(rslt.articleList[i].time).day
-							rslt.articleList[i].month = timeStr(rslt.articleList[i].time).month
+						for(var i = 0;i<rslt.dataList.length;i++){
+							rslt.dataList[i].day = timeStr(rslt.dataList[i].time).day
+							rslt.dataList[i].month = timeStr(rslt.dataList[i].time).month
 						}
 
-						var html = $('#tpl_articleList').html();//banner上的标展示
+						var html = $('#tpl_articleList').html();
 						_.templateSettings = {	//避免前端模板被ejs语法解析
 							evaluate    : /<#([\s\S]+?)#>/g,
 						    interpolate : /<#=([\s\S]+?)#>/g,
 						    escape      : /<#-([\s\S]+?)#>/g
 						};
 						var template = _.template(html);
-						var tpl = template({data:rslt.articleList});
+						var tpl = template({data:rslt.dataList});
 						
 						$('#J_articleList').html(tpl);
 						//分页信息
 						$('#btn-prev').attr({'data-page':parseInt(rslt.page)-1});
-						if((rslt.page-1)*rslt.page_size+rslt.articleList.length==rslt.total){
+						if((rslt.page-1)*rslt.page_size+rslt.dataList.length==rslt.total){
 							$('#btn-next').attr({'disabled':true});
 						}else{
 							$('#btn-next').attr({'data-page':parseInt(rslt.page)+1});
