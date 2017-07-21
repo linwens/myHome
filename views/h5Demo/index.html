@@ -14,7 +14,7 @@
 		<ul class="h5-list" id="J_worksList">
 			<li class="list-item">
 				<div class="it-ct" style="background:#21B3FC url();">
-					<a href="#"></a>
+					<span></span>
 					<p class="it-desc">作品描述</p>
 				</div>
 			</li>
@@ -24,30 +24,94 @@
 	<div class="h5-ft">
 		<p>做着玩</p>
 	</div>
+	<div class="h5-dialog" style="display: none;">
+		<div class="u-box">
+			<div class="m-iframe" id="h5-url">
+				<iframe src="" frameborder="0"></iframe>
+			</div>
+			<div class="m-side">
+				<img src="" alt="" id="h5-code">
+				<p id="h5-desc">ddddddd作品描述</p>
+			</div>
+		</div>
+		<div class="u-close"></div>
+	</div>
 	<script type="text/template" id="tpl_worksList">
-		<#var works = [{name:'first',desc:'老板不发年终奖'},{name:'second',desc:'second'}];#>
-		<#for(var i = 0;i<works.length;i++){#>
+		<#for(var i = 0;i<data.length;i++){#>
 			<li class="list-item">
-				<div class="it-ct" style="background:#21B3FC url(/h5static/<#=works[i].name#>/img/data/intro.jpg) no-repeat center;background-size: 100% 100%;">
-					<a href="/H5Demo/<#=works[i].name#>"></a>
-					<p class="it-desc"><#=works[i].desc#></p>
+				<div class="it-ct" style="background:#21B3FC url(/h5static/<#=data[i].name#>/img/data/intro.jpg) no-repeat center;background-size: 100% 100%;">
+					<span data-name="<#=data[i].name#>"></span>
+					<p class="it-desc"><#=data[i].desc#></p>
 				</div>
 			</li>
 		<#}#>
 	</script>
 	<script>
-		//  ↑↑↑↑↑↑↑↑↑  数据直接写死在前端肯定不行
 		$(function(){
-			var html = $('#tpl_worksList').html();
-			_.templateSettings = {	//避免前端模板被ejs语法解析
-				evaluate    : /<#([\s\S]+?)#>/g,
-			    interpolate : /<#=([\s\S]+?)#>/g,
-			    escape      : /<#-([\s\S]+?)#>/g
-			};
-			var template = _.template(html);
-			var tpl = template();
-			$('#J_worksList').html(tpl);
-		})
+			var winWidth = $(window).width(),
+				winHeight = $(window).height(),
+				boxWidth = $('.u-box').width(),
+				boxHeight = $('.u-box').height();
+
+			console.log(winWidth+'||'+winHeight+'||'+boxWidth+'||'+boxHeight);
+			getList(1,'');
+			$('.u-close').on('click',function(){
+				$('.h5-dialog').hide();
+			})
+			$('#J_worksList').on('click','span',function(){
+				var name = $(this).attr('data-name'),
+					desc = $(this).next('p').html();
+				console.log($(this).attr('data-name'));
+				showDialog(name, desc)
+			});
+			//窗口缩放修改弹框尺寸
+			$(window).resize(function(){
+				changeSize()
+			})
+		});
+		//获取列表数据
+		function getList(cur, sch){
+			$.ajax({
+				url:'/ajax/getH5list',
+				type:'GET',
+				dataType:'JSON',
+				data:{curPage:cur,schWord:sch},
+				success:function(rslt){
+					if(rslt.res_code==2){
+						alert(rslt.res_msg);
+						window.location.href="/";
+					}else{
+						var html = $('#tpl_worksList').html();
+						_.templateSettings = {	//避免前端模板被ejs语法解析
+							evaluate    : /<#([\s\S]+?)#>/g,
+						    interpolate : /<#=([\s\S]+?)#>/g,
+						    escape      : /<#-([\s\S]+?)#>/g
+						};
+						var template = _.template(html);
+						var tpl = template({data:rslt.dataList});
+						$('#J_worksList').html(tpl);
+						//分页信息
+					}
+				},
+				error:function(rslt){}
+			})
+		}
+		//点击弹窗
+		function showDialog(name, desc){
+			$('.h5-dialog').show();
+			$('#h5-code').attr({'src':'/h5static/'+name+'/img/data/code.png'});
+			$('#h5-desc').html(desc);
+			$('#h5-url').children('iframe').attr({'src':'/H5Demo/'+name});
+		}
+		//窗口缩放
+		function changeSize(){
+			var winWidth = $(window).width(),
+				winHeight = $(window).height(),
+				boxWidth = $('.u-box').width(),
+				boxHeight = $('.u-box').height();
+			var scaleY = winHeight/boxHeight;
+			$('.u-box').css('transform','scale('+scaleY+')');
+		}
 	</script>
 </body>
 </html>

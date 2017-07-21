@@ -28,7 +28,7 @@
 				width: 180px;
 				height: 292px;
 				overflow: hidden;
-				a{
+				span{
 					display: block;
 					width:100%;
 					height:100%;
@@ -56,5 +56,57 @@
 		font-size: 18px;
 		text-align: center;
 		color: #fff;
+	}
+}
+.h5-dialog{
+	position: absolute;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.5);
+	transition:all .2 linear;
+	.u-box{
+		width: 880px;
+		height: 727px;
+		padding: 50px;
+		margin: 0 auto;
+		overflow: hidden;
+		background: #ccc;
+		.m-iframe{
+			float: left;
+			width: 375px;
+			height: 667px;
+			padding: 20px 10px 40px;
+			background: #fff;
+			border-radius: 10px;
+			iframe{
+				width: 100%;
+				height: 100%;
+
+			}
+		}
+		.m-side{
+			float: right;
+			width: 300px;
+			padding: 100px 0 0;
+			text-align: center;
+			img{
+				width: 200px;
+				height: 200px;
+			}
+			p{
+				font-size: 16px;
+				color: #ccc;
+			}
+		}
+	}
+	.u-close{
+		position: absolute;
+		top:0;
+		right: 0;
+		width: 50px;
+		height: 50px;
+		background: #fff;
 	}
 }
