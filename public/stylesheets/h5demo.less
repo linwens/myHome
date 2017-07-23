@@ -59,7 +59,7 @@
 	}
 }
 .h5-dialog{
-	position: absolute;
+	position: fixed;
 	top:0;
 	left:0;
 	width: 100%;
@@ -67,29 +67,33 @@
 	background: rgba(0,0,0,0.5);
 	transition:all .2 linear;
 	.u-box{
+		position: relative;
 		width: 880px;
-		height: 727px;
-		padding: 50px;
+		height: 100%;
+		padding: 0;
 		margin: 0 auto;
-		overflow: hidden;
-		background: #ccc;
 		.m-iframe{
-			float: left;
+			position: absolute;
+			top:50%;
+			left:50px;
 			width: 375px;
-			height: 667px;
+			height: 650px;
 			padding: 20px 10px 40px;
+			margin-top: -355px;
 			background: #fff;
 			border-radius: 10px;
 			iframe{
 				width: 100%;
 				height: 100%;
-
 			}
 		}
 		.m-side{
-			float: right;
+			position: absolute;
+			top:50%;
+			right: 50px;
 			width: 300px;
 			padding: 100px 0 0;
+			margin-top: -200px;
 			text-align: center;
 			img{
 				width: 200px;
@@ -105,8 +109,12 @@
 		position: absolute;
 		top:0;
 		right: 0;
-		width: 50px;
-		height: 50px;
-		background: #fff;
+		width: 30px;
+		height: 30px;
+		line-height:30px;
+		text-align: center;
+		font-size:24px;
+		color: #fff;
+		cursor:pointer;
 	}
 }

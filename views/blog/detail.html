@@ -74,6 +74,7 @@
 				success:function(rslt){
 					if(rslt.res_code==2){
 						alert(rslt.res_msg);
+						window.location.href="/blog";
 					}else{
 						var html = $('#tpl_article').html();//banner上的标展示
 						_.templateSettings = {	//避免前端模板被ejs语法解析
