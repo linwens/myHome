@@ -49,7 +49,8 @@ exports.ImgUpload = function(req, res, next){
         var bucket = 'linwens-img';
         var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
         var options = {
-            scope: bucket
+            scope: bucket,
+            returnBody: '{"key":"$(key)","hash":"$(etag)","width":"$(imageInfo.width)","height":"$(imageInfo.height)"}'
         };
         var putPolicy = new qiniu.rs.PutPolicy(options);
         var uploadToken=putPolicy.uploadToken(mac);
@@ -76,6 +77,7 @@ exports.ImgUpload = function(req, res, next){
                         res.json({//返回前端外链地址，前端再提交放入数据库
                             res_code:'0',
                             res_msg:'上传成功',
+                            size:respBody.width+'x'+respBody.height,
                             backUrl:'http://osurqoqxj.bkt.clouddn.com/'+respBody.key
                         })
                     } else {
@@ -92,7 +94,8 @@ exports.ImgInfosave = function(req, res, next){
     var img = new Img({
         time: Math.round(Date.parse(new Date())/1000),
         desc: req.query.desc,
-        url:req.query.url
+        size: req.query.size,
+        url: req.query.url
     });
     img.save(function(err, data){
         if(err){

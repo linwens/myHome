@@ -20,6 +20,7 @@ exports.Articles = mongoose.model('articles', articlesSchema);
 var ImgSchema = new Schema({
 	time: String,
     desc: String,
+    size: String,
     url:String
 });
 exports.Img = mongoose.model('Img', ImgSchema);
