@@ -17,7 +17,8 @@ var subH5 = require('../modules/html5').subH5;
 var RemoveH5 = require('../modules/html5').RemoveH5;
 var Geth5list = require('../modules/html5').Geth5list;
 var GetH5 = require('../modules/html5').GetH5;
-
+//图片操作
+var Getimglist = require('../modules/imgHandler').Getimglist;
 //登录
 router.post('/login',function(req, res, next){
     Login(req, res, next);
@@ -68,5 +69,9 @@ router.get('/getH5', function(req, res, next){
 //获取H5列表
 router.get('/getH5list',function(req, res, next){
     Geth5list(req, res, next);
+});
+//获取图片列表
+router.get('/getImglist',function(req, res, next){
+    Getimglist(req, res, next);
 });
 module.exports = router;

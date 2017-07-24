@@ -48,12 +48,6 @@
 	</script>
 	<script>
 		$(function(){
-			var winWidth = $(window).width(),
-				winHeight = $(window).height(),
-				boxWidth = $('.u-box').width(),
-				boxHeight = $('.u-box').height();
-
-			console.log(winWidth+'||'+winHeight+'||'+boxWidth+'||'+boxHeight);
 			getList(1,'');
 			$('.u-close').on('click',function(){
 				$('.h5-dialog').hide();
@@ -107,7 +101,6 @@
 		//窗口缩放
 		function changeSize(oh){
 			var winHeight = $(window).height();
-			console.log(oh+'||||'+winHeight)
 			var scaleY = winHeight/oh;
 			$('.u-box').css('transform','scale('+scaleY+')');
 		}

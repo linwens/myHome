@@ -109,3 +109,43 @@ exports.ImgInfosave = function(req, res, next){
         }
     })
 }
+//获取图片列表(需要做缓存处理)
+exports.Getimglist = function(req, res, next){
+    var /*schWord = req.query.schWord?req.query.schWord:null,*/
+        curPage = req.query.curPage?parseInt(req.query.curPage):1,
+        pageSize = req.query.pageSize?parseInt(req.query.pageSize):10,
+        findParams = {};//筛选
+    // if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
+    //     var schRegExp = new RegExp(schWord,"i");
+    //     findParams = {"$or":[{'name':schRegExp}, {'desc':schRegExp}]};
+    // }
+    Img.count(findParams,function(err, total){//为了获取总条数
+        Img.find(findParams).skip((curPage-1)*pageSize).limit(pageSize).sort({time:-1}).exec(function(err, data){
+            if(err){
+                console.log(err);
+            }else{
+                console.log('find:',data);
+                if(data&&data!=''){
+                    res.json({
+                        res_code:1,
+                        dataList:data,
+                        page:curPage,
+                        page_size:pageSize,
+                        total:total
+                    })
+                    return
+                }else{
+                    res.json({
+                        res_code:1,
+                        dataList:data,
+                        page:curPage,
+                        page_size:pageSize,
+                        total:total,
+                        res_msg:'没有更多！'
+                    })
+                    return
+                }
+            };
+        });
+    });
+}
