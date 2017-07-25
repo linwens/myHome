@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh" class="no-js">
 <head>
 	<meta charset="UTF-8">
 	<title>gallery</title>
 	<link rel="stylesheet" href="/stylesheets/style.css">
 	<link rel="stylesheet" href="/stylesheets/gallery.css">
-	<link rel="stylesheet" type="text/css" href="/stylesheets/gallery/style1.css" />
+	<link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/gallery/style2.css" />
 	<script src='/javascripts/jquery.js'></script>
 	<script src="/javascripts/underscore-min.js"></script>
 	<script src="/javascripts/gallery/modernizr-custom.js"></script>
@@ -16,65 +17,10 @@
 		<div class="m-banner" style="background-image: url(/images/test.jpg);"></div>
 		<div class="container">
 			<div class="content">
-				<div class="grid" id="J_imagesList">
-					<div class="grid__item" data-size="658x494"> <a href="/images/gallery/1.png" class="img-wrap"><img src="/images/gallery/1.png" alt="img1" />
-						<div class="description description--grid">Assemblage</div>
-						</a> </div>
-					<div class="grid__item" data-size="958x1280"> <a href="/images/gallery/2.png" class="img-wrap"><img src="/images/gallery/2.png" alt="img2" />
-						<div class="description description--grid">Demesne</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x853"> <a href="/images/gallery/3.png" class="img-wrap"><img src="/images/gallery/3.png" alt="img3" />
-						<div class="description description--grid">Vestigial</div>
-						</a> </div>
-					<div class="grid__item" data-size="865x1280"> <a href="/images/gallery/4.png" class="img-wrap"><img src="/images/gallery/4.png" alt="img4" />
-						<div class="description description--grid">Zephyr</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x1280"> <a href="/images/gallery/5.png" class="img-wrap"><img src="/images/gallery/5.png" alt="img5" />
-						<div class="description description--grid">Desideratum</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/6.png" class="img-wrap"><img src="/images/gallery/6.png" alt="img6" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/7.png" class="img-wrap"><img src="/images/gallery/7.png" alt="img7" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/8.png" class="img-wrap"><img src="/images/gallery/8.png" alt="img8" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/9.png" class="img-wrap"><img src="/images/gallery/9.png" alt="img9" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/1.png" class="img-wrap"><img src="/images/gallery/1.png" alt="img10" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/2.png" class="img-wrap"><img src="/images/gallery/2.png" alt="img11" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/3.png" class="img-wrap"><img src="/images/gallery/3.png" alt="img12" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/4.png" class="img-wrap"><img src="/images/gallery/4.png" alt="img13" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/5.png" class="img-wrap"><img src="/images/gallery/5.png" alt="img14" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/6.png" class="img-wrap"><img src="/images/gallery/6.png" alt="img15" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/7.png" class="img-wrap"><img src="/images/gallery/7.png" alt="img16" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/8.png" class="img-wrap"><img src="/images/gallery/8.png" alt="img17" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-					<div class="grid__item" data-size="1280x850"> <a href="/images/gallery/9.png" class="img-wrap"><img src="/images/gallery/9.png" alt="img18" />
-						<div class="description description--grid">Quixotic</div>
-						</a> </div>
-				</div>
+				<div class="grid" id="J_imagesList"></div>
 				<!-- /grid -->
 				<div class="preview">
-					<button class="action action--close"><i class="fa fa-times">x</i><span class="text-hidden">Close</span></button>
+					<button class="action action--close"><i class="fa fa-times"></i><span class="text-hidden">Close</span></button>
 					<div class="description description--preview"></div>
 				</div>
 				<!-- /preview -->
@@ -85,9 +31,21 @@
 	<script type="text/template" id="tpl_imagesList">
 		<#for(var i = 0;i<data.length;i++){#>
 			<div class="grid__item" data-size="<#=data[i].size#>">
-				<a href="<#=data[i].url#>" class="img-wrap">
-					<img src="<#=data[i].url#>" alt="img1" />
-					<div class="description description--grid"><#=data[i].desc#></div>
+				<a data-href="<#=data[i].url#>" class="img-wrap">
+					<img src="<#=data[i].url#>" alt="img05" />
+					<div class="description description--grid">
+						<h3>The Corpse</h3>
+						<p><#=data[i].desc#><em>&mdash; linwens</em></p>
+						<div class="details">
+							<ul>
+								<li><i class="icon icon-camera"></i><span>Canon PowerShot S95</span></li>
+								<li><i class="icon icon-focal_length"></i><span>22.5mm</span></li>
+								<li><i class="icon icon-aperture"></i><span>&fnof;/5.6</span></li>
+								<li><i class="icon icon-exposure_time"></i><span>1/1000</span></li>
+								<li><i class="icon icon-iso"></i><span>80</span></li>
+							</ul>
+						</div>
+					</div>
 				</a>
 			</div>
 		<#}#>
@@ -98,7 +56,7 @@
 	<script src="/javascripts/gallery/main.js"></script>
 	<script>
 		$(function(){
-			//getList(1);
+			getList(1);
 		});
 		//获取列表数据
 		function getList(cur){
@@ -121,56 +79,72 @@
 						var tpl = template({data:rslt.dataList});
 						$('#J_imagesList').html(tpl);
 						//分页信息
+						//确保数据获取后调用图片展示插件（为题就是阻塞）
+						setTimeout(function(){
+							doPlugin()
+						}, 0);
 					}
 				},
 				error:function(rslt){}
 			})
 		};
 		//插件效果
-		(function() {
-			// create SVG circle overlay and append it to the preview element
-			function createCircleOverlay(previewEl) {
-				var dummy = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-				dummy.setAttributeNS(null, 'version', '1.1');
-				dummy.setAttributeNS(null, 'width', '100%');
-				dummy.setAttributeNS(null, 'height', '100%');
-				dummy.setAttributeNS(null, 'class', 'overlay');
-				var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-				var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-				circle.setAttributeNS(null, 'cx', 0);
-				circle.setAttributeNS(null, 'cy', 0);
-				circle.setAttributeNS(null, 'r', Math.sqrt(Math.pow(previewEl.offsetWidth,2) + Math.pow(previewEl.offsetHeight,2)));
-				dummy.appendChild(g);
-				g.appendChild(circle);
-				previewEl.appendChild(dummy);
-			}
-			
-			new GridFx(document.querySelector('.grid'), {
-				onInit : function(instance) {
-					createCircleOverlay(instance.previewEl);
-				},
-				onResize : function(instance) {
-					instance.previewEl.querySelector('svg circle').setAttributeNS(null, 'r', Math.sqrt(Math.pow(instance.previewEl.offsetWidth,2) + Math.pow(instance.previewEl.offsetHeight,2)));
-				},
-				onOpenItem : function(instance, item) {
-					// item's image
-					var gridImg = item.querySelector('img'),
-						gridImgOffset = gridImg.getBoundingClientRect(),
-						win = {width: document.documentElement.clientWidth, height: window.innerHeight},
-						SVGCircleGroupEl = instance.previewEl.querySelector('svg > g'),
-						SVGCircleEl = SVGCircleGroupEl.querySelector('circle');
-						
-					SVGCircleEl.setAttributeNS(null, 'r', Math.sqrt(Math.pow(instance.previewEl.offsetWidth,2) + Math.pow(instance.previewEl.offsetHeight,2)));
-					// set the transform for the SVG g node. This will animate the circle overlay. The origin of the circle depends on the position of the clicked item.
-					if( gridImgOffset.left + gridImg.offsetWidth/2 < win.width/2 ) {
-						SVGCircleGroupEl.setAttributeNS(null, 'transform', 'translate(' + win.width + ', ' + (gridImgOffset.top + gridImg.offsetHeight/2 < win.height/2 ? win.height : 0) + ')');
+		function doPlugin() {
+			var support = { transitions: Modernizr.csstransitions },
+				// transition end event name
+				transEndEventNames = { 'WebkitTransition': 'webkitTransitionEnd', 'MozTransition': 'transitionend', 'OTransition': 'oTransitionEnd', 'msTransition': 'MSTransitionEnd', 'transition': 'transitionend' },
+				transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+				onEndTransition = function( el, callback ) {
+					var onEndCallbackFn = function( ev ) {
+						if( support.transitions ) {
+							if( ev.target != this ) return;
+							this.removeEventListener( transEndEventName, onEndCallbackFn );
+						}
+						if( callback && typeof callback === 'function' ) { callback.call(this); }
+					};
+					if( support.transitions ) {
+						el.addEventListener( transEndEventName, onEndCallbackFn );
 					}
 					else {
-						SVGCircleGroupEl.setAttributeNS(null, 'transform', 'translate(0, ' + (gridImgOffset.top + gridImg.offsetHeight/2 < win.height/2 ? win.height : 0) + ')');
+						onEndCallbackFn();
 					}
+				};
+
+			new GridFx(document.querySelector('.grid'), {
+				imgPosition : {
+					x : -0.5,
+					y : 1
+				},
+				onOpenItem : function(instance, item) {
+					instance.items.forEach(function(el) {
+						if(item != el) {
+							var delay = Math.floor(Math.random() * 50);
+							el.style.WebkitTransition = 'opacity .5s ' + delay + 'ms cubic-bezier(.7,0,.3,1), -webkit-transform .5s ' + delay + 'ms cubic-bezier(.7,0,.3,1)';
+							el.style.transition = 'opacity .5s ' + delay + 'ms cubic-bezier(.7,0,.3,1), transform .5s ' + delay + 'ms cubic-bezier(.7,0,.3,1)';
+							el.style.WebkitTransform = 'scale3d(0.1,0.1,1)';
+							el.style.transform = 'scale3d(0.1,0.1,1)';
+							el.style.opacity = 0;
+						}
+					});
+				},
+				onCloseItem : function(instance, item) {
+					instance.items.forEach(function(el) {
+						if(item != el) {
+							el.style.WebkitTransition = 'opacity .4s, -webkit-transform .4s';
+							el.style.transition = 'opacity .4s, transform .4s';
+							el.style.WebkitTransform = 'scale3d(1,1,1)';
+							el.style.transform = 'scale3d(1,1,1)';
+							el.style.opacity = 1;
+
+							onEndTransition(el, function() {
+								el.style.transition = 'none';
+								el.style.WebkitTransform = 'none';
+							});
+						}
+					});
 				}
 			});
-		})();
+		};
 	</script>
 </body>
 </html>
