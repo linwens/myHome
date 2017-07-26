@@ -19,9 +19,11 @@ exports.Articles = mongoose.model('articles', articlesSchema);
 //图片操作
 var ImgSchema = new Schema({
 	time: String,
+    title: String,
     desc: String,
     size: String,
-    url:String
+    url:String,
+    exif:Object
 });
 exports.Img = mongoose.model('Img', ImgSchema);
 //H5作品存储

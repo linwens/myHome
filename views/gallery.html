@@ -34,15 +34,15 @@
 				<a data-href="<#=data[i].url#>" class="img-wrap">
 					<img src="<#=data[i].url#>" alt="img05" />
 					<div class="description description--grid">
-						<h3>The Corpse</h3>
+						<h3><#=data[i].title#></h3>
 						<p><#=data[i].desc#><em>&mdash; linwens</em></p>
 						<div class="details">
 							<ul>
-								<li><i class="icon icon-camera"></i><span>Canon PowerShot S95</span></li>
-								<li><i class="icon icon-focal_length"></i><span>22.5mm</span></li>
-								<li><i class="icon icon-aperture"></i><span>&fnof;/5.6</span></li>
-								<li><i class="icon icon-exposure_time"></i><span>1/1000</span></li>
-								<li><i class="icon icon-iso"></i><span>80</span></li>
+								<li><i class="icon icon-camera"></i><span><#=data[i].exif.model#></span></li>
+								<li><i class="icon icon-focal_length"></i><span><#=data[i].exif.Flength#></span></li>
+								<li><i class="icon icon-aperture"></i><span><#=data[i].exif.aperture#></span></li>
+								<li><i class="icon icon-exposure_time"></i><span><#=data[i].exif.shutter#></span></li>
+								<li><i class="icon icon-iso"></i><span><#=data[i].exif.iso#></span></li>
 							</ul>
 						</div>
 					</div>

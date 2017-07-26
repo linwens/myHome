@@ -50,7 +50,7 @@ exports.ImgUpload = function(req, res, next){
         var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
         var options = {
             scope: bucket,
-            returnBody: '{"key":"$(key)","hash":"$(etag)","width":"$(imageInfo.width)","height":"$(imageInfo.height)"}'
+            returnBody: '{"key":"$(key)","hash":"$(etag)","width":"$(imageInfo.width)","height":"$(imageInfo.height)","model":"$(exif.Model.val)","iso":"$(exif.ISOSpeedRatings.val)","shutter":"$(exif.ExposureTime.val)","aperture":"$(exif.FNumber.val)","Flength":"$(exif.FocalLength.val)"}'
         };
         var putPolicy = new qiniu.rs.PutPolicy(options);
         var uploadToken=putPolicy.uploadToken(mac);
@@ -73,11 +73,18 @@ exports.ImgUpload = function(req, res, next){
                     }
                     if (respInfo.statusCode == 200) {
                         console.log(respBody);
+                        var exifObj = {};
+                            exifObj.model = respBody.model;
+                            exifObj.iso = respBody.iso;
+                            exifObj.shutter = respBody.shutter;
+                            exifObj.aperture = respBody.aperture;
+                            exifObj.Flength = respBody.Flength;
                         //{ hash: 'FvGzDnfjqLmcB6AF2EV1hhQvzcrd', key: 'cogis.jpg' }
                         res.json({//返回前端外链地址，前端再提交放入数据库
                             res_code:'0',
                             res_msg:'上传成功',
                             size:respBody.width+'x'+respBody.height,
+                            exif:exifObj,
                             backUrl:'http://osurqoqxj.bkt.clouddn.com/'+respBody.key
                         })
                     } else {
@@ -93,9 +100,11 @@ exports.ImgUpload = function(req, res, next){
 exports.ImgInfosave = function(req, res, next){
     var img = new Img({
         time: Math.round(Date.parse(new Date())/1000),
+        title:req.query.title,
         desc: req.query.desc,
         size: req.query.size,
-        url: req.query.url
+        url: req.query.url,
+        exif:JSON.parse(req.query.exif),
     });
     img.save(function(err, data){
         if(err){
