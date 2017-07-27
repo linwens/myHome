@@ -1,6 +1,7 @@
 var Img = require('./mongoose').Img;
 var multer = require('multer');
 var qiniu = require('qiniu');
+var uuid = require('node-uuid');
 //multer配置
 //直接存本地磁盘
 // var storage = multer.diskStorage({
@@ -26,7 +27,7 @@ var multerConf = multer({
         cb(null, !!fileTypeValid);
     }
 }).single('imgFiles');
-//图片上传本地
+//图片上传
 exports.ImgUpload = function(req, res, next){
     console.log('=======');
     //本地存储
@@ -105,29 +106,45 @@ exports.ImgInfosave = function(req, res, next){
         size: req.query.size,
         url: req.query.url,
         exif:JSON.parse(req.query.exif),
+        gid:uuid.v1()
     });
-    img.save(function(err, data){
-        if(err){
-            console.log(err);
-        }else{
-            console.log('Saved:', data);
-            res.json({
-                res_code:1,
-                res_msg:'图片信息保存成功'
-            })
-        }
-    })
+    //判断是修改还是新加
+    if(req.query.option&&req.query.option=='modify'){
+        Img.update({gid:req.query.gid}, {title: req.query.title,desc:req.query.desc},function(err, data){
+            if(err){
+                console.log(err);
+            }else{
+                console.log('Updated:', data);
+                res.json({
+                    res_code:1,
+                    res_msg:'图片信息修改成功'
+                })
+            }
+        })
+    }else{
+        img.save(function(err, data){
+            if(err){
+                console.log(err);
+            }else{
+                console.log('Saved:', data);
+                res.json({
+                    res_code:1,
+                    res_msg:'图片信息保存成功'
+                })
+            }
+        })
+    }
 }
 //获取图片列表(需要做缓存处理)
 exports.Getimglist = function(req, res, next){
-    var /*schWord = req.query.schWord?req.query.schWord:null,*/
+    var schWord = req.query.schWord?req.query.schWord:null,
         curPage = req.query.curPage?parseInt(req.query.curPage):1,
         pageSize = req.query.pageSize?parseInt(req.query.pageSize):10,
         findParams = {};//筛选
-    // if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
-    //     var schRegExp = new RegExp(schWord,"i");
-    //     findParams = {"$or":[{'name':schRegExp}, {'desc':schRegExp}]};
-    // }
+    if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
+        var schRegExp = new RegExp(schWord,"i");
+        findParams = {"$or":[{'title':schRegExp}, {'desc':schRegExp}]};
+    }
     Img.count(findParams,function(err, total){//为了获取总条数
         Img.find(findParams).skip((curPage-1)*pageSize).limit(pageSize).sort({time:-1}).exec(function(err, data){
             if(err){
@@ -158,3 +175,50 @@ exports.Getimglist = function(req, res, next){
         });
     });
 }
+//图片删除
+exports.RemoveImg = function(req, res, next){
+    Img.remove({gid:req.query.gid},function(err, data){
+        if(err){
+            console.log(err);
+        }else{
+            if(data&&data!=''){
+                res.json({
+                    res_code:1,
+                    res_msg:'图片删除成功'
+                })
+            }else{
+                res.json({
+                    res_code:2,
+                    res_msg:'图片不存在'
+                })
+            }
+        }
+    });
+};
+//图片详情获取
+exports.Getimginfo = function(req, res, next){
+    Img.find({gid:req.query.gid},function(err, data){
+        if(err){
+            console.log(err);
+        }else{
+            if(data&&data!=''){
+                res.json({
+                    res_code:1,
+                    imgInfo:{
+                        time:data[0].time,
+                        title:data[0].title,
+                        desc:data[0].desc?data[0].desc:'获取的作品没有描述',
+                        size: data[0].size,
+                        url:data[0].url,
+                        exif:data[0].exif
+                    }
+                })
+            }else{
+                res.json({
+                    res_code:2,
+                    res_msg:'作品不存在'
+                })
+            }
+        };
+    });
+};

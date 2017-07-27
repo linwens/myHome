@@ -9,16 +9,17 @@ var Removearticle = require('../modules/articles').Removearticle;
 var Getarticle = require('../modules/articles').Getarticle;
 var Getlist = require('../modules/articles').Getlist;
 var Gettags = require('../modules/articles').Gettags;
-//图片操作
-var ImgUpload = require('../modules/imgHandler').ImgUpload;
-var ImgInfosave = require('../modules/imgHandler').ImgInfosave;
 //html5相关操作----功能重复后期考虑优化
 var subH5 = require('../modules/html5').subH5;
 var RemoveH5 = require('../modules/html5').RemoveH5;
 var Geth5list = require('../modules/html5').Geth5list;
 var GetH5 = require('../modules/html5').GetH5;
 //图片操作
+var ImgUpload = require('../modules/imgHandler').ImgUpload;
+var ImgInfosave = require('../modules/imgHandler').ImgInfosave;
 var Getimglist = require('../modules/imgHandler').Getimglist;
+var RemoveImg = require('../modules/imgHandler').RemoveImg;
+var Getimginfo = require('../modules/imgHandler').Getimginfo;
 //登录
 router.post('/login',function(req, res, next){
     Login(req, res, next);
@@ -47,14 +48,6 @@ router.get('/getList',function(req, res, next){
 router.get('/getTags',function(req, res, next){
     Gettags(req, res, next);
 });
-//图片上传
-router.post('/uploadImg', function(req, res, next){
-    ImgUpload(req, res, next);
-});
-//图片信息存储
-router.post('/saveImg', function(req, res, next){
-    ImgInfosave(req, res, next);
-});
 //提交H5
 router.post('/subH5', function(req, res, next){
     subH5(req, res, next);
@@ -70,8 +63,24 @@ router.get('/getH5', function(req, res, next){
 router.get('/getH5list',function(req, res, next){
     Geth5list(req, res, next);
 });
+//图片上传
+router.post('/uploadImg', function(req, res, next){
+    ImgUpload(req, res, next);
+});
+//图片信息存储
+router.post('/saveImg', function(req, res, next){
+    ImgInfosave(req, res, next);
+});
 //获取图片列表
 router.get('/getImglist',function(req, res, next){
     Getimglist(req, res, next);
+});
+//删除图片
+router.post('/removeImg', function(req, res, next){
+    RemoveImg(req, res, next);
+});
+//获取图片信息
+router.get('/getImginfo',function(req, res, next){
+    Getimginfo(req, res, next);
 });
 module.exports = router;

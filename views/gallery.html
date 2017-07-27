@@ -12,7 +12,9 @@
 	<script src="/javascripts/gallery/modernizr-custom.js"></script>
 </head>
 <body>
-	<div class="g-hd"></div>
+	<div class="g-hd">
+		<div>linwens's gallery</div>
+	</div>
 	<div class="g-bd gallery">
 		<div class="m-banner" style="background-image: url(/images/test.jpg);"></div>
 		<div class="container">
@@ -38,11 +40,11 @@
 						<p><#=data[i].desc#><em>&mdash; linwens</em></p>
 						<div class="details">
 							<ul>
-								<li><i class="icon icon-camera"></i><span><#=data[i].exif.model#></span></li>
-								<li><i class="icon icon-focal_length"></i><span><#=data[i].exif.Flength#></span></li>
-								<li><i class="icon icon-aperture"></i><span><#=data[i].exif.aperture#></span></li>
-								<li><i class="icon icon-exposure_time"></i><span><#=data[i].exif.shutter#></span></li>
-								<li><i class="icon icon-iso"></i><span><#=data[i].exif.iso#></span></li>
+								<li><i class="icon icon-camera"></i><span><#=data[i].exif.model!='null'?data[i].exif.model:'--'#></span></li>
+								<li><i class="icon icon-focal_length"></i><span><#=data[i].exif.Flength!='null'?data[i].exif.Flength:'--'#></span></li>
+								<li><i class="icon icon-aperture"></i><span><#=data[i].exif.aperture!='null'?data[i].exif.aperture:'--'#></span></li>
+								<li><i class="icon icon-exposure_time"></i><span><#=data[i].exif.shutter!='null'?data[i].exif.shutter:'--'#></span></li>
+								<li><i class="icon icon-iso"></i><span><#=data[i].exif.iso!='null'?data[i].exif.iso:'--'#></span></li>
 							</ul>
 						</div>
 					</div>
@@ -56,15 +58,15 @@
 	<script src="/javascripts/gallery/main.js"></script>
 	<script>
 		$(function(){
-			getList(1);
+			getList(1,'');
 		});
 		//获取列表数据
-		function getList(cur){
+		function getList(cur,sch){
 			$.ajax({
 				url:'/ajax/getImglist',
 				type:'GET',
 				dataType:'JSON',
-				data:{curPage:cur},
+				data:{curPage:cur,schWord:sch},
 				success:function(rslt){
 					if(rslt.res_code==2){
 						alert(rslt.res_msg);
@@ -79,7 +81,7 @@
 						var tpl = template({data:rslt.dataList});
 						$('#J_imagesList').html(tpl);
 						//分页信息
-						//确保数据获取后调用图片展示插件（为题就是阻塞）
+						//确保数据获取后调用图片展示插件（问题就是阻塞）
 						setTimeout(function(){
 							doPlugin()
 						}, 0);
