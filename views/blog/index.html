@@ -79,22 +79,10 @@
 			}
 		});
 		//分页限制
-		$('#btn-prev').on('click', function(){
+		$('#btn-prev, #btn-next').on('click', function(){
 			document.body.scrollTop = 0;
-			if($('#btn-prev').attr('data-page')<=0){
-				return;
-			}else{
-				getList($('#btn-prev').attr('data-page'), $('#schWork').val());
-				$('#btn-next').attr({'disabled':false});
-			}
-		});
-		$('#btn-next').on('click', function(){
-			document.body.scrollTop = 0;
-			if($('#btn-next').attr('data-page')<=0){
-				return;
-			}else{
-				getList($('#btn-next').attr('data-page'), $('#schWork').val());
-			}
+			getList($(this).attr('data-page'), $('#schWork').val());
+			$(this).siblings().attr({'disabled':false});
 		});
 		//请求文章数据
 		function getList(cur, sch){
@@ -126,7 +114,11 @@
 						
 						$('#J_articleList').html(tpl);
 						//分页信息
-						$('#btn-prev').attr({'data-page':parseInt(rslt.page)-1});
+						if(rslt.page==1){
+							$('#btn-prev').attr({'disabled':true});
+						}else{
+							$('#btn-prev').attr({'data-page':parseInt(rslt.page)-1});
+						}
 						if((rslt.page-1)*rslt.page_size+rslt.dataList.length==rslt.total){
 							$('#btn-next').attr({'disabled':true});
 						}else{
