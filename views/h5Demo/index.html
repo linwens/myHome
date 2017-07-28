@@ -7,6 +7,7 @@
 	<link rel='stylesheet' href='/stylesheets/h5demo.css' />
 	<script src='/javascripts/jquery.js'></script>
 	<script src="/javascripts/underscore-min.js"></script>
+	<script src="/javascripts/jquery-qrcode.min.js"></script>
 </head>
 <body>
 	<div class="h5-hd" style="background-image: url();"></div>
@@ -23,7 +24,8 @@
 				<iframe src="" frameborder="0"></iframe>
 			</div>
 			<div class="m-side">
-				<img src="" alt="" id="h5-code">
+				<!-- <img src="" alt="" id="h5-code"> -->
+				<div id="qrcode"></div>
 				<p id="h5-desc">ddddddd作品描述</p>
 			</div>
 		</div>
@@ -43,12 +45,12 @@
 		$(function(){
 			getList(1,'');
 			$('.u-close').on('click',function(){
+				$("#qrcode").html('');//清空之前生成的二维码
 				$('.h5-dialog').hide();
 			})
 			$('#J_worksList').on('click','span',function(){
 				var name = $(this).attr('data-name'),
 					desc = $(this).next('p').html();
-				console.log($(this).attr('data-name'));
 				showDialog(name, desc)
 			});
 			//窗口缩放修改弹框尺寸
@@ -87,15 +89,49 @@
 		//点击弹窗
 		function showDialog(name, desc){
 			$('.h5-dialog').show();
-			$('#h5-code').attr({'src':'/h5static/'+name+'/img/data/code.png'});
+			//$('#h5-code').attr({'src':'/h5static/'+name+'/img/data/code.png'});
 			$('#h5-desc').html(desc);
 			$('#h5-url').children('iframe').attr({'src':'/H5Demo/'+name});
+			creatQRcode(name)
 		}
 		//窗口缩放
 		function changeSize(oh){
 			var winHeight = $(window).height();
 			var scaleY = winHeight/oh;
 			$('.u-box').css('transform','scale('+scaleY+')');
+		}
+		//生成二维码
+		function creatQRcode(fileName){
+			$("#qrcode").qrcode({
+				// render 方式: 'canvas', 'image' or 'div'//用image适配方便
+			    render: 'image',
+
+			    // 容错等级: 'L', 'M', 'Q' or 'H'
+			    ecLevel: 'L',
+
+			    // 控制canvas 偏移
+			    left: 0,
+			    top: 0,
+
+			    // 控制二维码尺寸
+			    size: 320,
+
+			    // 控制二维码颜色
+			    fill: '#000',
+
+			    // background color or image element, null for transparent background
+			    background: '#fff',
+
+			    // 二维码内容
+			    text: 'http://www.localhost:8288/H5Demo/'+encodeURIComponent(fileName),
+			    //text: 'https://wap.cnaidai.com/wap/register.html?user_id='+userId,
+
+			    // 控制二维码的圆角: 0.0 .. 0.5
+			    radius: 0,
+
+			    // 边缘留空，默认0
+			    quiet: 1,
+			});
 		}
 	</script>
 </body>
