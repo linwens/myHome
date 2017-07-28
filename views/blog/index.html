@@ -71,8 +71,10 @@
 			var tag = Utils.getUrlquery('tag');
 			var schWord = Utils.getUrlquery('schWord');
 			if(tag){
+				$('#schWork').val(tag);
 				getList(1,tag);
 			}else if(schWord){
+				$('#schWork').val(schWord);
 				getList(1,schWord);
 			}else{
 				getList(1,'');
