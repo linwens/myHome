@@ -7,7 +7,7 @@ marked.setOptions({
 	tables: true,
 	breaks: false,
 	pedantic: false,
-	sanitize: true,
+	sanitize: false,//原始输出，true:忽略HTML标签,即保留HTML标签不解析；
 	smartLists: true,
 	smartypants: false,
 	highlight: function (code) {
@@ -26,11 +26,12 @@ exports.Subarticle = function(req, res, next){
 	    text:req.query.text,
 	    tags:tags,//req.query.tags?Object.values(req.query.tags):[]//遍历对象生成数组
 	    aid:uuid.v1(),
+	    brief:req.query.brief,
 	    pv:0
 	});
 	//判断是修改还是新加
 	if(req.query.option&&req.query.option=='modify'){//文章修改返回原markdown
-		Articles.update({aid:req.query.aid}, {title: req.query.title,text:req.query.text,tags:tags},function(err, data){
+		Articles.update({aid:req.query.aid}, {title: req.query.title, text: req.query.text, brief: req.query.brief, tags:tags},function(err, data){
 			if(err){
 			    console.log(err);
 			}else{
@@ -83,6 +84,10 @@ exports.Getarticle = function(req, res, next){
 		console.log('data===='+data);
 	    if(err){
 	        console.log(err);
+	        res.json({
+	        	res_code:4,
+	        	res_msg:'获取文章详情错误'
+	        })
 	    }else{
 	    	if(data&&data!=''){
 	    		//data[0].text代表第一条，所以是针对具体id查询一篇文章
@@ -98,6 +103,7 @@ exports.Getarticle = function(req, res, next){
 	    		        time:data[0].time,
 	    		        tags:data[0].tags.length>0?data[0].tags:null,
 	    		        text:artText,
+	    		        brief:data[0].brief,
 	    		        pv:data[0].pv+1
 	    		    }
 	    		})
@@ -126,34 +132,45 @@ exports.Getlist = function(req, res, next){
 		findParams = {};//筛选
 	if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
 		var schRegExp = new RegExp(schWord,"i");
-		findParams = {"$or":[{'title':schRegExp}, {'text':schRegExp}, {'tags':schRegExp}]};
+		findParams = {"$or":[{'title':schRegExp}, {'text':schRegExp}, {'brief':schRegExp}, {'tags':schRegExp}]};
 	}
 	Articles.count(findParams,function(err, total){//为了获取总条数
 		Articles.find(findParams).skip((curPage-1)*pageSize).limit(pageSize).sort({time:-1}).exec(function(err, data){
 			//console.log('data===='+data);
 		    if(err){
 		        console.log(err);
+		        res.json({
+		            res_code:4,
+		            res_msg:'文章列表数据出错'
+		        })
 		    }else{
 		    	if(data&&data!=''){
 		    		console.log('find:',data);
+		    		var dataList = [];
 		    		for(var i = 0;i<data.length;i++){
-		    			data[i].text = marked(data[i].text);
+		    			var obj = {}
+		    			obj.time = data[i].time;
+		    			obj.aid = data[i].aid;
+		    			obj.brief = data[i].brief?data[i].brief:'';
+		    			obj.title = data[i].title;
+		    			obj.tags = data[i].tags;
+		    			dataList.push(obj);
 		    		}
 		    		res.json({
 		    		    res_code:1,
-		    		    dataList:data,
+		    		    dataList:dataList,
 		    		    page:curPage,
 		    		    page_size:pageSize,
 		    		    total:total
 		    		})
 		    	}else{
 		    		res.json({
-		    			res_code:1,
+		    			res_code:2,
 		    			dataList:data,
 		    		    page:curPage,
 		    		    page_size:pageSize,
 		    		    total:total,
-		    			res_msg:'暂无文章'
+		    			res_msg:'暂无相关文章'
 		    		})
 		    	}
 		    };

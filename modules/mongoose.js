@@ -13,6 +13,7 @@ var articlesSchema = new Schema({
     text:String,
     tags:Array,
     aid:String,
+    brief:String,
     pv:Number
 });
 exports.Articles = mongoose.model('articles', articlesSchema);

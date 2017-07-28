@@ -9,3 +9,10 @@
 		</div>
 	</div>
 </div>
+<script>
+	$('#btn_sch').on('click', function(){
+		var schWord = $('#schWork').val();
+		// schWord = schWord.replace(/select|update|delete|truncate|join|union|exec|insert|drop|count|script|%22|%3E|%3C|'|"|>|<|\\/gi, "_");
+		window.location.href="/blog?schWord="+schWord
+	});
+</script>

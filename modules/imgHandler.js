@@ -149,6 +149,10 @@ exports.Getimglist = function(req, res, next){
         Img.find(findParams).skip((curPage-1)*pageSize).limit(pageSize).sort({time:-1}).exec(function(err, data){
             if(err){
                 console.log(err);
+                res.json({
+                    res_code:4,
+                    res_msg:'图片列表数据出错'
+                })
             }else{
                 console.log('find:',data);
                 if(data&&data!=''){
@@ -162,7 +166,7 @@ exports.Getimglist = function(req, res, next){
                     return
                 }else{
                     res.json({
-                        res_code:1,
+                        res_code:2,
                         dataList:data,
                         page:curPage,
                         page_size:pageSize,
@@ -200,6 +204,10 @@ exports.Getimginfo = function(req, res, next){
     Img.find({gid:req.query.gid},function(err, data){
         if(err){
             console.log(err);
+            res.json({
+                res_code:4,
+                res_msg:'获取图片详情错误'
+            })
         }else{
             if(data&&data!=''){
                 res.json({
@@ -207,7 +215,7 @@ exports.Getimginfo = function(req, res, next){
                     imgInfo:{
                         time:data[0].time,
                         title:data[0].title,
-                        desc:data[0].desc?data[0].desc:'获取的作品没有描述',
+                        desc:data[0].desc?data[0].desc:'获取的图片没有描述',
                         size: data[0].size,
                         url:data[0].url,
                         exif:data[0].exif
@@ -216,7 +224,7 @@ exports.Getimginfo = function(req, res, next){
             }else{
                 res.json({
                     res_code:2,
-                    res_msg:'作品不存在'
+                    res_msg:'图片不存在'
                 })
             }
         };

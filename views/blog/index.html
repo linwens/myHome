@@ -31,8 +31,8 @@
 			<% include ./sidebar%>
 		</div>
 		<div class="u-page">
-			<a href="#" class="f-fl" id="btn-prev" data-page="1">Prev</a>
-			<a href="#" class="f-fr" id="btn-next" data-page="2">Next</a>
+			<button class="f-fl" id="btn-prev" data-page="1">Prev</button>
+			<button class="f-fr" id="btn-next" data-page="2">Next</button>
 		</div>
 	</div>
 	<% include ./footer%>
@@ -54,7 +54,7 @@
 					</a>
 					<div class="u-txt">
 						<h2><a href="/blog/detail?id=<#=data[i].aid#>"><#= data[i].title #></a></h2>
-						<div><#= data[i].text #></div>
+						<div><#= data[i].brief #>...<a href="/blog/detail?id=<#=data[i].aid#>">[阅读全文]</a></div>
 					</div>
 				</div>
 			</li>
@@ -69,15 +69,18 @@
 	<script>
 		$(function(){
 			var tag = Utils.getUrlquery('tag');
+			var schWord = Utils.getUrlquery('schWord');
 			if(tag){
 				getList(1,tag);
+			}else if(schWord){
+				getList(1,schWord);
 			}else{
 				getList(1,'');
 			}
-			//getTags();
 		});
 		//分页限制
 		$('#btn-prev').on('click', function(){
+			document.body.scrollTop = 0;
 			if($('#btn-prev').attr('data-page')<=0){
 				return;
 			}else{
@@ -86,17 +89,12 @@
 			}
 		});
 		$('#btn-next').on('click', function(){
+			document.body.scrollTop = 0;
 			if($('#btn-next').attr('data-page')<=0){
 				return;
 			}else{
 				getList($('#btn-next').attr('data-page'), $('#schWork').val());
 			}
-		});
-		//搜索
-		$('#btn_sch').on('click', function(){
-			var schWord = $('#schWork').val();
-			// schWord = schWord.replace(/select|update|delete|truncate|join|union|exec|insert|drop|count|script|%22|%3E|%3C|'|"|>|<|\\/gi, "_");
-			getList(1, schWord);
 		});
 		//请求文章数据
 		function getList(cur, sch){
@@ -107,8 +105,9 @@
 				data:{curPage:cur,schWord:sch},
 				success:function(rslt){
 					if(rslt.res_code==2){
-						alert(rslt.res_msg);
-						window.location.href="/blog";
+						//alert(rslt.res_msg);
+						$('#J_articleList').html(rslt.res_msg);
+						$('.u-page').html('');
 					}else{
 						//增加月日
 						for(var i = 0;i<rslt.dataList.length;i++){
@@ -138,30 +137,6 @@
 				error:function(rslt){}
 			})
 		};
-		// //请求标签数据
-		// function getTags(){
-		// 	$.ajax({
-		// 		url:"/ajax/getTags",
-		// 		type:"GET",
-		// 		dataType:"JSON",
-		// 		success:function(rslt){
-		// 			if(rslt.res_code==2){
-		// 				alert(rslt.res_msg);
-		// 			}else{
-		// 				var html = $('#tpl_tags').html();//banner上的标展示
-		// 				_.templateSettings = {	//避免前端模板被ejs语法解析
-		// 					evaluate    : /<#([\s\S]+?)#>/g,
-		// 				    interpolate : /<#=([\s\S]+?)#>/g,
-		// 				    escape      : /<#-([\s\S]+?)#>/g
-		// 				};
-		// 				var template = _.template(html);
-		// 				var tpl = template({data:rslt.tags});
-		// 				$('#J_tags').html(tpl);
-		// 			}
-		// 		},
-		// 		error:function(){}
-		// 	});
-		// }
 		//时间格式化
 		function timeStr(val){
 			var openDate = new Date();

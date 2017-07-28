@@ -72,6 +72,10 @@ exports.Geth5list = function(req, res, next){
 		Html5.find(findParams).skip((curPage-1)*pageSize).limit(pageSize).sort({time:-1}).exec(function(err, data){
 		    if(err){
 		        console.log(err);
+		        res.json({
+		            res_code:4,
+		            res_msg:'h5列表数据出错'
+		        })
 		    }else{
 		    	console.log('find:',data);
 		    	if(data&&data!=''){
@@ -85,7 +89,7 @@ exports.Geth5list = function(req, res, next){
 		    		return
 		    	}else{
 		    		res.json({
-		    			res_code:1,
+		    			res_code:2,
 		    			dataList:data,
 		    		    page:curPage,
 		    		    page_size:pageSize,
@@ -104,6 +108,10 @@ exports.GetH5 = function(req, res, next){
 		console.log('data===='+data);
 	    if(err){
 	        console.log(err);
+	        res.json({
+	        	res_code:4,
+	        	res_msg:'获取作品详情错误'
+	        })
 	    }else{
 	    	if(data&&data!=''){
 	    		res.json({
