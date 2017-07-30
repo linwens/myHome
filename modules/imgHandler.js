@@ -44,7 +44,7 @@ exports.ImgUpload = function(req, res, next){
     // });
     //传七牛
     multerConf(req, res, function(err){
-        console.log(req);//req.body.bucketType
+        //req.body.bucketType
         //七牛配置---生成token
         var accessKey = 'Y_k8Ymui6QCIKcg_dENCZR3TGgZ_aP65jwnj3KCU';
         var secretKey = 'oWRin6KjO5dD1SGmjT9jIRaBG0d02lX5AdFwWpqn';
@@ -108,6 +108,7 @@ exports.ImgInfosave = function(req, res, next){
         size: req.query.size,
         url: req.query.url,
         exif:JSON.parse(req.query.exif),
+        type:req.query.type,
         gid:uuid.v1()
     });
     //判断是修改还是新加
@@ -158,9 +159,16 @@ exports.Getimglist = function(req, res, next){
             }else{
                 console.log('find:',data);
                 if(data&&data!=''){
+                    var galleryImglist = [];
+                    for(var i = 0;i<data.length;i++){
+                        if(data[i].type ==='galleryImg'){
+                            galleryImglist.push(data[i]);
+                        }
+                    }
+                    console.log(galleryImglist);
                     res.json({
                         res_code:1,
-                        dataList:data,
+                        dataList:galleryImglist,
                         page:curPage,
                         page_size:pageSize,
                         total:total
@@ -220,7 +228,8 @@ exports.Getimginfo = function(req, res, next){
                         desc:data[0].desc?data[0].desc:'获取的图片没有描述',
                         size: data[0].size,
                         url:data[0].url,
-                        exif:data[0].exif
+                        exif:data[0].exif,
+                        type:data[0].type
                     }
                 })
             }else{

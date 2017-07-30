@@ -25,6 +25,7 @@ var ImgSchema = new Schema({
     size: String,
     url:String,
     exif:Object,
+    type:String,
     gid:String
 });
 exports.Img = mongoose.model('Img', ImgSchema);
