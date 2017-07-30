@@ -44,10 +44,12 @@ exports.ImgUpload = function(req, res, next){
     // });
     //传七牛
     multerConf(req, res, function(err){
+        console.log(req);//req.body.bucketType
         //七牛配置---生成token
         var accessKey = 'Y_k8Ymui6QCIKcg_dENCZR3TGgZ_aP65jwnj3KCU';
         var secretKey = 'oWRin6KjO5dD1SGmjT9jIRaBG0d02lX5AdFwWpqn';
-        var bucket = 'linwens-img';
+        //var bucket = 'linwens-img';
+        var bucket = req.body.bucketType === 'galleryImg'?'linwens-img':'blog-img';//配置上传不同传出空间
         var mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
         var options = {
             scope: bucket,
