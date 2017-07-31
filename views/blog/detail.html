@@ -54,6 +54,12 @@
 		</div>
 		<div class="m-text">
 			<#= data.text#>
+			<div class="m-atcTags">
+				标签：
+				<#for(var i = 0;i<data.tags.length;i++){#>
+					<a href="/blog?tag=<#= data.tags[i]#>"><#= data.tags[i]#></a>
+				<#}#>
+			</div>
 		</div>
 		<!-- <div class="m-note">
 			<p class="btn-prev">上一篇：<a href="javascript:;">html</a></p>
