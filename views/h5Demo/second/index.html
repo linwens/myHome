@@ -2,9 +2,77 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title><%= title %></title>
+	<title>周年庆--数据回放</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=0.5,maximum-scale=2.0,user-scalable=no">
+	<meta name="format-detection" content="telephone=no">
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel='stylesheet' href='/h5static/second/css/swiper.min.css' />
+	<link rel='stylesheet' href='/h5static/second/css/animate.min.css' />
+	<link rel='stylesheet' href='/h5static/second/css/second.css' />
+	<script src="/h5static/second/js/flexible.js"></script>
+	<script src="/h5static/second/js/countUp.min.js"></script>
+	<script src="/h5static/second/js/zepto.min.js"></script>
+	<script src="/h5static/second/js/swiper.jquery.min.js"></script>
 </head>
 <body>
-	second
+	<!-- 
+		总共6页：
+		a、加载动画（css3动画显示隐藏）、滑屏切换（swiper）、统计图动画（chartjs）、数字动画(countUp)
+		1、总概述
+		2、投资最大笔
+		3、最爱投资的标
+		4、邀请好友
+		5、最高收益
+		6、累计总投资
+	 -->
+	<div class="two-year-memory">
+		<div class="u-loading"></div>
+		<div class="u-arrowDown"></div>
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="m-slider swiper-slide" style="background-color: #F75FFF;">
+					<p class="animated" data-amt="">1</p>
+				</div>
+				<div class="m-slider swiper-slide" style="background-color: #4D71E3;">2</div>
+				<div class="m-slider swiper-slide" style="background-color: #5FFFF7;">3</div>
+				<div class="m-slider swiper-slide" style="background-color: #24F67D;">4</div>
+				<div class="m-slider swiper-slide" style="background-color: #F4FF5F;">5</div>
+				<div class="m-slider swiper-slide" style="background-color: #F56615;">6</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		//加载swiper
+		var mySwiper = new Swiper('.swiper-container', {
+			direction: 'vertical',
+			autoplay: 0,//可选选项，自动滑动
+			onSlideChangeStart:function(swiper){//开始
+				//mySwiper.disableTouchControl();
+			},
+			onSlideChangeEnd:function(swiper){//结束
+				//addAmt();
+			}
+		});
+		//请求后端数据
+		function getData(){};
+		//下滑添加动画
+		function addAmt(){
+			var imgAmt = $('.swiper-slide-active').find('.animated'),
+				otherImgamt = $('.swiper-slide-active').siblings().find('.animated');
+			for(var i = 0;i<imgAmt.length;i++){
+				imgAmt.eq(i).attr('data-amt');//获取动画名
+				imgAmt.eq(i).addClass(imgAmt.eq(i).attr('data-amt'));
+			}
+			otherImgamt.each(function(){
+				$(this).removeClass($(this).attr('data-amt'));
+			});
+			if(mySwiper.activeIndex==3){//最后一张，隐藏箭头
+				$('.u-arrowDown').hide();
+			}else{
+				$('.u-arrowDown').show();
+			}
+			mySwiper.enableTouchControl();
+		};
+	</script>
 </body>
 </html>
