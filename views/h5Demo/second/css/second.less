@@ -1,3 +1,4 @@
+@url:'../img';
 .two-year-memory{
 	width: 100%;
 	height: 100%;
@@ -16,23 +17,23 @@
 		// -webkit-perspective:150;
 		perspective-origin: 50% 50%;
 		-webkit-perspective-origin: 50% 50%;
-		.u-string{
-			position: absolute;
-			left:0;
-			top: 30%;
-			width: 10%;
-			height: 3.3rem;
-			background: #52F490;
-		}
-		.u-screen{
-			position: absolute;
-			left: 10%;
-			top: 30%;
-			width: 80%;
-			height: 6rem;
-			background: #1E87E5;
-			transform-origin:0 50% 0;
-		}
+		// .u-string{
+		// 	position: absolute;
+		// 	left:0;
+		// 	top: 30%;
+		// 	width: 10%;
+		// 	height: 3.3rem;
+		// 	background: #52F490;
+		// }
+		// .u-screen{
+		// 	position: absolute;
+		// 	left: 10%;
+		// 	top: 30%;
+		// 	width: 80%;
+		// 	height: 6rem;
+		// 	background: #1E87E5;
+		// 	transform-origin:0 50% 0;
+		// }
 		//测试背景小星球立体移入
 		.bg-dot{
 			position: relative;
@@ -53,15 +54,132 @@
 			width: 60%;
 			height: 200px;
 			margin: 100px auto;
-			border: 2px solid #61E0EA;
+			border-collapse: 2px;
+			border-style: solid;
 			border-radius: 5px;
-			box-shadow: 0 0 10px 1px #61E0EA,0 0 10px 1px #61E0EA inset;
+			// box-shadow: 0 0 10px 1px #61E0EA,0 0 10px 1px #61E0EA inset;
+			transform: skew(-15deg,0);
+		}
+		//发光文字
+		.u-txt{
+			font-weight: bold;
+			font-size: 0.8rem;
+			color: #FA59AE;
+			text-shadow: 0 0 20px #FA59AE;
+		}
+		//荧光棒
+		.u-stick{
+			position: absolute;
+			transform:rotateZ(-45deg);
+			border-radius: 30px;
+		}
+		.u-stick1{
+			left:20%;
+			top:30%;
+			background: rgba(232,22,234,0.3);
+			width: 120px;
+			height: 30px;
+		}
+		//光圈背景
+		.bg-shine{
+			width: 200px;
+			height: 200px;
+			margin: 200px auto 0;
+			background: rgba(255,255,255,0.5);
+			border-radius: 10px;
+			box-shadow: 0 0 100px 100px rgba(255,255,255,0.5);
+		}
+	}
+	.m-first-page{
+		position: relative;
+		background: url('@{url}/page1bg.jpg') no-repeat center;
+		background-size: cover;
+		.m-txt{
+			position: absolute;
+			left: 0;
+			top:4.67rem;
+			width: 100%;
+			font-size: 0.5rem;
+			color: #fff;
+			text-align: center;
+			h1{
+				font-size: 1.19rem; 
+			}
+		}
+		.u-start-btn{
+			position: absolute;
+			left: 50%;
+			bottom: 3.69rem;
+			width: 4.48rem;
+			height: 1.853rem;
+			line-height: 1.653rem;
+			margin-left: -2.24rem;
+			text-align: center;
+			background: url('@{url}/u-btn1.png') no-repeat center;
+			background-size: 4.48rem 1.853rem;
+			font-size: 0.6rem;
+			color: #fff;
+		}
+	}
+	.m-summary-page{
+		position: relative;
+		background: url('@{url}/page2bg.jpg') no-repeat center;
+		background-size: cover;
+		.u-title{
+			position: absolute;
+			left: 50%;
+			top: 3.2rem;
+			width: 3.12rem;
+			margin-left: -1.56rem;
+			font-size: 0.4rem;
+		}
+		.u-realname{
+			width: 2.4rem;
+			height: 0.67rem;
+			line-height: 0.67rem;
+			margin: 4.82rem auto 0;
+			text-align: center;
+			border-top: 1px solid #fff;
+			border-bottom: 1px solid #fff;
+			font-size: 0.46rem;
+			color: #fff;
+		}
+		.u-string{
+			position: absolute;
+			right:0;
+			top: 5.16rem;
+			width: 0.95rem;
+			height: 2.29rem;
+			background:  url('@{url}/right-string.png') no-repeat center;
+			background-size: 0.95rem 2.29rem;
+			transform:translate(100%,0);
+		}
+		.u-screen{
+			position: absolute;
+			right: 0.4rem;
+			top: 5.8rem;
+			width: 9.17rem;
+			height: 7.44rem;
+			background: url('@{url}/has-invest.png') no-repeat center;
+			background-size: 9.17rem 7.44rem;
+			transform-origin:90% 50% 0;
+			transform: perspective(800) rotateY(-90deg);
+		}
+		.m-summary-txt{
+			position: absolute;
+			left: 0;
+			bottom: 1.55rem;
+			width: 90%;
+			padding-left: 10%;
+			font-size: 0.43rem;
+			font-weight: bold;
+			color: #fd94ab;
 		}
 	}
 }
 //css3动画
 .l2r{
-	animation: l2r .3s;
+	animation: l2r .3s both;
 }
 @keyframes l2r{
 	from{
@@ -71,12 +189,35 @@
 		transform:translate(0,0);
 	}
 }
-.flipInY{
-	animation: flipInY 1s .5s both;
+.r2l{
+	animation: r2l .3s both;
 }
-@keyframes flipInY{
+@keyframes r2l{
+	from{
+		transform:translate(100%,0);
+	}
+	to{
+		transform:translate(0,0);
+	}
+}
+.flipInYonleft{
+	animation: flipInYonleft 1s .5s both;
+}
+@keyframes flipInYonleft{
 	from{
 		transform: perspective(800) rotateY(90deg);
+	}
+	to{
+		transform: perspective(800) rotateY(0);
+	}
+}
+.flipInYonright{
+	animation: flipInYonright 1s .5s both;
+}
+@keyframes flipInYonright{
+	from{
+
+		transform: perspective(800) rotateY(-90deg);
 	}
 	to{
 		transform: perspective(800) rotateY(0);
@@ -92,4 +233,137 @@
 	to{
 		transform: scale(1,1);
 	}
+}
+.flicker{
+	animation: flicker 3s 1s both;
+}
+@keyframes flicker{
+	from{
+		box-shadow: 0 0 10px 1px #fff,0 0 10px 1px #fff inset;
+	}
+	to{
+		box-shadow: 0 0 10px 1px #61E0EA,0 0 10px 1px #61E0EA inset;
+	}
+}
+.neon1{
+	animation: neon1 3s both;
+}
+//不带边框
+@keyframes neon1 {
+  0% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(255, 149, 162), 0 0 280px #29121A;
+  }
+  80% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+  }
+  81% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
+  }
+  94% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
+  }
+  95% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+  }
+  96% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
+  }
+  97% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+  }
+  98% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+  }
+  99% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
+  }
+  100% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+  }
+}
+.neon2{
+	animation: neon2 3s both;
+}
+//霓虹效果带边框
+@keyframes neon2 {
+  0% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(255, 149, 162), 0 0 280px #29121A;
+    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+  }
+  80% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+  }
+  81% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
+    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+  }
+  94% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
+    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+  }
+  95% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+  }
+  96% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
+    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+  }
+  97% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+  }
+  98% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+  }
+  99% {
+    color: #222;
+    border-color: #222;
+    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
+    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+  }
+  100% {
+    color: #E91E63;
+    border-color: #E91E63;
+    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+  }
 }
