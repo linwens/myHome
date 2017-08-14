@@ -16,43 +16,40 @@
 	<script src="/h5static/second/js/Chart.min.js"></script>
 </head>
 <body>
-	<!-- 
-		总共6页：
-		a、加载动画（css3动画显示隐藏）、滑屏切换（swiper）、统计图动画（chartjs）、数字动画(countUp)、字体闪烁(css3)、整体进入页面的效果一样的
-		b、dom做细，增加实施效果的余地
-		1、总概述
-		2、投资最大笔
-		3、最爱投资的标
-		4、邀请好友
-		5、最高收益
-		6、累计总投资
-	 -->
 	<div class="two-year-memory">
-		<div class="u-loading"></div>
-		<div class="u-arrowDown"></div>
+		<div class="u-loading" style="display: none;">
+			<div class="spinner">
+				<div class="double-bounce1"></div>
+				<div class="double-bounce2"></div>
+			</div>
+		</div>
+		<div class="u-arrowDown">
+			<img src="/h5static/second/img/down-arrow.png" alt="" class="arrowAmt">
+		</div>
+		<div class="m-welcome-page">
+			<div class="m-txt">
+				<h1 class="hidden2show">记 · 得</h1>
+				<p class="down-show">曾经理过的财</p>
+				<p class="down-show">曾经拿到的收益</p>
+				<p class="down-show">不一定都记得</p>
+				<p class="down-show">不要紧</p>
+				<p class="down-show">华侨宝记得</p>
+			</div>
+			<div class="u-btn-mask"></div>
+			<div class="u-start-btn hidden2show" id="openMemory">开启记忆之门</div>
+		</div>
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
-				<div class="m-slider swiper-slide m-first-page">
-					<div class="m-txt">
-						<h1>记 · 得</h1>
-						<p>曾经理过的财</p>
-						<p>曾经拿到的收益</p>
-						<p>不一定都记得</p>
-						<p>不要紧</p>
-						<p>华侨宝记得</p>
-					</div>
-					<div class="u-start-btn">开启记忆之门</div>
-				</div>
 				<div class="m-slider swiper-slide m-summary-page">
 					<p class="animated u-title" data-amt="neon1">年度影响力人物</p>
 					<p class="u-realname" id="J_realname">张素荣</p>
 					<div class="animated u-string" data-amt="r2l"></div>
 					<div class="animated u-screen" data-amt="flipInYonright">
 						<div class="u-stickbox">
-							<b class="u-stick u-stick1"></b>
-							<b class="u-stick u-stick2"></b>
-							<b class="u-stick u-stick3"></b>
-							<b class="u-stick u-stick4"></b>
+							<b class="animated u-stick u-stick1" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick2" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick3" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick4" data-amt="biasIn"></b>
 						</div>
 					</div>
 					<div class="m-summary-txt">
@@ -64,21 +61,21 @@
 				<div class="m-slider swiper-slide m-mostinvest-page">
 					<div class="u-bg-tinypic"></div>
 					<div class="m-txt">
-						<p><i>2016</i>年<i>9</i>月<i>8</i>日</p>
+						<p id="J_mostInvesttime"><i>2016</i>年<i>9</i>月<i>8</i>日</p>
 						<p>投资</p>
 						<p>最大方的一笔</p>
-						<p>花了<i>1,326,900</i>元</p>
+						<p>花了<i id="J_mostInvest">1,326,900</i>元</p>
 					</div>
 					<div class="animated u-string" data-amt="l2r"></div>
 					<div class="animated u-screen" data-amt="flipInYonleft">
 						<div class="u-stickbox">
-							<b class="u-stick u-stick1"></b>
-							<b class="u-stick u-stick2"></b>
-							<b class="u-stick u-stick3"></b>
-							<b class="u-stick u-stick4"></b>
+							<b class="animated u-stick u-stick1" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick2" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick3" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick4" data-amt="biasIn"></b>
 						</div>
 					</div>
-					<div class="u-totaltimes">累计理财次数:<i>256</i>次</div>
+					<div class="u-totaltimes">累计理财次数:<i id="J_investTimes">256</i>次</div>
 				</div>
 				<div class="m-slider swiper-slide m-investprefer-page">
 					<div class="u-bg-tinypic"></div>
@@ -90,15 +87,15 @@
 							<canvas id="canvas"></canvas>
 						</div>
 						<ul class="u-investType">
-							<li>短期标<i>80</i>%</li>
-							<li>中期标<i>19</i>%</li>
-							<li>长期标<i>1</i>%</li>
+							<li>短期标<i id="J_shortBid">80</i>%</li>
+							<li>中期标<i id="J_middleBid">19</i>%</li>
+							<li>长期标<i id="J_longBid">1</i>%</li>
 						</ul>
 					</div>
 					<div class="m-txt">
-						<p>累计在短期标的投资总额为<i>6,436,553.2</i>元</p>
-						<p>累计在中期标的投资总额为<i>6,436,553.2</i>元</p>
-						<p>累计在长期标的投资总额为<i>6,436,553.2</i>元</p>
+						<p>累计在短期标的投资总额为<i id="J_shortInvest">6,436,553.2</i>元</p>
+						<p>累计在中期标的投资总额为<i id="J_middleInvest">6,436,553.2</i>元</p>
+						<p>累计在长期标的投资总额为<i id="J_longInvest">6,436,553.2</i>元</p>
 						<div class="u-tips">
 							<p>短期标（投资期限≤30天）</p>
 							<p>中期标（投资期限为60天、90天）</p>
@@ -109,73 +106,75 @@
 				<div class="m-slider swiper-slide m-inviteaward-page">
 					<div class="u-bg-tinypic"></div>
 					<div class="m-txt">
-						<p><i>2016</i>年<i>9</i>月<i>8</i>日</p>
+						<p id="J_inviteTime"><i>2016</i>年<i>9</i>月<i>8</i>日</p>
 						<p>获得</p>
 						<p>最高额邀友奖励</p>
-						<p>邀友奖励<i>1,326,900</i>元</p>
+						<p>邀友奖励<i id="J_inviteMostAward">1,326,900</i>元</p>
 					</div>
 					<div class="animated u-string" data-amt="l2r"></div>
 					<div class="animated u-screen" data-amt="flipInYonleft">
 						<div class="u-stickbox">
-							<b class="u-stick u-stick1"></b>
-							<b class="u-stick u-stick2"></b>
-							<b class="u-stick u-stick3"></b>
-							<b class="u-stick u-stick4"></b>
+							<b class="animated u-stick u-stick1" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick2" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick3" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick4" data-amt="biasIn"></b>
 						</div>
 					</div>
 					<div class="u-totalinvite">
-						<p>累计获得邀友奖励335.25元</p>
-						<p>累计获得邀友奖励0积分</p>
+						<p>累计获得邀友奖励<i id="J_accInviteAward">335.25</i>元</p>
+						<p>累计获得邀友奖励<i id="J_invitePoint">0</i>积分</p>
 					</div>
 				</div>
 				<div class="m-slider swiper-slide m-mostearning-page">
 					<div class="u-bg-tinypic"></div>
 					<div class="u-totalearning">
-						<p>单笔最高获得投资收益<i>11,733.33</i>元</p>
-						<p>累计获得投资收益<i>11,733.33</i>元</p>
+						<p>单笔最高获得投资收益<i id="J_mostEarning">11,733.33</i>元</p>
+						<p>累计获得投资收益<i id="J_accEarning">11,733.33</i>元</p>
 					</div>
 					<div class="animated u-string1" data-amt="l2r"></div>
 					<div class="animated u-screen1" data-amt="padneon">
-						<p>超过华侨宝<i>99.98</i>%用户</p>
+						<p>超过华侨宝<i id="J_earningPerc">99.98</i>%用户</p>
 						<div class="u-progress"><span style="width:80%;"></span></div>
 					</div>
 					<div class="animated u-string2" data-amt="r2l"></div>
 					<div class="animated u-lightbar" data-amt="lightbar" style="left: 1.43rem;"></div>
 					<div class="animated u-lightbar" data-amt="lightbar" style="right: 1.76rem;"></div>
 					<div class="animated u-screen2" data-amt="padneon">
-						<p>在华侨宝第<i>6</i>位</p>
+						<p>在华侨宝第<i id="J_earningPlace">6</i>位</p>
 					</div>
 					<div class="animated u-string3" data-amt="l2r"></div>
 					<div class="animated u-screen3" data-amt="padneon">
 						<div class="u-stickbox">
-							<b class="u-stick u-stick1"></b>
-							<b class="u-stick u-stick2"></b>
-							<b class="u-stick u-stick3"></b>
-							<b class="u-stick u-stick4"></b>
+							<b class="animated u-stick u-stick1" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick2" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick3" data-amt="biasIn"></b>
+							<b class="animated u-stick u-stick4" data-amt="biasIn"></b>
 						</div>
 					</div>
 				</div>
 				<div class="m-slider swiper-slide m-total-page">
 					<div class="u-bg-tinypic"></div>
-					<div class="u-total">累计总投资<i>34,129,870.2</i>元</div>
-					<div class="animated u-string1" data-amt=""></div>
-					<div class="animated u-screen1" data-amt="">
-						<p>超过华侨宝<i>99.98</i>%用户</p>
+					<div class="u-total">累计总投资<i class="J_accInvest">34,129,870.2</i>元</div>
+					<div class="animated u-string1" data-amt="l2r"></div>
+					<div class="animated u-screen1" data-amt="padneon">
+						<p>超过华侨宝<i id="J_investPerc">99.98</i>%用户</p>
 						<div class="u-progress"><span style="width:80%;"></span></div>
 					</div>
-					<div class="animated u-string2" data-amt=""></div>
-					<div class="animated u-screen2" data-amt="">
-						<p>在华侨宝第<i>6</i>位</p>
+					<div class="animated u-string2" data-amt="r2l"></div>
+					<div class="animated u-screen2" data-amt="padneon">
+						<p>在华侨宝第<i id="J_investPlace">6</i>位</p>
 					</div>
-					<div class="animated u-string3" data-amt=""></div>
-					<div class="animated u-screen3" data-amt="">
+					<div class="animated u-lightbar" data-amt="lightbar" style="left: 1.43rem;"></div>
+					<div class="animated u-lightbar" data-amt="lightbar" style="right: 1.76rem;"></div>
+					<div class="animated u-string3" data-amt="l2r"></div>
+					<div class="animated u-screen3" data-amt="padneon">
 						<div class="u-chart">
 							<canvas id="canvas2"></canvas>
 						</div>
 						<ul class="u-investType">
-							<li>累计投资总额</br><i>34,129,870.2</i>元</li>
-							<li>累计邀友奖励总额</br><i>335.25</i>元</li>
-							<li>累计投资收益总额</br><i>335,443.07</i>元</li>
+							<li>累计投资总额</br><i class="J_accInvest">34,129,870.2</i>元</li>
+							<li>累计邀友奖励总额</br><i id="J_accInviteAward2">335.25</i>元</li>
+							<li>累计投资收益总额</br><i id="J_accEarning2">335,443.07</i>元</li>
 						</ul>
 					</div>
 					<div class="u-goActivity">进入2周年活动主场</div>
@@ -196,48 +195,57 @@
 					<div class="u-start-btn">开启财富之路</div>
 					<p>账单所有数据统计至2017年8月17日</p>
 				</div>
-
-				<div class="m-slider swiper-slide" style="background-color: #4D71E3;">
-					<div class="animated bg-dot" data-amt="scale2show">
-						<div class="u-dot" style="left: 50%;top: 10%;width: 0.3rem;height: 0.3rem;background-color: #E91187;"></div>
-						<div class="u-dot" style="left: 80%;top: 15%;width: 0.6rem;height: 0.2rem;background-color: #6220D6;"></div>
-						<div class="u-dot" style="left: 10%;top: 20%;width: 0.5rem;height: 0.5rem;background-color: #2B42CE;"></div>
-						<div class="u-dot" style="left: 43%;top: 60%;width: 0.1rem;height: 0.1rem;background-color: #60E1F8;"></div>
-						<div class="u-dot" style="left: 67%;top: 75%;width: 0.3rem;height: 0.8rem;background-color: #34FC27;"></div>
-						<div class="u-dot" style="left: 23%;top: 67%;width: 0.9rem;height: 0.9rem;background-color: #E2F119;"></div>
-					</div>
-				</div>
-				<div class="m-slider swiper-slide" style="background-color: #101529;">
-					<div class="animated u-bulb" data-amt="neon2">林文书</div>
-				</div>
-				<div class="m-slider swiper-slide" style="background-color: #101529;">
-					<p class="u-txt">赶紧投资一笔让我记住你</p>
-					<div class="u-stick u-stick1"></div>
-				</div>
-				<div class="m-slider swiper-slide" style="background-color: #101529;">
-					<div class="bg-shine"></div>
-				</div>
-				<div class="m-slider swiper-slide" style="background-color: #F56615;">6</div>
 			</div>
 		</div>
 	</div>
 	<script>
-		//加载swiper
-		var mySwiper = new Swiper('.swiper-container', {
-			direction: 'vertical',
-			autoplay: 0,//可选选项，自动滑动
-			onSlideChangeStart:function(swiper){//开始
-				//mySwiper.disableTouchControl();
-			},
-			onSlideChangeEnd:function(swiper){//结束
-				addAmt();
-				//createCanvas();
-			}
+		//页面初始化及异步处理
+		$(function(){
+			//开启记忆之门
+			$('#openMemory').on('click',function(){
+				//已登录开始展示
+				$('.m-welcome-page').remove();
+				$('.u-loading').show();
+			});
+			//加载swiper
+			var mySwiper = new Swiper('.swiper-container', {
+				direction: 'vertical',
+				autoplay: 0,//可选选项，自动滑动
+				onSlideChangeStart:function(swiper){//开始
+					//mySwiper.disableTouchControl();
+				},
+				onSlideChangeEnd:function(swiper){//结束
+					addAmt(mySwiper);
+					//createCanvas();
+				}
+			});
+			getData(function(rslt){
+				bindData(rslt,function(){
+					console.log('数据填充好调用饼图');
+					//全部准备好后，加载遮罩消失
+					$('.u-loading').hide();
+				})
+			});
 		});
 		//请求后端数据
-		function getData(){};
+		function getData(cb){
+			$.ajax({
+				url:'rest/anniversary/memory',
+				type:'GET',
+				dataType:'json',
+				success:function(rslt){
+					if(rslt.res_code==1){
+						//数据填充
+						cb(rlst)
+					}else{
+						alert(rslt.res_msg);
+					}
+				},
+				error:function(){}
+			})
+		};
 		//下滑添加动画
-		function addAmt(){
+		function addAmt(mySwiper){
 			var imgAmt = $('.swiper-slide-active').find('.animated'),
 				otherImgamt = $('.swiper-slide-active').siblings().find('.animated');
 			for(var i = 0;i<imgAmt.length;i++){
@@ -297,6 +305,46 @@
 			// document.getElementById("canvas2").style.height='100%';
 			// document.getElementById("canvas2").style.width='200%';
 		};
+		//dom数据填充
+		function bindData(data,cb){
+			$('#J_realname').html(data.p1_username);//用户名
+			$('#J_total').html(data.p1_sum_tender);//总投资
+			$('#J_earning').html(data.p1_sum_interest);//总收益
+			$('#J_mostbids').html(data.p1_most_type);//喜好
+
+			$('#J_mostInvesttime').html(data.p2_time);//最大笔投资时间
+			$('#J_mostInvest').html(data.p2_most_tender);//最大笔投资
+			$('#J_investTimes').html(data.p2_count);//次数
+
+			$('#J_mostEarning').html(data.p3_most_interest);//最高收益
+			$('#J_accEarning').html(data.p3_sum_interest);//累计收益
+			$('#J_earningPerc').html(data.p3_percent);//排名百分比
+			$('#J_earningPlace').html(data.p3_place);//排名
+
+			$('#J_inviteMostAward').html(data.p4_most_invite);//最高邀友奖励
+			$('#J_inviteTime').html(data.p4_time);//邀友时间
+			$('#J_accInviteAward').html(data.p4_sum_invite);//累计邀友奖励
+			$('#J_invitePoint').html();//邀友积分   ****接口字段未给出
+
+			$('.J_accInvest').html(data.p6_sum_tender);//累计总投资
+			$('#J_investPerc').html(data.p6_tender_percent);//投资排名百分比
+			$('#J_investPlace').html(data.p6_tender_place);//投资排名
+			$('#J_accInviteAward2').html(data.p6_sum_invite);//最后一页邀友总奖励
+			$('#J_accEarning2').html(data.p6_sum_interest);//最后一页收益总额
+
+			console.log('数据填充完毕');
+			if(rslt.is_tender==0){//没有投资
+				mySwiper.removeSlide([0, 1, 2, 3, 4, 5]);
+				mySwiper.update();
+			}else{
+				mySwiper.removeSlide([6]);
+				mySwiper.update();
+				if(rslt.is_invite==0){//没邀请好友
+					
+				}
+			}
+			cb();
+		}
 	</script>
 </body>
 </html>

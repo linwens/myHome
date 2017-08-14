@@ -2,6 +2,79 @@
 .two-year-memory{
 	width: 100%;
 	height: 100%;
+	.u-arrowDown{
+		position: fixed;
+		bottom: 0.5rem;
+		width: 100%;
+		text-align: center;
+		z-index: 99;
+		>img{
+			width: 0.6rem;
+			height: 0.36rem;
+		}
+	}
+	.m-welcome-page{
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 100;
+		width: 100%;
+		height: 100%;
+		background: url('@{url}/page1bg.jpg') no-repeat center;
+		background-size: cover;
+		.m-txt{
+			position: absolute;
+			left: 0;
+			top:4.67rem;
+			width: 100%;
+			font-size: 0.5rem;
+			color: #fff;
+			text-align: center;
+			h1{
+				font-size: 1.19rem; 
+			}
+			p:nth-child(2){
+				animation-delay: 1s;
+			}
+			p:nth-child(3){
+				animation-delay: 2s;
+			}
+			p:nth-child(4){
+				animation-delay: 3s;
+			}
+			p:nth-child(5){
+				animation-delay: 4s;
+			}
+			p:nth-child(6){
+				animation-delay: 5s;
+			}
+		}
+		.u-btn-mask{
+			position: absolute;
+			left: 50%;
+			bottom: 3.69rem;
+			width: 4.48rem;
+			height: 1.853rem;
+			margin-left: -2.24rem;
+			z-index: 9;
+		}
+		.u-start-btn{
+			position: absolute;
+			left: 50%;
+			bottom: 3.69rem;
+			z-index: 8;
+			width: 4.48rem;
+			height: 1.853rem;
+			line-height: 1.653rem;
+			margin-left: -2.24rem;
+			text-align: center;
+			background: url('@{url}/u-btn1.png') no-repeat center;
+			background-size: 4.48rem 1.853rem;
+			font-size: 0.6rem;
+			color: #fff;
+			animation-delay: 6s;
+		}
+	}
 	.swiper-container {
 		width: 100%;
 		height: 100%;
@@ -73,6 +146,7 @@
 				position: absolute;
 				transform:rotateZ(-45deg);
 				border-radius: 30px;
+				animation-delay: 1.3s;
 			}
 			.u-stick1{
 				left:0%;
@@ -104,7 +178,7 @@
 			}
 		}
 	}
-	.m-first-page{
+	/*.m-first-page{
 		position: relative;
 		background: url('@{url}/page1bg.jpg') no-repeat center;
 		background-size: cover;
@@ -134,7 +208,7 @@
 			font-size: 0.6rem;
 			color: #fff;
 		}
-	}
+	}*/
 	.m-summary-page{
 		position: relative;
 		background: url('@{url}/page2bg.jpg') no-repeat center;
@@ -455,7 +529,6 @@
 			background: url('@{url}/top-bg1.png') no-repeat center;
 			background-size: 4.493rem 2.213rem;
 			transform-origin: 0.4rem 50% 0;
-			//transform: perspective(800) rotateY(90deg);
 			opacity: 0;
 			animation-delay: 0.5s;
 			>p{
@@ -509,7 +582,6 @@
 				font-size: 0.293rem;
 				color: #cc0037;
 			}
-			//transform: perspective(800) rotateY(-90deg);
 			opacity: 0;
 			animation-delay: 0.5s;
 		}
@@ -532,7 +604,6 @@
 			background: url('@{url}/mostearning.png') no-repeat center;
 			background-size: 9.173rem 7.44rem;
 			transform-origin: 0.4rem 50% 0;
-			//transform: perspective(800) rotateY(90deg);
 			opacity: 0;
 			animation-delay: 2.6s;
 		}
@@ -580,7 +651,7 @@
 			height: 2.29rem;
 			background: url('@{url}/left-string.png') no-repeat center;
 			background-size: 0.95rem 2.29rem;
-			//transform:translate(-100%,0);
+			transform:translate(-100%,0);
 		}
 		.u-screen1{
 			position: absolute;
@@ -591,7 +662,8 @@
 			background: url('@{url}/top-bg1.png') no-repeat center;
 			background-size: 4.493rem 2.213rem;
 			transform-origin: 0.4rem 50% 0;
-			//transform: perspective(800) rotateY(90deg);
+			opacity: 0;
+			animation-delay: 0.5s;
 			>p{
 				margin: 0.7rem 0 0 0.56rem;
 				font-size: 0.26rem;
@@ -626,7 +698,7 @@
 			height: 2.29rem;
 			background: url('@{url}/right-string.png') no-repeat center;
 			background-size: 0.95rem 2.29rem;
-			//transform:translate(100%,0);
+			transform:translate(100%,0);
 		}
 		.u-screen2{
 			position: absolute;
@@ -639,7 +711,8 @@
 			background-size: 4.493rem 2.213rem;
 			transform-origin: 90% 50% 0;
 			text-align: center;
-			//transform: perspective(800) rotateY(-90deg);
+			opacity: 0;
+			animation-delay: 0.5s;
 			>p{
 				font-size: 0.293rem;
 				color: #cc0037;
@@ -653,7 +726,7 @@
 			height: 2.29rem;
 			background: url('@{url}/left-string.png') no-repeat center;
 			background-size: 0.95rem 2.29rem;
-			//transform:translate(-100%,0);
+			transform:translate(-100%,0);
 		}
 		.u-screen3{
 			position: absolute;
@@ -664,7 +737,8 @@
 			background: url('@{url}/invest-count2.png') no-repeat center;
 			background-size: 9.173rem 5.84rem;
 			transform-origin: 0.4rem 50% 0;
-			//transform: perspective(800) rotateY(90deg);
+			opacity: 0;
+			animation-delay: 2.6s;
 			.u-chart{
 				float: left;
 				width: 3.15rem;
@@ -708,6 +782,15 @@
 			font-size: 0.49rem;
 			color: #fff100;
 		}
+		.u-lightbar{
+			position: absolute;
+			top:6.7rem;
+			width: 0.11rem;
+			height: 0.95rem;
+			background: #b6b3b4;
+			opacity: 0;
+			animation-delay: 1.7s;
+		}
 	}
 	.m-noinvest-page{
 		position: relative;
@@ -748,7 +831,7 @@
 			line-height: 0.8rem;
 			background: url('@{url}/no-invest.png') no-repeat center;
 			background-size: 9.17rem 7.44rem;
-			transform-origin: 0.4rem 50% 0;
+			transform-origin: 0.6rem 50% 0;
 			text-align: center;
 			transform: perspective(800) rotateY(90deg);
 			p{
@@ -780,6 +863,34 @@
 	}
 }
 //css3动画
+//渐显
+.hidden2show{
+	animation: hidden2show 1s linear both;
+}
+@keyframes hidden2show{
+	from{
+		opacity: 0;
+		z-index: 8;
+	}
+	to{
+		opacity: 1;
+		z-index: 10;
+	}
+}
+//向下移入
+.down-show{
+	animation: down-show 1s linear both;
+}
+@keyframes down-show{
+	from{
+		opacity: 0;
+		transform:translate(0,-0.5rem);
+	}
+	to{
+		opacity: 1;
+		transform:translate(0,0);
+	}
+}
 .l2r{
 	animation: l2r .3s both;
 }
@@ -1017,5 +1128,103 @@
 	to{
 		opacity: 1;
 		box-shadow: 0 0 10px 0 #eb2054;
+	}
+}
+//斜插入
+.biasIn{
+	animation: biasIn 0.5s linear both;
+}
+@keyframes biasIn {
+	from{
+		opacity: 0;
+		transform: rotateZ(-45deg) translate(0.6rem,-0.1rem);
+	}
+	to{
+		opacity: 1;
+		transform: rotateZ(-45deg) translate(0,0);
+	}
+}
+//loading加载等待
+/*loading*/
+.u-loading {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top:0;
+  left:0;
+  background: #12172b;
+  z-index: 100;
+}
+.spinner {
+  width: 1.6rem;
+  height: 1.6rem;
+  position: absolute;
+  top:50%;
+  left:50%;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+
+}
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #fff;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+   
+  -webkit-animation: bounce 2.0s infinite ease-in-out;
+  animation: bounce 2.0s infinite ease-in-out;
+}
+ 
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+@-webkit-keyframes bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+ 
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+//下拉箭头
+.u-arrowDown .arrowAmt{
+	-webkit-animation-name: arrowAmt;
+	animation-name: arrowAmt;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-timing-function: ease-in-out;
+	-webkit-animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
+	-webkit-animation-delay: 1.5s;
+	animation-delay: 1.5s
+}
+@keyframes arrowAmt{
+	from {
+		-webkit-transform: translate(0,-35%);
+		transform: translate(0,-35%);
+		opacity: 0.6;
+	}
+	80%{
+		-webkit-transform: translate(0,10%);
+		transform: translate(0,10%);
+		opacity: 1;
+	}
+	to {
+		-webkit-transform: translate(0,-35%);
+		transform: translate(0,-35%);
+		opacity: 0.6;
 	}
 }
