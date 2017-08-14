@@ -232,6 +232,8 @@
 			border-bottom: 1px solid #fff;
 			font-size: 0.46rem;
 			color: #fff;
+			animation-delay: 1.2s;
+			opacity: 0;
 		}
 		.u-string{
 			position: absolute;
@@ -273,6 +275,19 @@
 				color: #fff;
 				text-shadow: 0 0 10px #dc00a4;
 			}
+			p{
+				opacity: 0;
+				transform:translate(20%,0);
+			}
+			p:nth-child(1){
+				animation-delay: 1.7s;
+			}
+			p:nth-child(2){
+				animation-delay: 1.9s;
+			}
+			p:nth-child(3){
+				animation-delay: 2.1s;
+			}
 		}
 	}
 	.m-mostinvest-page{
@@ -295,6 +310,22 @@
 			color: #ff93aa;
 			i{
 				color: #fff;
+			}
+			p{
+				opacity: 0;
+				transform:translate(20%,0);
+			}
+			p:nth-child(1){
+				animation-delay: 1.7s;
+			}
+			p:nth-child(2){
+				animation-delay: 1.9s;
+			}
+			p:nth-child(3){
+				animation-delay: 2.1s;
+			}
+			p:nth-child(4){
+				animation-delay: 2.3s;
 			}
 		}
 		.u-string{
@@ -331,6 +362,8 @@
 			font-size: 0.533rem;
 			color: #fff;
 			text-shadow: 0 0 10px #dc00a4;
+			opacity: 0;
+			animation-delay: 3s;
 		}
 	}
 	.m-investprefer-page{
@@ -358,6 +391,7 @@
 			font-size: 0.533rem;
 			color: #fff;
 			text-shadow: 0 0 10px #dc00a4;
+			opacity: 1;
 		}
 		>p{
 			margin-top: 0.46rem;
@@ -879,7 +913,7 @@
 }
 //向下移入
 .down-show{
-	animation: down-show 1s linear both;
+	animation: down-show .6s linear both;
 }
 @keyframes down-show{
 	from{
@@ -910,6 +944,19 @@
 		transform:translate(100%,0);
 	}
 	to{
+		transform:translate(0,0);
+	}
+}
+.r2lslow{
+	animation: r2lslow .6s both;
+}
+@keyframes r2lslow{
+	from{
+		opacity: 0;
+		transform:translate(20%,0);
+	}
+	to{
+		opacity: 1;
 		transform:translate(0,0);
 	}
 }
@@ -1005,69 +1052,74 @@
   }
 }
 .neon2{
-	animation: neon2 3s both;
+	animation: neon2 2s both;
 }
 //霓虹效果带边框
 @keyframes neon2 {
   0% {
-    color: #222;
-    border-color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(255, 149, 162), 0 0 280px #29121A;
-    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+    color: #11162a;
+    border-color: #11162a;
+    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
+    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
   }
   80% {
-    color: #E91E63;
-    border-color: #E91E63;
-    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+    color: #fff;
+    border-color: #f85b8e;
+    opacity: 1;
+    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
   }
   81% {
-    color: #222;
-    border-color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
-    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+    color: #11162a;
+    border-color: #11162a;
+    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
+    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
   }
   94% {
-    color: #222;
-    border-color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
-    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+    color: #11162a;
+    border-color: #11162a;
+    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
+    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
   }
   95% {
-    color: #E91E63;
-    border-color: #E91E63;
-    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+    color: #fff;
+    border-color: #f85b8e;
+    opacity: 1;
+    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
   }
   96% {
-    color: #222;
-    border-color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
-    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+    color: #11162a;
+    border-color: #11162a;
+    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
+    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
   }
   97% {
-    color: #E91E63;
-    border-color: #E91E63;
-    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+    color: #fff;
+    border-color: #f85b8e;
+    opacity: 1;
+    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
   }
   98% {
-    color: #E91E63;
-    border-color: #E91E63;
-    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+    color: #fff;
+    border-color: #f85b8e;
+    opacity: 1;
+    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
   }
   99% {
-    color: #222;
-    border-color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
-    box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
+    color: #11162a;
+    border-color: #11162a;
+    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
+    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
   }
   100% {
-    color: #E91E63;
-    border-color: #E91E63;
-    text-shadow: 0 0 10px #E91E63, 1px 1px rgb(255, 149, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 1px #E91E63,0 0 10px 1px #E91E63 inset;
+    color: #fff;
+    border-color: #f85b8e;
+    opacity: 1;
+    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
+    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
   }
 }
 //仿通电显示

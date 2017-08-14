@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<div class="u-arrowDown">
-			<img src="/h5static/second/img/down-arrow.png" alt="" class="arrowAmt">
+			<img src="${activityPath}/complex/${activityName}/img/down-arrow.png" alt="" class="arrowAmt">
 		</div>
 		<div class="m-welcome-page">
 			<div class="m-txt">
@@ -42,7 +42,7 @@
 			<div class="swiper-wrapper">
 				<div class="m-slider swiper-slide m-summary-page">
 					<p class="animated u-title" data-amt="neon1">年度影响力人物</p>
-					<p class="u-realname" id="J_realname">张素荣</p>
+					<p class="animated u-realname" id="J_realname" data-amt="hidden2show">张素荣</p>
 					<div class="animated u-string" data-amt="r2l"></div>
 					<div class="animated u-screen" data-amt="flipInYonright">
 						<div class="u-stickbox">
@@ -53,18 +53,18 @@
 						</div>
 					</div>
 					<div class="m-summary-txt">
-						<p>累计总投资: <i id="J_total">34,129,870.2</i>元</p>
-						<p>累计获得总收益: <i id="J_earning">34,129,870.2</i>元</p>
-						<p>投资喜好: <i id="J_mostbids">短期标</i></p>
+						<p class="animated" data-amt="r2lslow">累计总投资: <i id="J_total">34,129,870.2</i>元</p>
+						<p class="animated" data-amt="r2lslow">累计获得总收益: <i id="J_earning">34,129,870.2</i>元</p>
+						<p class="animated" data-amt="r2lslow">投资喜好: <i id="J_mostbids">短期标</i></p>
 					</div>
 				</div>
 				<div class="m-slider swiper-slide m-mostinvest-page">
 					<div class="u-bg-tinypic"></div>
 					<div class="m-txt">
-						<p id="J_mostInvesttime"><i>2016</i>年<i>9</i>月<i>8</i>日</p>
-						<p>投资</p>
-						<p>最大方的一笔</p>
-						<p>花了<i id="J_mostInvest">1,326,900</i>元</p>
+						<p class="animated" data-amt="r2lslow" id="J_mostInvesttime"><i>2016</i>年<i>9</i>月<i>8</i>日</p>
+						<p class="animated" data-amt="r2lslow">投资</p>
+						<p class="animated" data-amt="r2lslow">最大方的一笔</p>
+						<p class="animated" data-amt="r2lslow">花了<i id="J_mostInvest">1,326,900</i>元</p>
 					</div>
 					<div class="animated u-string" data-amt="l2r"></div>
 					<div class="animated u-screen" data-amt="flipInYonleft">
@@ -75,11 +75,11 @@
 							<b class="animated u-stick u-stick4" data-amt="biasIn"></b>
 						</div>
 					</div>
-					<div class="u-totaltimes">累计理财次数:<i id="J_investTimes">256</i>次</div>
+					<div class="animated u-totaltimes" data-amt="neon2">累计理财次数:<i id="J_investTimes">256</i>次</div>
 				</div>
 				<div class="m-slider swiper-slide m-investprefer-page">
 					<div class="u-bg-tinypic"></div>
-					<div class="u-prefer">投资偏好:<i>短期标</i></div>
+					<div class="animated u-prefer" data-amt="neon2">投资偏好:<i>短期标</i></div>
 					<p>投资长期标可获得更高收益噢～</p>
 					<div class="animated u-string" data-amt="l2r"></div>
 					<div class="animated u-screen" data-amt="flipInYonleft">
@@ -201,11 +201,31 @@
 	<script>
 		//页面初始化及异步处理
 		$(function(){
+			//获取token数据
+			var oauth_token = getQueryString("oauth_token");
+			var appkey = getQueryString("appkey");
+			var str = '&oauth_token='+oauth_token + '&appkey='+appkey;
 			//开启记忆之门
 			$('#openMemory').on('click',function(){
-				//已登录开始展示
+				// if(oauth_token&&oauth_token!="(null)"){
+				// 	//已登录开始展示
+				// 	$('.m-welcome-page').remove();
+				// 	$('.u-loading').show();
+				// 	getData(str,function(rslt){
+				// 		bindData(rslt,function(){
+				// 			console.log('数据填充好调用饼图');
+				// 			//全部准备好后，加载遮罩消失
+				// 			$('.u-loading').hide();
+				// 		})
+				// 	});
+				// }else{
+				// 	jumpInApp({case:34});
+				// }
+				//测试
 				$('.m-welcome-page').remove();
-				$('.u-loading').show();
+				mySwiper.removeSlide([6]);
+				mySwiper.update();
+				addAmt(mySwiper);
 			});
 			//加载swiper
 			var mySwiper = new Swiper('.swiper-container', {
@@ -219,20 +239,14 @@
 					//createCanvas();
 				}
 			});
-			getData(function(rslt){
-				bindData(rslt,function(){
-					console.log('数据填充好调用饼图');
-					//全部准备好后，加载遮罩消失
-					$('.u-loading').hide();
-				})
-			});
 		});
 		//请求后端数据
-		function getData(cb){
+		function getData(str,cb){
 			$.ajax({
-				url:'rest/anniversary/memory',
-				type:'GET',
+				url:'/rest/anniversary/memory',
+				type:'POST',
 				dataType:'json',
+				data:str,
 				success:function(rslt){
 					if(rslt.res_code==1){
 						//数据填充
@@ -263,22 +277,22 @@
 			mySwiper.enableTouchControl();
 		};
 		//创建canvas图表
-		function createCanvas(){
+		function createCanvas(data1, data2, data3, id){//只有三种值
 			var doughnutData = [
 				{
-					value: parseInt('80'),
+					value: parseInt(data1),
 					color:"#27aae1"
 				},
 				{
-					value : parseInt('15'),
+					value : parseInt(data2),
 					color : "#da1c5c"
 				},
 				{
-					value : parseInt('5'),
+					value : parseInt(data3),
 					color : "#fbb040"
 				}
 			];
-			var myDoughnut = new Chart(document.getElementById("canvas").getContext("2d")).Doughnut(doughnutData,{
+			var myDoughnut = new Chart(document.getElementById(id).getContext("2d")).Doughnut(doughnutData,{
 				segmentShowStroke : false,//圆环间不要间隔
 				percentageInnerCutout : 50,//改变圆环半径
 				animationSteps : 30,//动画速度
@@ -288,22 +302,8 @@
 			// document.getElementById("canvas").height=236;
 			// document.getElementById("canvas").width=236;
 
-			document.getElementById("canvas").style.height='100%';
-			document.getElementById("canvas").style.width='200%';
-
-			//第二个圈圈图,会崩溃
-			// var myDoughnut2 = new Chart(document.getElementById("canvas2").getContext("2d")).Doughnut(doughnutData,{
-			// 	segmentShowStroke : false,//圆环间不要间隔
-			// 	percentageInnerCutout : 50,//改变圆环半径
-			// 	animationSteps : 30,//动画速度
-			// 	animationEasing: "easeOutSine"//动画特效
-			// });
-			// //修改canvas 尺寸
-			// // document.getElementById("canvas2").height=236;
-			// // document.getElementById("canvas2").width=236;
-
-			// document.getElementById("canvas2").style.height='100%';
-			// document.getElementById("canvas2").style.width='200%';
+			document.getElementById(id).style.height='100%';
+			document.getElementById(id).style.width='200%';
 		};
 		//dom数据填充
 		function bindData(data,cb){
@@ -345,6 +345,8 @@
 			}
 			cb();
 		}
+		//数字动画
+
 	</script>
 </body>
 </html>
