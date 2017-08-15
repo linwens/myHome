@@ -61,7 +61,7 @@
 		.u-start-btn{
 			position: absolute;
 			left: 50%;
-			bottom: 3.69rem;
+			top: 11.69rem;
 			z-index: 8;
 			width: 4.48rem;
 			height: 1.853rem;
@@ -178,45 +178,14 @@
 			}
 		}
 	}
-	/*.m-first-page{
-		position: relative;
-		background: url('@{url}/page1bg.jpg') no-repeat center;
-		background-size: cover;
-		.m-txt{
-			position: absolute;
-			left: 0;
-			top:4.67rem;
-			width: 100%;
-			font-size: 0.5rem;
-			color: #fff;
-			text-align: center;
-			h1{
-				font-size: 1.19rem; 
-			}
-		}
-		.u-start-btn{
-			position: absolute;
-			left: 50%;
-			bottom: 3.69rem;
-			width: 4.48rem;
-			height: 1.853rem;
-			line-height: 1.653rem;
-			margin-left: -2.24rem;
-			text-align: center;
-			background: url('@{url}/u-btn1.png') no-repeat center;
-			background-size: 4.48rem 1.853rem;
-			font-size: 0.6rem;
-			color: #fff;
-		}
-	}*/
 	.m-summary-page{
 		position: relative;
-		background: url('@{url}/page2bg.jpg') no-repeat center;
+		background: url('@{url}/page2bg.jpg') no-repeat center top;
 		background-size: cover;
 		.u-title{
 			position: absolute;
 			left: 50%;
-			top: 1.65rem;
+			top: 9.2%;
 			width: 3.12rem;
 			margin-left: -1.56rem;
 			text-align: center;
@@ -331,7 +300,7 @@
 		.u-string{
 			position: absolute;
 			left:0;
-			top: 9.46rem;
+			top: 8.66rem;
 			width: 0.95rem;
 			height: 2.29rem;
 			background: url('@{url}/left-string.png') no-repeat center;
@@ -341,7 +310,7 @@
 		.u-screen{
 			position: absolute;
 			left: 0.4rem;
-			top: 5.8rem;
+			top: 5rem;
 			width: 9.17rem;
 			height: 7.44rem;
 			background: url('@{url}/invest-times.png') no-repeat center;
@@ -353,7 +322,7 @@
 			width: 5.33rem;
 			height: 1.27rem;
 			line-height: 1.27rem;
-			margin: 9.47rem auto 0;
+			margin: 8.67rem auto 0;
 			border: 1px solid #f85b8e;
 			border-radius: 5px;
 			box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
@@ -391,7 +360,7 @@
 			font-size: 0.533rem;
 			color: #fff;
 			text-shadow: 0 0 10px #dc00a4;
-			opacity: 1;
+			opacity: 0;
 		}
 		>p{
 			margin-top: 0.46rem;
@@ -410,12 +379,25 @@
 			}
 			>p{
 				padding-left: 15%;
+				opacity: 0;
+				transform:translate(20%,0);
+			}
+			p:nth-child(1){
+				animation-delay: 1.7s;
+			}
+			p:nth-child(2){
+				animation-delay: 1.9s;
+			}
+			p:nth-child(3){
+				animation-delay: 2.1s;
 			}
 			.u-tips{
 				margin-top: 1rem;
 				text-align: center;
 				font-size: 0.31rem;
 				color: #fff;
+				opacity: 0;
+				animation-delay: 2s;
 			}
 		}
 		.u-string{
@@ -489,6 +471,22 @@
 			i{
 				color: #fff;
 			}
+			p{
+				opacity: 0;
+				transform:translate(20%,0);
+			}
+			p:nth-child(1){
+				animation-delay: 1.7s;
+			}
+			p:nth-child(2){
+				animation-delay: 1.9s;
+			}
+			p:nth-child(3){
+				animation-delay: 2.1s;
+			}
+			p:nth-child(4){
+				animation-delay: 2.3s;
+			}
 		}
 		.u-string{
 			position: absolute;
@@ -517,8 +515,9 @@
 			margin: 8.67rem auto 0;
 			text-align: center;
 			font-size: 0.533rem;
-			color: #fff;
-			text-shadow: 0 0 10px #dc00a4;
+			color: #222;
+			// text-shadow: 0 0 10px #dc00a4;
+			animation-delay: 2.9s;
 		}
 	}
 	.m-mostearning-page{
@@ -543,6 +542,16 @@
 			i{
 				color: #fff;
 			}
+			p{
+				opacity: 0;
+				transform:translate(20%,0);
+			}
+			p:nth-child(1){
+				animation-delay: 3.7s;
+			}
+			p:nth-child(2){
+				animation-delay: 3.9s;
+			}
 		}
 		.u-string1{
 			position: absolute;
@@ -566,9 +575,11 @@
 			opacity: 0;
 			animation-delay: 0.5s;
 			>p{
-				margin: 0.7rem 0 0 0.56rem;
+				width: 100%;
+				margin-top: 0.7rem;
 				font-size: 0.26rem;
 				color: #cc0037;
+				text-align: center;
 				i{
 					font-size: 0.29rem;
 				}
@@ -667,7 +678,7 @@
 			width: 7.6rem;
 			height: 1.27rem;
 			line-height: 1.27rem;
-			margin: 1.66rem auto 0;
+			margin: 1.46rem auto 0;
 			border: 1px solid #f85b8e;
 			border-radius: 5px;
 			box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
@@ -680,7 +691,7 @@
 		.u-string1{
 			position: absolute;
 			left:0;
-			top: 3.66rem;
+			top: 2.86rem;
 			width: 0.95rem;
 			height: 2.29rem;
 			background: url('@{url}/left-string.png') no-repeat center;
@@ -690,7 +701,7 @@
 		.u-screen1{
 			position: absolute;
 			left: 0.6rem;
-			top: 4.8rem;
+			top: 4rem;
 			width: 4.493rem;
 			height: 2.213rem;
 			background: url('@{url}/top-bg1.png') no-repeat center;
@@ -699,9 +710,11 @@
 			opacity: 0;
 			animation-delay: 0.5s;
 			>p{
-				margin: 0.7rem 0 0 0.56rem;
+				width: 100%;
+				margin-top: 0.7rem;
 				font-size: 0.26rem;
 				color: #cc0037;
+				text-align: center;
 				i{
 					font-size: 0.29rem;
 				}
@@ -727,7 +740,7 @@
 		.u-string2{
 			position: absolute;
 			right:0;
-			top: 3.66rem;
+			top: 2.86rem;
 			width: 0.95rem;
 			height: 2.29rem;
 			background: url('@{url}/right-string.png') no-repeat center;
@@ -737,7 +750,7 @@
 		.u-screen2{
 			position: absolute;
 			right: 0.6rem;
-			top: 4.8rem;
+			top: 4rem;
 			width: 4.493rem;
 			height: 2.213rem;
 			line-height: 2.213rem;
@@ -755,7 +768,7 @@
 		.u-string3{
 			position: absolute;
 			left:0;
-			top: 7.86rem;
+			top: 7.06rem;
 			width: 0.95rem;
 			height: 2.29rem;
 			background: url('@{url}/left-string.png') no-repeat center;
@@ -765,7 +778,7 @@
 		.u-screen3{
 			position: absolute;
 			left: 0.4rem;
-			top: 7.1rem;
+			top: 6.3rem;
 			width: 9.173rem;
 			height: 5.84rem;
 			background: url('@{url}/invest-count2.png') no-repeat center;
@@ -809,21 +822,29 @@
 			width: 5.36rem;
 			height: 1.84rem;
 			line-height: 1.64rem;
-			margin: 10.9rem auto 0;
+			margin: 9.5rem auto 0;
 			text-align: center;
 			background: url('@{url}/u-btn2.png') no-repeat center;
 			background-size: 5.36rem 1.84rem;
 			font-size: 0.49rem;
 			color: #fff100;
+			animation-delay: 3.8s;
+			opacity: 0;
 		}
 		.u-lightbar{
 			position: absolute;
-			top:6.7rem;
+			top:5.9rem;
 			width: 0.11rem;
 			height: 0.95rem;
 			background: #b6b3b4;
 			opacity: 0;
 			animation-delay: 1.7s;
+		}
+		>p{
+			margin-top: 0.2rem;
+			font-size: 0.4rem;
+			color: #fff;
+			text-align: center;
 		}
 	}
 	.m-noinvest-page{
@@ -893,6 +914,32 @@
 			font-size: 0.4rem;
 			color: #fff;
 			text-align: center;
+		}
+	}
+}
+//针对iPhone4
+@media only screen
+and (min-device-width: 320px)
+and (max-device-width: 480px)
+and (-webkit-device-pixel-ratio: 2)
+and (device-aspect-ratio: 2/3) {
+	.two-year-memory{
+		.m-investprefer-page{
+			.u-prefer{
+				margin: 0.86rem auto 0;
+			}
+			.m-txt{
+				margin-top: 7.82rem;
+				.u-tips{
+					margin-top: 0.3rem;
+				}
+			}
+			.u-string{
+				top: 7.26rem;
+			}
+			.u-screen{
+				top: 3.5rem;
+			}
 		}
 	}
 }
@@ -1012,7 +1059,7 @@
 @keyframes neon1 {
   0% {
     color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(255, 149, 162), 0 0 280px #29121A;
+    text-shadow: 0 0 10px #000,0 0 280px #29121A;
   }
   80% {
     color: #fff;
@@ -1129,43 +1176,33 @@
 @keyframes padneon {
   0% {
   	opacity: 0;
-    // box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
   }
   80% {
   	opacity: 1;
-    // box-shadow: 0 0 10px 1px #eb2054,0 0 10px 1px #eb2054 inset;
   }
   81% {
   	opacity: 0;
-    // box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
   }
   94% {
   	opacity: 0;
-    // box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
   }
   95% {
   	opacity: 1;
-    // box-shadow: 0 0 10px 1px #eb2054,0 0 10px 1px #eb2054 inset;
   }
   96% {
   	opacity: 0;
-    // box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
   }
   97% {
   	opacity: 1;
-    // box-shadow: 0 0 10px 1px #eb2054,0 0 10px 1px #eb2054 inset;
   }
   98% {
   	opacity: 1;
-    // box-shadow: 0 0 10px 1px #eb2054,0 0 10px 1px #eb2054 inset;
   }
   99% {
   	opacity: 0;
-    // box-shadow: 0 0 10px 1px #222,0 0 10px 1px #222 inset;
   }
   100% {
   	opacity: 1;
-    // box-shadow: 0 0 10px 1px #eb2054,0 0 10px 1px #eb2054 inset;
   }
 }
 //棒发光
