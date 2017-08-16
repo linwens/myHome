@@ -37,16 +37,16 @@
 				animation-delay: 1s;
 			}
 			p:nth-child(3){
-				animation-delay: 2s;
+				animation-delay: 1.6s;
 			}
 			p:nth-child(4){
-				animation-delay: 3s;
+				animation-delay: 2.2s;
 			}
 			p:nth-child(5){
-				animation-delay: 4s;
+				animation-delay: 2.8s;
 			}
 			p:nth-child(6){
-				animation-delay: 5s;
+				animation-delay: 3.4s;
 			}
 		}
 		.u-btn-mask{
@@ -72,10 +72,10 @@
 			background-size: 4.48rem 1.853rem;
 			font-size: 0.6rem;
 			color: #fff;
-			animation-delay: 6s;
+			animation-delay: 4s;
 		}
 	}
-	.swiper-container {
+	.swiper-container{
 		width: 100%;
 		height: 100%;
 		margin: 0 auto;
@@ -86,60 +86,10 @@
 		width: 100%;
 		height: 100%;
 		background-size: 100% 100%;
-		// perspective:150;
-		// -webkit-perspective:150;
+		perspective: 200000px;
+		-webkit-perspective: 200000px;
 		perspective-origin: 50% 50%;
 		-webkit-perspective-origin: 50% 50%;
-		// .u-string{
-		// 	position: absolute;
-		// 	left:0;
-		// 	top: 30%;
-		// 	width: 10%;
-		// 	height: 3.3rem;
-		// 	background: #52F490;
-		// }
-		// .u-screen{
-		// 	position: absolute;
-		// 	left: 10%;
-		// 	top: 30%;
-		// 	width: 80%;
-		// 	height: 6rem;
-		// 	background: #1E87E5;
-		// 	transform-origin:0 50% 0;
-		// }
-		//测试背景小星球立体移入
-		.bg-dot{
-			position: relative;
-			width: 100%;
-			height: 100%;
-			// perspective:150;
-			// -webkit-perspective:150;
-			// perspective-origin: 50% 50%;
-			// -webkit-perspective-origin: 50% 50%;
-			transform: scale(0);
-			.u-dot{
-				position: absolute;
-				//transform:rotateY(-30deg);
-			}
-		}
-		//测试灯泡发光
-		.u-bulb{
-			width: 60%;
-			height: 200px;
-			margin: 100px auto;
-			border-collapse: 2px;
-			border-style: solid;
-			border-radius: 5px;
-			// box-shadow: 0 0 10px 1px #61E0EA,0 0 10px 1px #61E0EA inset;
-			transform: skew(-15deg,0);
-		}
-		//发光文字
-		.u-txt{
-			font-weight: bold;
-			font-size: 0.8rem;
-			color: #FA59AE;
-			text-shadow: 0 0 20px #FA59AE;
-		}
 		//荧光棒
 		.u-stickbox{
 			.u-stick{
@@ -185,11 +135,13 @@
 		.u-title{
 			position: absolute;
 			left: 50%;
-			top: 9.2%;
+			top: 9.5%;
 			width: 3.12rem;
 			margin-left: -1.56rem;
 			text-align: center;
 			font-size: 0.4rem;
+			color: #fff;
+			text-shadow: 0 0 10px #dc00a4;
 		}
 		.u-realname{
 			width: 2.4rem;
@@ -223,7 +175,7 @@
 			background: url('@{url}/has-invest.png') no-repeat center;
 			background-size: 9.17rem 7.44rem;
 			transform-origin: 8.6rem 50% 0;
-			transform: perspective(800) rotateY(-90deg);
+			transform: perspective(800px) rotateY(-90deg);
 		}
 		.m-summary-txt{
 			width: 90%;
@@ -262,15 +214,7 @@
 	.m-mostinvest-page{
 		position: relative;
 		background: url('@{url}/pagesbg.jpg') no-repeat center;
-		.u-bg-tinypic{
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background: url('@{url}/bg-tinypic.png') no-repeat center;
-			background-size: 100% 100%;
-		}
+		background-size: 100% 100%;
 		.m-txt{
 			width: 85%;
 			padding-left: 15%;
@@ -316,7 +260,8 @@
 			background: url('@{url}/invest-times.png') no-repeat center;
 			background-size: 9.17rem 7.44rem;
 			transform-origin: 0.6rem 50% 0;
-			transform: perspective(800) rotateY(90deg);
+			//transform: perspective(800px) rotateY(90deg);
+			transform:translate(-100%,0);
 		}
 		.u-totaltimes{
 			width: 5.33rem;
@@ -338,15 +283,7 @@
 	.m-investprefer-page{
 		position: relative;
 		background: url('@{url}/pagesbg.jpg') no-repeat center;
-		.u-bg-tinypic{
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background: url('@{url}/bg-tinypic.png') no-repeat center;
-			background-size: 100% 100%;
-		}
+		background-size: 100% 100%;
 		.u-prefer{
 			width: 4.8rem;
 			height: 1.27rem;
@@ -370,7 +307,7 @@
 		}
 		.m-txt{
 			width: 100%;
-			margin-top: 8.12rem;
+			margin-top: 7.72rem;
 			font-size: 0.373rem;
 			font-weight: bold;
 			color: #ff93aa;
@@ -392,7 +329,7 @@
 				animation-delay: 2.1s;
 			}
 			.u-tips{
-				margin-top: 1rem;
+				margin-top: 0.6rem;
 				text-align: center;
 				font-size: 0.31rem;
 				color: #fff;
@@ -413,13 +350,14 @@
 		.u-screen{
 			position: absolute;
 			left: 0.4rem;
-			top: 4rem;
+			top: 3.6rem;
 			width: 9.17rem;
 			height: 7.44rem;
 			background: url('@{url}/invest-count.png') no-repeat center;
 			background-size: 9.17rem 7.44rem;
 			transform-origin: 0.6rem 50% 0;
-			transform: perspective(800) rotateY(90deg);
+			//transform: perspective(800px) rotateY(90deg);
+			transform:translate(-100%,0);
 			.u-chart{
 				float: left;
 				width: 3.15rem;
@@ -453,15 +391,7 @@
 	.m-inviteaward-page{
 		position: relative;
 		background: url('@{url}/pagesbg.jpg') no-repeat center;
-		.u-bg-tinypic{
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background: url('@{url}/bg-tinypic.png') no-repeat center;
-			background-size: 100% 100%;
-		}
+		background-size: 100% 100%;
 		.m-txt{
 			width: 85%;
 			padding-left: 15%;
@@ -507,31 +437,24 @@
 			background: url('@{url}/has-invitation.png') no-repeat center;
 			background-size: 9.17rem 7.44rem;
 			transform-origin: 0.6rem 50% 0;
-			transform: perspective(800) rotateY(90deg);
+			//transform: perspective(800px) rotateY(90deg);
+			transform:translate(-100%,0);
 		}
 		.u-totalinvite{
 			width: 100%;
-			//line-height: 1.27rem;
 			margin: 8.67rem auto 0;
 			text-align: center;
 			font-size: 0.533rem;
-			color: #222;
-			// text-shadow: 0 0 10px #dc00a4;
+			color: #fff;
+			text-shadow: 0 0 10px #dc00a4;
 			animation-delay: 2.9s;
+			opacity: 0;
 		}
 	}
 	.m-mostearning-page{
 		position: relative;
 		background: url('@{url}/pagesbg.jpg') no-repeat center;
-		.u-bg-tinypic{
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background: url('@{url}/bg-tinypic.png') no-repeat center;
-			background-size: 100% 100%;
-		}
+		background-size: 100% 100%;
 		.u-totalearning{
 			width: 90%;
 			padding-left: 10%;
@@ -654,7 +577,7 @@
 		}
 		.u-lightbar{
 			position: absolute;
-			top:6.7rem;
+			top:6.66rem;
 			width: 0.11rem;
 			height: 0.95rem;
 			background: #b6b3b4;
@@ -665,15 +588,7 @@
 	.m-total-page{
 		position: relative;
 		background: url('@{url}/pagesbg.jpg') no-repeat center;
-		.u-bg-tinypic{
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background: url('@{url}/bg-tinypic.png') no-repeat center;
-			background-size: 100% 100%;
-		}
+		background-size: 100% 100%;
 		.u-total{
 			width: 7.6rem;
 			height: 1.27rem;
@@ -687,6 +602,8 @@
 			font-size: 0.533rem;
 			color: #fff;
 			text-shadow: 0 0 10px #dc00a4;
+			opacity: 0;
+			animation-delay: 3s;
 		}
 		.u-string1{
 			position: absolute;
@@ -819,6 +736,7 @@
 			}
 		}
 		.u-goActivity{
+			display: block;
 			width: 5.36rem;
 			height: 1.84rem;
 			line-height: 1.64rem;
@@ -833,7 +751,7 @@
 		}
 		.u-lightbar{
 			position: absolute;
-			top:5.9rem;
+			top:5.86rem;
 			width: 0.11rem;
 			height: 0.95rem;
 			background: #b6b3b4;
@@ -850,19 +768,11 @@
 	.m-noinvest-page{
 		position: relative;
 		background: url('@{url}/pagesbg.jpg') no-repeat center;
-		.u-bg-tinypic{
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background: url('@{url}/bg-tinypic.png') no-repeat center;
-			background-size: 100% 100%;
-		}
+		background-size: 100% 100%;
 		.m-txt{
 			width: 85%;
 			padding-left: 15%;
-			margin-top: 1.52rem;
+			margin-top: 1.02rem;
 			font-size: 0.51rem;
 			font-weight: bold;
 			color: #ff93aa;
@@ -870,7 +780,7 @@
 		.u-string{
 			position: absolute;
 			left:0;
-			top: 9.46rem;
+			top: 8.56rem;
 			width: 0.95rem;
 			height: 2.29rem;
 			background: url('@{url}/left-string.png') no-repeat center;
@@ -880,7 +790,7 @@
 		.u-screen{
 			position: absolute;
 			left: 0.4rem;
-			top: 5.8rem;
+			top: 4.9rem;
 			width: 9.17rem;
 			height: 7.44rem;
 			line-height: 0.8rem;
@@ -888,7 +798,7 @@
 			background-size: 9.17rem 7.44rem;
 			transform-origin: 0.6rem 50% 0;
 			text-align: center;
-			transform: perspective(800) rotateY(90deg);
+			transform: perspective(800px) rotateY(90deg);
 			p{
 				margin-top: 2.43rem;
 				font-size: 0.4rem;
@@ -899,10 +809,11 @@
 			}
 		}
 		.u-start-btn{
+			display: block;
 			width: 4.48rem;
 			height: 1.853rem;
 			line-height: 1.653rem;
-			margin: 9rem auto 0;
+			margin: 7.5rem auto 0;
 			text-align: center;
 			background: url('@{url}/u-btn1.png') no-repeat center;
 			background-size: 4.48rem 1.853rem;
@@ -910,7 +821,7 @@
 			color: #fff;
 		}
 		>p{
-			margin-top: 0.3rem;
+			margin-top: 0.2rem;
 			font-size: 0.4rem;
 			color: #fff;
 			text-align: center;
@@ -960,7 +871,7 @@ and (device-aspect-ratio: 2/3) {
 }
 //向下移入
 .down-show{
-	animation: down-show .6s linear both;
+	animation: down-show .4s linear both;
 }
 @keyframes down-show{
 	from{
@@ -994,6 +905,19 @@ and (device-aspect-ratio: 2/3) {
 		transform:translate(0,0);
 	}
 }
+.l2rslow{
+	animation: l2rslow 1s both;
+}
+@keyframes l2rslow{
+	from{
+		opacity: 0;
+		transform:translate(-50%,0);
+	}
+	to{
+		opacity: 1;
+		transform:translate(0,0);
+	}
+}
 .r2lslow{
 	animation: r2lslow .6s both;
 }
@@ -1012,10 +936,10 @@ and (device-aspect-ratio: 2/3) {
 }
 @keyframes flipInYonleft{
 	from{
-		transform: perspective(800) rotateY(90deg);
+		transform: perspective(800px) rotateY(90deg);
 	}
 	to{
-		transform: perspective(800) rotateY(0);
+		transform: perspective(800px) rotateY(0);
 	}
 }
 .flipInYonright{
@@ -1024,150 +948,11 @@ and (device-aspect-ratio: 2/3) {
 @keyframes flipInYonright{
 	from{
 
-		transform: perspective(800) rotateY(-90deg);
+		transform: perspective(800px) rotateY(-90deg);
 	}
 	to{
-		transform: perspective(800) rotateY(0);
+		transform: perspective(800px) rotateY(0);
 	}
-}
-.scale2show{
-	animation: scale2show .3s both;
-}
-@keyframes scale2show{
-	from{
-		transform: scale(0);
-	}
-	to{
-		transform: scale(1,1);
-	}
-}
-.flicker{
-	animation: flicker 3s 1s both;
-}
-@keyframes flicker{
-	from{
-		box-shadow: 0 0 10px 1px #fff,0 0 10px 1px #fff inset;
-	}
-	to{
-		box-shadow: 0 0 10px 1px #61E0EA,0 0 10px 1px #61E0EA inset;
-	}
-}
-.neon1{
-	animation: neon1 3s both;
-}
-//不带边框
-@keyframes neon1 {
-  0% {
-    color: #222;
-    text-shadow: 0 0 10px #000,0 0 280px #29121A;
-  }
-  80% {
-    color: #fff;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-  }
-  81% {
-    color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
-  }
-  94% {
-    color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
-  }
-  95% {
-    color: #fff;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-  }
-  96% {
-    color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
-  }
-  97% {
-    color: #fff;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-  }
-  98% {
-    color: #fff;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-  }
-  99% {
-    color: #222;
-    text-shadow: 0 0 10px #000, 1px 1px rgb(99, 74, 82), -2px 0px 4px #29121A;
-  }
-  100% {
-    color: #fff;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-  }
-}
-.neon2{
-	animation: neon2 2s both;
-}
-//霓虹效果带边框
-@keyframes neon2 {
-  0% {
-    color: #11162a;
-    border-color: #11162a;
-    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
-    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
-  }
-  80% {
-    color: #fff;
-    border-color: #f85b8e;
-    opacity: 1;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
-  }
-  81% {
-    color: #11162a;
-    border-color: #11162a;
-    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
-    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
-  }
-  94% {
-    color: #11162a;
-    border-color: #11162a;
-    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
-    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
-  }
-  95% {
-    color: #fff;
-    border-color: #f85b8e;
-    opacity: 1;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
-  }
-  96% {
-    color: #11162a;
-    border-color: #11162a;
-    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
-    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
-  }
-  97% {
-    color: #fff;
-    border-color: #f85b8e;
-    opacity: 1;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
-  }
-  98% {
-    color: #fff;
-    border-color: #f85b8e;
-    opacity: 1;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
-  }
-  99% {
-    color: #11162a;
-    border-color: #11162a;
-    text-shadow: 0 0 10px #000, 1px 1px #11162a, 0 0 280px #29121A;
-    box-shadow: 0 0 10px 1px #11162a,0 0 10px 1px #11162a inset;
-  }
-  100% {
-    color: #fff;
-    border-color: #f85b8e;
-    opacity: 1;
-    text-shadow: 0 0 10px #da18a2, 1px 1px rgb(218, 24, 162), 0 0 280px #E91E9F;
-    box-shadow: 0 0 10px 2px #bb0835,0 0 10px 2px #bb0835 inset;
-  }
 }
 //仿通电显示
 .padneon{
@@ -1233,6 +1018,7 @@ and (device-aspect-ratio: 2/3) {
 		transform: rotateZ(-45deg) translate(0,0);
 	}
 }
+
 //loading加载等待
 /*loading*/
 .u-loading {
@@ -1252,7 +1038,6 @@ and (device-aspect-ratio: 2/3) {
   left:50%;
   -webkit-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
-
 }
 .double-bounce1, .double-bounce2 {
   width: 100%;
@@ -1267,17 +1052,14 @@ and (device-aspect-ratio: 2/3) {
   -webkit-animation: bounce 2.0s infinite ease-in-out;
   animation: bounce 2.0s infinite ease-in-out;
 }
- 
 .double-bounce2 {
   -webkit-animation-delay: -1.0s;
   animation-delay: -1.0s;
 }
- 
 @-webkit-keyframes bounce {
   0%, 100% { -webkit-transform: scale(0.0) }
   50% { -webkit-transform: scale(1.0) }
 }
- 
 @keyframes bounce {
   0%, 100% {
     transform: scale(0.0);
