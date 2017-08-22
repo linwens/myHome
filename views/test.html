@@ -11,26 +11,61 @@
         height: 500px;
         margin: 0 auto;
         border:1px solid #000;
-        perspective: 100px;
-        perspective-origin: 50% 50%;
-        /*transform-style: preserve-3d;*/
+        /*perspective: 100px;
+        perspective-origin: 50% 50%;*/
+        /*transform-style: preserve-3d;
+        overflow: hidden;*/
     }
     .u-3dtransform{
         width: 200px;
         height: 200px;
         margin: 20px auto;
         background: #1E8BE6;
-        transform: rotateX(2deg);
-        -webkit-transform: rotateX(2deg); 
+        transform-origin: 100% 50% 0;
+        -webkit-animation-delay: .5s;
+        -o-animation-delay: .5s;
+        animation-delay: .5s;
+        /*transform: rotateX(2deg);
+        -webkit-transform: rotateX(2deg); */
         /*transform: perspective(1000px) rotateY(50deg);
         -webkit-transform: perspective(1000px) rotateY(50deg); */
         /*-webkit-transform-origin: 10px 50% 0; 
         transform-origin: 10px 50% 0;*/
     }
+    .u-3dtransform2{
+        width: 200px;
+        height: 200px;
+        margin: 20px auto;
+        background: #1E8BE6;
+        transform-origin: 100% 50% 0;
+        -webkit-animation-delay: 1.5s;
+        -o-animation-delay: 1.5s;
+        animation-delay: 1.5s;
+        /*transform: rotateX(2deg);
+        -webkit-transform: rotateX(2deg); */
+        /*transform: perspective(1000px) rotateY(50deg);
+        -webkit-transform: perspective(1000px) rotateY(50deg); */
+        /*-webkit-transform-origin: 10px 50% 0; 
+        transform-origin: 10px 50% 0;*/
+    }
+    .flipInYonleft{
+        animation-name: flipInYonleft;
+        animation-duration: 10s;
+        animation-fill-mode: both;
+    }
+    @keyframes flipInYonleft{
+        from{
+            transform: perspective(800px) rotateY(-90deg);
+        }
+        to{
+            transform: perspective(800px) rotateY(0);
+        }
+    }
 </style>
 <body>
     <div class="m-box">
-        <div class="u-3dtransform"></div>
+        <div class="u-3dtransform flipInYonleft"></div>
+        <div class="u-3dtransform2 flipInYonleft"></div>
     </div>
 </body>
 </html>

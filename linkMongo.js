@@ -1,7 +1,7 @@
 //链接数据库
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27018/linwensmongo');
+mongoose.connect('mongodb://localhost:27018/linwensmongo');//mongodbTest
 
 mongoose.connection.on('error', function cb(){
 	console.log("connection error");
