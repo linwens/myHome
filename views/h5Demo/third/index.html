@@ -462,6 +462,9 @@
 				</div>
 			</div>
 		</div>
+		<div class="u-arrowDown">
+			<img src="/h5static/third/img/btn-arrow.png" alt="" class="arrowAmt">
+		</div>
 		<div class="sharePop" style="display:none;"></div><!-- 微信分享 -->
 	</div>
 	<script>
@@ -498,10 +501,10 @@
 			otherImgtrans.each(function(){
 				$(this).removeAttr("style");
 			});
-			if(mySwiper.activeIndex==3){//最后一张，隐藏箭头
-				$('.arrowDown').hide();
+			if(mySwiper.activeIndex==15){//最后一张，隐藏箭头
+				$('.u-arrowDown').hide();
 			}else{
-				$('.arrowDown').show();
+				$('.u-arrowDown').show();
 			}
 			mySwiper.enableTouchControl();
 		};

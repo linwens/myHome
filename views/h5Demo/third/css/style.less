@@ -1236,3 +1236,44 @@ and (device-aspect-ratio: 2/3) {
     -webkit-transform: scale(1.0);
   }
 }
+//下拉箭头
+.u-arrowDown{
+	position: fixed;
+	bottom: 0.5rem;
+	width: 100%;
+	text-align: center;
+	z-index: 99;
+	>img{
+		width: 0.6rem;
+		height: 0.36rem;
+	}
+}
+.u-arrowDown .arrowAmt{
+	-webkit-animation-name: arrowAmt;
+	animation-name: arrowAmt;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-timing-function: ease-in-out;
+	-webkit-animation-iteration-count: infinite;
+	animation-iteration-count: infinite;
+	-webkit-animation-delay: 1.5s;
+	animation-delay: 1.5s
+}
+@keyframes arrowAmt{
+	from {
+		-webkit-transform: translate(0,-35%);
+		transform: translate(0,-35%);
+		opacity: 0.6;
+	}
+	80%{
+		-webkit-transform: translate(0,10%);
+		transform: translate(0,10%);
+		opacity: 1;
+	}
+	to {
+		-webkit-transform: translate(0,-35%);
+		transform: translate(0,-35%);
+		opacity: 0.6;
+	}
+}
