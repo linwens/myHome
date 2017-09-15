@@ -32,12 +32,12 @@
 					<img src="/h5static/third/img/p2_title.png" alt="" class="u-title animated" data-amt="fadeInRight">
 					<div class="f-ofh">
 						<p class="animated" data-amt="zoomIn">平台已安全运行</p>
-						<span class="u-day animated f-delay06" data-amt="zoomIn">791</span>
+						<span class="u-day animated f-delay06" data-amt="zoomIn" id="time_d">791</span>
 					</div>
 					<div class="m-time f-ofh">
-						<span class="u-hour animated f-delay12" data-amt="zoomIn">16</span>
-						<span class="u-minute animated f-delay15" data-amt="zoomIn">25</span>
-						<span class="u-second animated f-delay18" data-amt="zoomIn">34</span>
+						<span class="u-hour animated f-delay12" data-amt="zoomIn" id="time_h">16</span>
+						<span class="u-minute animated f-delay15" data-amt="zoomIn" id="time_m">25</span>
+						<span class="u-second animated f-delay18" data-amt="zoomIn" id="time_s">34</span>
 					</div>
 				</div>
 				<div class="swiper-slide m-page3 m-slide">
@@ -508,7 +508,48 @@
 			}
 			mySwiper.enableTouchControl();
 		};
-
+		//计时时钟
+		function show_time(){
+		  	var time_start = new Date("2015/5/1 00:00:00").getTime();
+		  	var time_end = new Date().getTime();
+		  	var time_distance = time_end - time_start;
+		  	if(time_distance > 0){
+		    	var int_day = Math.floor(time_distance/86400000)
+		    	time_distance -= int_day * 86400000;
+		    	var int_hour = Math.floor(time_distance/3600000)
+		    	time_distance -= int_hour * 3600000;
+		    	var int_minute = Math.floor(time_distance/60000)
+		    	time_distance -= int_minute * 60000;
+		    	var int_second = Math.floor(time_distance/1000)
+		  	if(int_day < 10){
+		    	int_day = "0" + int_day;
+			}
+		  	var s_int_day = String(int_day)
+		  	var _int_day ='';
+		  	for(i = 0; i < s_int_day.length; i++){
+		    	_int_day += s_int_day[i];
+		  	}
+			if(int_hour < 10){
+				int_hour = "0" + int_hour;
+			}
+			if(int_minute < 10){
+				int_minute = "0" + int_minute;
+			}
+			if(int_second < 10){
+				int_second = "0" + int_second;
+			}
+			$("#time_d").html(_int_day);
+			$("#time_h").html(int_hour);
+			$("#time_m").html(int_minute);
+			$("#time_s").html(int_second);
+				setTimeout("show_time()",1000);
+			}else{
+				$("#time_d").html('00');
+				$("#time_h").html('00');
+				$("#time_m").html('00');
+				$("#time_s").html('00');
+			}
+		}
 		window.onload = function(){//确保图片加载完成
 			//channelVisit();
 			$('.u-loading').remove();
