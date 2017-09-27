@@ -143,10 +143,10 @@ exports.Getimglist = function(req, res, next){
     var schWord = req.query.schWord?req.query.schWord:null,
         curPage = req.query.curPage?parseInt(req.query.curPage):1,
         pageSize = req.query.pageSize?parseInt(req.query.pageSize):10,
-        findParams = {};//筛选
+        findParams = {'type':'galleryImg'};//只筛选摄影作品 add by lws 2017.9.28
     if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
         var schRegExp = new RegExp(schWord,"i");
-        findParams = {"$or":[{'title':schRegExp}, {'desc':schRegExp}]};
+        findParams = {"$or":[{'title':schRegExp}, {'desc':schRegExp}, {'type':'galleryImg'}]};
     }
     Img.count(findParams,function(err, total){//为了获取总条数
         Img.find(findParams).skip((curPage-1)*pageSize).limit(pageSize).sort({time:-1}).exec(function(err, data){
@@ -180,7 +180,7 @@ exports.Getimglist = function(req, res, next){
                         dataList:data,
                         page:curPage,
                         page_size:pageSize,
-                        total:total,
+                        total:0,
                         res_msg:'没有更多！'
                     })
                     return
