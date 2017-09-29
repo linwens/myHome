@@ -3,69 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>测试各种代码</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery.js"></script>
+    <style>
+        .m-login, .m-regist{
+            width: 20%;
+            margin: 50px auto;
+        }
+        .m-regist{}
+        .u-ipt{
+            display: block;
+            width: 200px;
+            height: 30px;
+            margin: 20px 0;
+        }
+        .u-btn{
+            display: block;
+            width: 200px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
+            background: #2985DF;
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
 </head>
-<style>
-    .m-box{
-        position: relative;
-        width: 500px;
-        height: 500px;
-        margin: 0 auto;
-        border:1px solid #000;
-        /*perspective: 100px;
-        perspective-origin: 50% 50%;*/
-        /*transform-style: preserve-3d;
-        overflow: hidden;*/
-    }
-    .u-3dtransform{
-        width: 200px;
-        height: 200px;
-        margin: 20px auto;
-        background: #1E8BE6;
-        transform-origin: 100% 50% 0;
-        -webkit-animation-delay: .5s;
-        -o-animation-delay: .5s;
-        animation-delay: .5s;
-        /*transform: rotateX(2deg);
-        -webkit-transform: rotateX(2deg); */
-        /*transform: perspective(1000px) rotateY(50deg);
-        -webkit-transform: perspective(1000px) rotateY(50deg); */
-        /*-webkit-transform-origin: 10px 50% 0; 
-        transform-origin: 10px 50% 0;*/
-    }
-    .u-3dtransform2{
-        width: 200px;
-        height: 200px;
-        margin: 20px auto;
-        background: #1E8BE6;
-        transform-origin: 100% 50% 0;
-        -webkit-animation-delay: 1.5s;
-        -o-animation-delay: 1.5s;
-        animation-delay: 1.5s;
-        /*transform: rotateX(2deg);
-        -webkit-transform: rotateX(2deg); */
-        /*transform: perspective(1000px) rotateY(50deg);
-        -webkit-transform: perspective(1000px) rotateY(50deg); */
-        /*-webkit-transform-origin: 10px 50% 0; 
-        transform-origin: 10px 50% 0;*/
-    }
-    .flipInYonleft{
-        animation-name: flipInYonleft;
-        animation-duration: 10s;
-        animation-fill-mode: both;
-    }
-    @keyframes flipInYonleft{
-        from{
-            transform: perspective(800px) rotateY(-90deg);
-        }
-        to{
-            transform: perspective(800px) rotateY(0);
-        }
-    }
-</style>
 <body>
-    <div class="m-box">
-        <div class="u-3dtransform flipInYonleft"></div>
-        <div class="u-3dtransform2 flipInYonleft"></div>
+    <div class="m-login">
+        <p>登录</p>
+        <input type="text" class="u-ipt u-username" placeholder="用户名">
+        <input type="password" class="u-ipt u-password" placeholder="密码">
+        <a href="javascript:;" class="u-btn u-submit" id="doLogin">登录</a>
     </div>
+    <div class="m-regist">
+        <p>注册</p>
+        <input type="text" class="u-ipt u-username" placeholder="用户名">
+        <input type="password" class="u-ipt u-password" placeholder="密码">
+        <input type="password" class="u-ipt u-password" placeholder="确认密码">
+        <a href="javascript:;" class="u-btn u-submit" id="doRegist">注册</a>
+    </div>
+    <script>
+        
+    </script>
 </body>
 </html>
