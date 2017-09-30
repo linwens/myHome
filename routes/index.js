@@ -3,6 +3,9 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+	if(req&&req.signedCookies){
+		console.log('signedCookie:',req.signedCookies);//{ uid: '594cd242f4b9451d70f9924c' },而不是签名后的字符串
+	}
   res.render('index', { title: 'Express' });
 });
 //H5宣传
@@ -29,6 +32,7 @@ router.get('/admin', function(req, res, next) {
 });
 //测试页面
 router.get('/test', function(req, res, next) {
-  res.render('test', { title: '测试' });
+  	res.render('test', { title: '测试' });
+  	
 });
 module.exports = router;

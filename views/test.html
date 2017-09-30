@@ -33,19 +33,41 @@
 <body>
     <div class="m-login">
         <p>登录</p>
-        <input type="text" class="u-ipt u-username" placeholder="用户名">
-        <input type="password" class="u-ipt u-password" placeholder="密码">
+        <input type="text" class="u-ipt u-username" placeholder="用户名" id="username">
+        <input type="password" class="u-ipt u-password" placeholder="密码" id="password">
         <a href="javascript:;" class="u-btn u-submit" id="doLogin">登录</a>
     </div>
-    <div class="m-regist">
+    <!-- <div class="m-regist">
         <p>注册</p>
         <input type="text" class="u-ipt u-username" placeholder="用户名">
         <input type="password" class="u-ipt u-password" placeholder="密码">
         <input type="password" class="u-ipt u-password" placeholder="确认密码">
         <a href="javascript:;" class="u-btn u-submit" id="doRegist">注册</a>
-    </div>
+    </div> -->
     <script>
-        
+        $(function(){
+            var loginBtn = $('#doLogin');
+            loginBtn.on('click',doLogin);
+        });
+        function doLogin(){
+            var username = $('#username').val(),
+                password = $('#password').val();
+            $.ajax({
+                url:"/ajax/login",
+                type:"POST",
+                datatype:"JSON",
+                data:{username:username, password:password},
+                success:function(rslt){
+                    console.log(rslt);
+                    if(rslt.res_code==1){
+                        window.location.href = '/';
+                    }
+                    
+                },
+                error:function(){}
+            })
+
+        }
     </script>
 </body>
 </html>

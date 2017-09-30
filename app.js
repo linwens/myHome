@@ -22,7 +22,7 @@ app.set('view engine', 'html');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('signMycookies'));//处理每一个请求的cookie,里面的字符串用于cookie签名
 app.use(express.static(path.join(__dirname, 'public')));//主页面获取静态资源路径
 app.use('/h5static', express.static(path.join(__dirname, 'views/h5Demo')));//H5宣传页获取静态资源路径
 

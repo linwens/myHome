@@ -2,8 +2,8 @@ var User = require('./mongoose').User;
 //登录
 exports.Login = function(req, res, next){
 	var users = new User({//针对vue本地调试，改为body=>query
-        username: decodeURI(req.query.username),
-        password: decodeURI(req.query.password)
+        username: decodeURI(req.body.username),
+        password: decodeURI(req.body.password)
     });
     User.find({username:users.username}, function(err, data){
         if(err){
@@ -12,6 +12,9 @@ exports.Login = function(req, res, next){
             if(data&&data!=''){
                 console.log('find:', data);
                 if(data[0].password == users.password){//验证密码
+                    //设置cookie
+                    res.cookie('uid', data[0]._id, {maxAge:60*1000, httpOnly: false, secure: false, signed: true});
+
                     res.json({
                         res_code:'1',
                         res_msg:'登录成功',
