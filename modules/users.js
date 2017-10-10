@@ -13,8 +13,10 @@ exports.Login = function(req, res, next){
                 console.log('find:', data);
                 if(data[0].password == users.password){//验证密码
                     //设置cookie
-                    res.cookie('uid', data[0]._id, {maxAge:60*1000, httpOnly: false, secure: false, signed: true});
-
+                    //res.cookie('uid', data[0]._id, {maxAge:60*1000, httpOnly: false, secure: false, signed: true});
+                    //设置session,存入用户名及登录密码
+                    req.session.users = users;
+                    console.log(req.session);
                     res.json({
                         res_code:'1',
                         res_msg:'登录成功',

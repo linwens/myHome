@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session'); 
 
 var db = require('./linkMongo');
 var index = require('./routes/index');
@@ -22,7 +23,22 @@ app.set('view engine', 'html');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser('signLwscookies'));//处理每一个请求的cookie,里面的字符串用于cookie签名
+//app.use(cookieParser('signLwscookies'));//处理每一个请求的cookie,里面的字符串用于cookie签名
+
+//session设置
+app.use(cookieParser());
+app.use(session({
+	name:'xuxuweb',
+	secret:'signSessionid',
+	saveUninitialized: false,
+	resave: true,
+	cookie:{
+	    secure: false,
+	    httpOnly: true,
+	    maxAge: null
+	}
+}))
+
 app.use(express.static(path.join(__dirname, 'public')));//主页面获取静态资源路径
 app.use('/h5static', express.static(path.join(__dirname, 'views/h5Demo')));//H5宣传页获取静态资源路径
 
