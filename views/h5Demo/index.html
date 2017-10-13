@@ -8,9 +8,12 @@
 	<script src='/javascripts/jquery.js'></script>
 	<script src="/javascripts/underscore-min.js"></script>
 	<script src="/javascripts/jquery-qrcode.min.js"></script>
+	<script src="/javascripts/dotAndline.min.js"></script>
 </head>
 <body>
-	<div class="h5-hd" style="background-image: url();"></div>
+	<div class="h5-hd" style="background-image: url();">
+		<canvas id="J_dotLine" style="background-color: #F7F7F7;"></canvas>
+	</div>
 	<div class="h5-bd">
 		<ul class="h5-list" id="J_worksList"></ul>
 		<!-- <div class="h5-page"></div> -->
@@ -58,6 +61,17 @@
 			$(window).resize(function(){
 				changeSize(oh)
 			})
+			//banner增加粒子线条效果
+			var cw = $('.h5-hd').width();
+			var ch = $('.h5-hd').height();
+			var dotline = new Dotline({
+				dom:'J_dotLine',//画布id
+				cw:cw,//画布宽
+				ch:ch,//画布高
+				ds:200,//点的个数
+				r:0.5,//圆点半径
+				dis:80//触发连线的距离
+			}).start()
 		});
 		//获取列表数据
 		function getList(cur, sch){
