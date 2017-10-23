@@ -27,19 +27,28 @@ exports.Subarticle = function(req, res, next){
 	    tags:tags,//req.query.tags?Object.values(req.query.tags):[]//遍历对象生成数组
 	    aid:uuid.v1(),
 	    brief:req.query.brief,
+	    operate:req.query.operate,
 	    pv:0
 	});
 	//判断是修改还是新加
 	if(req.query.option&&req.query.option=='modify'){//文章修改返回原markdown
-		Articles.update({aid:req.query.aid}, {title: req.query.title, text: req.query.text, brief: req.query.brief, tags:tags},function(err, data){
+		Articles.update({aid:req.query.aid}, {title: req.query.title, text: req.query.text, brief: req.query.brief, tags:tags, operate:req.query.operate},function(err, data){
 			if(err){
 			    console.log(err);
 			}else{
 			    console.log('Updated:', data);
-			    res.json({
-			        res_code:1,
-			        res_msg:'文章修改成功'
-			    })
+			    if(req.query.operate==='save'){
+			    	res.json({
+			    	    res_code:1,
+			    	    res_msg:'文章修改成功未发布'
+			    	})
+			    }else{
+			    	res.json({
+			    	    res_code:1,
+			    	    res_msg:'文章修改成功并发布'
+			    	})
+			    }
+			    
 			}
 		})
 	}else{
@@ -48,10 +57,18 @@ exports.Subarticle = function(req, res, next){
 		        console.log(err);
 		    }else{
 		        console.log('Saved:', data);
-		        res.json({
-		            res_code:1,
-		            res_msg:'文章保存成功'
-		        })
+		        if(req.query.operate==='save'){
+		        	res.json({
+		        	    res_code:1,
+		        	    res_msg:'文章保存成功未发布'
+		        	})
+		        }else{
+		        	res.json({
+		        	    res_code:1,
+		        	    res_msg:'文章保存成功并发布'
+		        	})
+		        }
+		        
 		    }
 		})
 	}
@@ -129,11 +146,21 @@ exports.Getlist = function(req, res, next){
 	var schWord = req.query.schWord?req.query.schWord:null,
 		curPage = req.query.curPage?parseInt(req.query.curPage):1,
 		pageSize = req.query.pageSize?parseInt(req.query.pageSize):5,
+		from = req.query.from?req.query.from:null,
 		findParams = {};//筛选
-	if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
-		var schRegExp = new RegExp(schWord,"i");
-		findParams = {"$or":[{'title':schRegExp}, {'text':schRegExp}, {'brief':schRegExp}, {'tags':schRegExp}]};
+	if(from!=='front'){//前台网站展示文章只展示发布的
+		if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
+			var schRegExp = new RegExp(schWord,"i");
+			findParams = {"$or":[{'title':schRegExp}, {'text':schRegExp}, {'brief':schRegExp}, {'tags':schRegExp}]};
+		}
+	}else{
+		findParams = {operate:'publish'};
+		if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
+			var schRegExp = new RegExp(schWord,"i");
+			findParams = {"$or":[{'title':schRegExp}, {'text':schRegExp}, {'brief':schRegExp}, {'tags':schRegExp}], operate:'publish'};
+		}
 	}
+	
 	Articles.count(findParams,function(err, total){//为了获取总条数
 		Articles.find(findParams).skip((curPage-1)*pageSize).limit(pageSize).sort({time:-1}).exec(function(err, data){
 			//console.log('data===='+data);
@@ -154,6 +181,7 @@ exports.Getlist = function(req, res, next){
 		    			obj.brief = data[i].brief?data[i].brief:'';
 		    			obj.title = data[i].title;
 		    			obj.tags = data[i].tags;
+		    			obj.operate = data[i].operate;
 		    			dataList.push(obj);
 		    		}
 		    		res.json({

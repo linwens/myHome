@@ -92,7 +92,7 @@
 				url:'/ajax/getList',
 				type:'GET',
 				dataType:'JSON',
-				data:{curPage:cur,schWord:sch},
+				data:{curPage:cur,schWord:sch,from:'front'},
 				success:function(rslt){
 					if(rslt.res_code==2){
 						//alert(rslt.res_msg);

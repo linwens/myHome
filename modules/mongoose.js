@@ -14,6 +14,7 @@ var articlesSchema = new Schema({
     tags:Array,
     aid:String,
     brief:String,
+    operate:String,
     pv:Number
 });
 exports.Articles = mongoose.model('articles', articlesSchema);
