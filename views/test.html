@@ -6,67 +6,30 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="/javascripts/jquery.js"></script>
     <style>
-        .m-login, .m-regist{
-            width: 20%;
-            margin: 50px auto;
-        }
-        .m-regist{}
-        .u-ipt{
-            display: block;
-            width: 200px;
-            height: 30px;
-            margin: 20px 0;
-        }
-        .u-btn{
-            display: block;
-            width: 200px;
-            height: 30px;
-            line-height: 30px;
-            border-radius: 5px;
-            background: #2985DF;
-            font-size: 18px;
-            color: #fff;
-            text-align: center;
-        }
+        
     </style>
 </head>
 <body>
-    <div class="m-login">
-        <p>登录</p>
-        <input type="text" class="u-ipt u-username" placeholder="用户名" id="username">
-        <input type="password" class="u-ipt u-password" placeholder="密码" id="password">
-        <a href="javascript:;" class="u-btn u-submit" id="doLogin">登录</a>
+    <div class="wcNotice">
+        <button id="J_doNotice">调用通知接口</button>
     </div>
-    <!-- <div class="m-regist">
-        <p>注册</p>
-        <input type="text" class="u-ipt u-username" placeholder="用户名">
-        <input type="password" class="u-ipt u-password" placeholder="密码">
-        <input type="password" class="u-ipt u-password" placeholder="确认密码">
-        <a href="javascript:;" class="u-btn u-submit" id="doRegist">注册</a>
-    </div> -->
     <script>
+        //测试微信模板消息推送
         $(function(){
-            var loginBtn = $('#doLogin');
-            loginBtn.on('click',doLogin);
+            var noticeBtn = $('#J_doNotice');
+            noticeBtn.on('click',doNotice);
         });
-        function doLogin(){
-            var username = $('#username').val(),
-                password = $('#password').val();
+        function doNotice(){
             $.ajax({
-                url:"/ajax/login",
+                url:"/wechat/notice",
                 type:"POST",
                 datatype:"JSON",
-                data:{username:username, password:password},
+                data:{openid:'', type:2, first:'测试'},
                 success:function(rslt){
                     console.log(rslt);
-                    if(rslt.res_code==1){
-                        window.location.href = '/';
-                    }
-                    
                 },
                 error:function(){}
             })
-
         }
     </script>
 </body>
