@@ -1,7 +1,7 @@
 module.exports = {
 	'list':[
-		'onMenuShareTimeline',
-		'onMenuShareAppMessage',
+		//'onMenuShareTimeline',
+		//'onMenuShareAppMessage',
 		'chooseImage',
 		'previewImage',
 		'uploadImage',
