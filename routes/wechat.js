@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router(); 
 var wechat = require('wechat');//引入微信模块
 var config = require('./config');//配置参数
-var wcNotice = require('./sendMsg').wcNotice;//发送模板通知模块
 var wcSet = require('./set');//公众号基本配置
+var wcNotice = require('./sendMsg').wcNotice;//发送模板通知模块
+var wcjsSDK = require('./jssdk').wcjsSDK;//链接微信js-sdk
 
 router.use(express.query());
 //发送模板通知接口
@@ -39,6 +40,23 @@ router.post('/notice',function(req, res, next){
 			    })
 			}
 		});
+	});
+});
+//调用微信js-sdk
+router.post('/getjssdk', function(req, res, next){
+	wcjsSDK(req.body, function(err, rslt){
+		if(err){
+		    res.json({
+		        code:1,
+		        msg:'sdk信息获取失败'
+		    })
+		}else{
+		    res.json({
+		        code:0,
+		        msg:'sdk信息已发出',
+		        data:rslt
+		    })
+		}
 	});
 });
 router.use('/',wechat(config, function(req, res, next){
