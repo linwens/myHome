@@ -69,20 +69,16 @@ router.use('/',wechat(config, function(req, res, next){
 	//自动回复文字消息模板
 	if(wcMsg.MsgType==='text'){
 		switch(wcMsg.Content){
-			case '1': res.reply('看照片');
-				break;
-			case '2': res.reply('看文章');
-				break;
-			case '3': res.reply([
+			case 'flappyBird': res.reply([
   						{
-						    title: '这是一个小游戏',
+						    title: 'JS版flappyBird',
 						    description: '这个游戏是用js写的',
-						    picurl: 'https://www.shy-u.xyz/h5static/third/img/data/intro.jpg',
-						    url: 'https://www.shy-u.xyz/h5Demo/third'
+						    picurl: 'https://www.shy-u.xyz/h5static/flappyBird/img/data/intro.jpg',
+						    url: 'https://www.shy-u.xyz/h5Demo/flappyBird'
   						}
 					]);
 				break;
-			default: res.reply('亲爱的，发送1 可以查看照片;</br>发送2 可以查看文章;</br>发送3 可以玩游戏;');
+			default: res.reply('hi~,发送[flappyBird]可以玩flappyBird小游戏');
 		}
 	}
 }));
