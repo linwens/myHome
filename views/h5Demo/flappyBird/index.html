@@ -3,9 +3,55 @@
 <head>
 	<meta charset="UTF-8">
 	<title>flappyBird</title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel="stylesheet" href="/h5static/flappyBird/css/style.css">
 </head>
-<body>
-	哈哈哈，代码还没开始写~~
-	<script src="./js/flappybird.js"></script>
+<body style="width:100%;height:100%;">
+	<canvas id="J_flappybird"></canvas>
+	<script src="/h5static/flappyBird/js/flappybird.js"></script>
+	<script>
+		//首先建一块画布
+		var screenWidth = document.body.clientWidth;
+		var screenHeight = document.body.clientHeight;
+		var canvas = document.getElementById('J_flappybird');//canvas对象
+		//让画布全屏
+		canvas.width = screenWidth;
+		canvas.height = screenHeight;
+		var ctx = canvas.getContext('2d');//上下文对象
+
+		//存放图片
+		var images = [
+			{name: 'bg_day', src:'/h5static/flappyBird/img/bg_day.png'},
+			{name: 'land', src:'/h5static/flappyBird/img/land.png'},
+			{name: 'bird', src:'/h5static/flappyBird/img/bird1_0.png'}
+		];
+		/*!!问题一：刷新canvas填充的图片会不全*/
+		//绘制背景
+		var imgBg_day = new Image();
+		imgBg_day.src = images[0].src;
+		imgBg_day.onload = function(){//** 一定要让img加载完再放到canvas里
+			ctx.drawImage(imgBg_day, 0, 0, screenWidth, screenHeight);
+		};
+		//绘制地面
+		var imgLand = new Image();
+		imgLand.src = images[1].src;
+		imgLand.onload = function(){//** 一定要让img加载完再放到canvas里
+			ctx.drawImage(imgLand, 0, screenHeight-300, screenWidth, 300);
+		};
+		//绘制小鸟
+		var imgBird = new Image();
+		imgBird.src = images[2].src;
+		imgBird.onload = function(){//** 一定要让img加载完再放到canvas里
+			ctx.drawImage(imgBird, (screenWidth/2)-72, (screenHeight/2)-72, 144, 144);//尺寸不可以写死
+		};
+		//绘制移动的地面
+
+		//绘制管道
+
+		//
+
+		/*辅助函数*/
+		//辨别触屏还是PC
+	</script>
 </body>
 </html>
