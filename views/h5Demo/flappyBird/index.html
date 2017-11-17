@@ -8,12 +8,18 @@
 </head>
 <body style="width:100%;height:100%;">
 	<canvas id="J_flappybird"></canvas>
+	<!-- <canvas id="J_land" style="display: none;"></canvas> --><!-- 如果不隐藏掉，嵌套里有一张画布，嵌套外又有一张画布 -->
 	<script src="/h5static/flappyBird/js/flappybird.js"></script>
 	<script>
 		//首先建一块画布
 		var screenWidth = document.body.clientWidth;
 		var screenHeight = document.body.clientHeight;
 		var canvas = document.getElementById('J_flappybird');//canvas对象
+
+		//requestAnimationFrame控制canvas动画
+		var RAF = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+		            window.setTimeout(callback, 1000 / 60);
+		        };
 		//让画布全屏
 		canvas.width = screenWidth;
 		canvas.height = screenHeight;
@@ -25,26 +31,92 @@
 			{name: 'land', src:'/h5static/flappyBird/img/land.png'},
 			{name: 'bird', src:'/h5static/flappyBird/img/bird1_0.png'}
 		];
+		//主动画函数
+		window.onload = function(){
+			
+			run();
+		}
+		
+		function run(){
+		};
+		//绘图可以整合到一个函数里
 		/*!!问题一：刷新canvas填充的图片会不全*/
 		//绘制背景
-		var imgBg_day = new Image();
-		imgBg_day.src = images[0].src;
-		imgBg_day.onload = function(){//** 一定要让img加载完再放到canvas里
-			ctx.drawImage(imgBg_day, 0, 0, screenWidth, screenHeight);
+		var Sky = function(src,ctx,initX,speed,count){
+			var _self = this;
+			this.img = new Image();
+			this.img.src = src;
+			this.ctx = ctx;//总画布
+			this.speed = speed;//地面移动速度
+			this.x = initX;//起始位置
+			this.count = count;
+			this.img.onload = function(){
+				_self.draw();
+			};
+			this.animate = function(){
+				_self.update();
+				RAF(_self.animate);
+			};
+			this.animate();
 		};
+		Sky.prototype.draw = function(){
+			for(var i =0;i<this.count;i++){
+				this.ctx.drawImage(this.img, this.x+screenWidth*i, 0, screenWidth, screenHeight);//宽高度写活
+			}
+		};
+		Sky.prototype.update = function(){
+			this.x -=this.speed;
+			if(this.x <-screenWidth){//宽度写活
+				this.x = 0;
+			}
+			this.draw();
+		};
+		var sky=new Sky(images[0].src,ctx,0,2,2);//画背景天空
 		//绘制地面
-		var imgLand = new Image();
-		imgLand.src = images[1].src;
-		imgLand.onload = function(){//** 一定要让img加载完再放到canvas里
-			ctx.drawImage(imgLand, 0, screenHeight-300, screenWidth, 300);
+		/**
+		 *思路：drawImage多个图片，并列放到canvas里(类似于轮播图)，通过设置排列图片的起始位置、速度speed来控制canvas内的img移动，移动超过一个图片宽的距离以后起始位置变为0，形成一个无缝滚动的效果。
+		**/
+		var Land = function(src,ctx,initX,speed,count){
+			var _self = this;
+			this.img = new Image();
+			this.img.src = src;
+			this.ctx = ctx;//总画布
+			this.speed = speed;//地面移动速度
+			this.x = initX;//起始位置
+			this.count = count;
+			this.img.onload = function(){
+				_self.draw();
+			};
+			this.animate = function(){
+				_self.update();
+				RAF(_self.animate);
+			};
+			this.animate();
 		};
+		Land.prototype.draw = function(){
+			for(var i =0;i<this.count;i++){
+				this.ctx.drawImage(this.img, this.x+336*i, screenHeight-300, 336, 300);
+			}
+		};
+		Land.prototype.update = function(){
+			this.x -=this.speed;
+			if(this.x <-336){
+				this.x = 0;
+			}
+			this.draw();
+		};
+		var land=new Land(images[1].src,ctx,0,5,4);//画地面
 		//绘制小鸟
+		/**
+		 *思路：小鸟会被背景和地面绘图遮住，是不是可以独立一个canvas
+		 *
+		**/
 		var imgBird = new Image();
 		imgBird.src = images[2].src;
 		imgBird.onload = function(){//** 一定要让img加载完再放到canvas里
+			console.log(imgBird);
 			ctx.drawImage(imgBird, (screenWidth/2)-72, (screenHeight/2)-72, 144, 144);//尺寸不可以写死
 		};
-		//绘制移动的地面
 
 		//绘制管道
 
@@ -52,6 +124,8 @@
 
 		/*辅助函数*/
 		//辨别触屏还是PC
+
+
 	</script>
 </body>
 </html>
