@@ -29,14 +29,35 @@
 		var images = [
 			{name: 'bg_day', src:'/h5static/flappyBird/img/bg_day.png'},
 			{name: 'land', src:'/h5static/flappyBird/img/land.png'},
-			{name: 'bird', src:'/h5static/flappyBird/img/bird1_0.png'}
+			{name: 'bird0', src:'/h5static/flappyBird/img/bird1_0.png'},
+			{name: 'bird1', src:'/h5static/flappyBird/img/bird1_1.png'},
+			{name: 'bird2', src:'/h5static/flappyBird/img/bird1_2.png'},
+			{name: 'pipe1', src:'/h5static/flappyBird/img/pipe_down.png'},
+			{name: 'pipe2', src:'/h5static/flappyBird/img/pipe_up.png'}
 		];
 		//主动画函数
+		//控制requestAnimationFrame频率。教程：https://www.cnblogs.com/kenkofox/p/3849067.html
+		var fps = 8;//越小越慢
+		var now;
+		var then = Date.now();
+		var interval = 1000/fps;
+		var delta;
 		window.onload = function(){
-			
+			var sky=new Sky(images[0].src,ctx,0,2,2);//画背景天空
+			var land=new Land(images[1].src,ctx,0,5,4);//画地面
+			var bird = new Bird([images[2].src,images[3].src,images[4].src],ctx,0.8);
+			//点击让小鸟跳跃
+			document.onkeydown = function(e){
+				if(e.keyCode===32){
+					bird.fly(4);
+				}
+			}
+			// canvas.addEventListener('click',function(e){
+				
+			// 	bird.fly(2);
+			// })
 			run();
-		}
-		
+		};
 		function run(){
 		};
 		//绘图可以整合到一个函数里
@@ -71,7 +92,7 @@
 			}
 			this.draw();
 		};
-		var sky=new Sky(images[0].src,ctx,0,2,2);//画背景天空
+		//var sky=new Sky(images[0].src,ctx,0,2,2);//画背景天空
 		//绘制地面
 		/**
 		 *思路：drawImage多个图片，并列放到canvas里(类似于轮播图)，通过设置排列图片的起始位置、速度speed来控制canvas内的img移动，移动超过一个图片宽的距离以后起始位置变为0，形成一个无缝滚动的效果。
@@ -105,21 +126,113 @@
 			}
 			this.draw();
 		};
-		var land=new Land(images[1].src,ctx,0,5,4);//画地面
+		// var land=new Land(images[1].src,ctx,0,5,4);//画地面
 		//绘制小鸟
 		/**
-		 *思路：小鸟会被背景和地面绘图遮住，是不是可以独立一个canvas
-		 *
+		 *思路：小鸟可以扇翅膀，定一个初始值this.x，随着RAF，逐渐增加，到一个临界值的时候修改图片，设置三个临界值(0,rate.rate*2);到第三个临界值，this.x归零。
+		 *问题：小鸟动起来的是会有叠影（解决：试试雪碧图，通过drawimage参数绘图）
 		**/
-		var imgBird = new Image();
-		imgBird.src = images[2].src;
-		imgBird.onload = function(){//** 一定要让img加载完再放到canvas里
-			console.log(imgBird);
-			ctx.drawImage(imgBird, (screenWidth/2)-72, (screenHeight/2)-72, 144, 144);//尺寸不可以写死
+		
+		var Bird = function(srcArr,ctx,rate){
+			var _self = this;
+			this.img = new Image();
+			this.srcArr = srcArr;
+			this.img.src = this.srcArr[0];
+			this.img.onload = function(){
+				_self.draw(0);
+			};
+			this.ctx = ctx;
+			this.wing = 0;//小鸟煽动翅膀计时
+			this.rate = rate;//翅膀扑腾临界值，理解为速度,越小越快
+			this.upSpeed = 0;//小鸟跳跃初始速度值，用于控制鸟跳跃
+			this.grav = 0;//垂直下落的速度，重力加速度，初始为0 ;
+			this.y = (screenHeight/2)-72;//小鸟初始垂直位置
+			this.animate = function(){
+				_self.fly();
+				RAF(_self.animate);
+			};
+			// this.animate = function(){
+			// 　　now = Date.now();
+			// 　　delta = now - then;
+			// 　　if (delta > interval) {
+			// 　　　　then = now - (delta % interval);
+			// 　　　　_self.fly();
+			// 　　}
+			// 	RAF(_self.animate);
+			// }
+			this.animate();
 		};
-
+		Bird.prototype.draw = function(){
+			this.ctx.drawImage(this.img, (screenWidth/2)-72, this.y, 144, 144);
+		};
+		Bird.prototype.fly = function(speed){
+			this.wing -=0.1;
+			if(this.wing>-this.rate){
+				this.img.src = this.srcArr[0];
+				this.draw();
+			}else if(this.wing>-this.rate*2){
+				this.img.src = this.srcArr[1];
+				this.draw();
+			}else{
+				this.img.src = this.srcArr[2];
+				this.draw();
+				this.wing = 0;
+			}
+			//小鸟垂直运动
+			
+			if(speed&&speed>0){
+				this.upSpeed = speed;
+			}
+			
+			if(this.upSpeed){
+				this.y -= this.upSpeed*4;//控制弹一次的跨度，越大跳越高
+				this.upSpeed -=0.2;//速度衰减速度     
+			}else{
+				this.y += this.grav*1.2;
+			}
+			this.draw();
+		};
+		//小鸟点击上跳，不点自动掉落
+		/**
+		 *效果：初始的时候一直在一个位置飞，第一次点击后有了重力加速度开始自由落体，点击一次上跳一次，上跳玩开始自由落体。掉落到地面后alert();
+		 *思路:小鸟只做上下运动(使用drawImage的参数确定小鸟上下位置)。对应两个速度，一个是重力加速度向下固定值，点击的那一下给一个速度向上，小鸟就往上动，然后速度逐渐衰减到重力速度，然后继续依据重力速度移动
+		**/
+		// var bird = new Bird([images[2].src,images[3].src,images[4].src],ctx,0.8);
+		
 		//绘制管道
-
+		var Pipe = function(src,ctx,initX,speed,count){
+			var _self = this;
+			this.img = new Image();
+			this.img.src = src[0];
+			this.ctx = ctx;//总画布
+			this.speed = speed;//地面移动速度
+			this.x = initX;//起始位置
+			this.count = count;
+			this.img.onload = function(){
+				_self.draw();
+			};
+			this.animate = function(){
+				_self.update();
+				RAF(_self.animate);
+			};
+			this.animate();
+		};
+		Pipe.prototype.draw = function(){
+			// for(var i=0;i<this.src.length;i++){
+			// 	this.img.src = this.src[i];
+			// 	this.ctx.drawImage(this.img, this.x+52, 100*i,52,320);
+			// }
+			//this.img.src = this.src[0];
+			this.ctx.drawImage(this.img, this.x+52, 100,52,320);
+		};
+		Pipe.prototype.update = function(){
+			this.x -=this.speed;
+			if(this.x <-screenWidth/4){//宽度写活
+				this.x = 0;
+			}
+			this.draw();
+		};
+		var pipe = new Pipe([images[5].src,images[6].src],ctx,0,2,2);
 		//
 
 		/*辅助函数*/
