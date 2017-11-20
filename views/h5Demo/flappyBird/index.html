@@ -11,6 +11,7 @@
 	<!-- <canvas id="J_land" style="display: none;"></canvas> --><!-- 如果不隐藏掉，嵌套里有一张画布，嵌套外又有一张画布 -->
 	<script src="/h5static/flappyBird/js/flappybird.js"></script>
 	<script>
+		//基础：context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);除了第一个，2-5参数是在原img上设置，后四个是在canvas上设置
 		//首先建一块画布
 		var screenWidth = document.body.clientWidth;
 		var screenHeight = document.body.clientHeight;
@@ -43,11 +44,17 @@
 		var interval = 1000/fps;
 		var delta;
 		window.onload = function(){
+			//new的顺序决定了哪个图在上层
 			var sky=new Sky(images[0].src,ctx,0,2,2);//画背景天空
+			//绘制管道
+			var pipe1 = new Pipe([images[5].src,images[6].src],ctx,screenWidth,2, 500, 200);
+			var pipe2 = new Pipe([images[5].src,images[6].src],ctx,screenWidth*1.8,2, 500, 0);
+			var pipe3 = new Pipe([images[5].src,images[6].src],ctx,screenWidth*2.6,2, 500, -400);
+
 			var land=new Land(images[1].src,ctx,0,5,4);//画地面
-			var bird = new Bird([images[2].src,images[3].src,images[4].src],ctx,0.8);
+			var bird = new Bird([images[2].src,images[3].src,images[4].src],ctx,0.8);//画小鸟
 			//点击让小鸟跳跃
-			document.onkeydown = function(e){
+			document.onkeydown = function(e){//问题：键盘事件好像只能绑定在document上？
 				if(e.keyCode===32){
 					bird.fly(4);
 				}
@@ -200,15 +207,21 @@
 		// var bird = new Bird([images[2].src,images[3].src,images[4].src],ctx,0.8);
 		
 		//绘制管道
-		var Pipe = function(src,ctx,initX,speed,count){
+		/**
+		 *思路：通过传入随机数this.y来设置上下管道间空隙的位置，同时设置上下管道间隔可配this.gap。
+		 *
+		**/
+		var Pipe = function(src,ctx,initX,speed, gap, initY){
 			var _self = this;
-			this.img = new Image();
-			this.img.src = src[0];
+			this.imgUp = new Image();
+			this.imgDown = new Image();
+			this.src = src;
 			this.ctx = ctx;//总画布
 			this.speed = speed;//地面移动速度
-			this.x = initX;//起始位置
-			this.count = count;
-			this.img.onload = function(){
+			this.x = initX;//起始位置X轴
+			this.y = initY;//起始位置Y轴,前几个管道初始值要设置下
+			this.gap = gap;
+			this.imgUp.onload = function(){
 				_self.draw();
 			};
 			this.animate = function(){
@@ -217,24 +230,39 @@
 			};
 			this.animate();
 		};
+		/**
+		 *优化OK：在原图片上截取的时候要等比例换算
+		**/
 		Pipe.prototype.draw = function(){
-			// for(var i=0;i<this.src.length;i++){
-			// 	this.img.src = this.src[i];
-			// 	this.ctx.drawImage(this.img, this.x+52, 100*i,52,320);
-			// }
-			//this.img.src = this.src[0];
-			this.ctx.drawImage(this.img, this.x+52, 100,52,320);
+			var skyH = screenHeight-300;//管道占用的高度不算land,
+			var scale = 52/(screenWidth*0.2);//52是原图宽度，screenWidth*0.2为当前设备使用的屏幕宽度
+			this.imgUp.src = this.src[0];
+			this.imgDown.src = this.src[1];
+			this.ctx.drawImage(this.imgUp, 0, 320, 52, -scale*((skyH-this.gap)/2+this.y),this.x,0,screenWidth*0.2,(skyH-this.gap)/2+this.y);
+			this.ctx.drawImage(this.imgDown, 0, 0, 52, scale*((skyH-this.gap)/2-this.y),this.x,skyH-((skyH-this.gap)/2-this.y),screenWidth*0.2,(skyH-this.gap)/2-this.y);
 		};
 		Pipe.prototype.update = function(){
 			this.x -=this.speed;
-			if(this.x <-screenWidth/4){//宽度写活
-				this.x = 0;
+			if(this.x <-(screenWidth*0.7)){//宽度写活
+				this.x = screenWidth*1.7;
+				var negate = [1, -1, 0],
+				    direction = negate[Math.floor(Math.random() * negate.length)];
+				this.y = parseInt(direction*Math.random()*300)+50;//当管道回到初始值，同时修改上下开口的位置
 			}
 			this.draw();
 		};
-		var pipe = new Pipe([images[5].src,images[6].src],ctx,0,2,2);
-		//
-
+		//规则判断
+		/**
+		 *思路：碰到管子挂，飞出画面挂，碰到地面挂
+		 *
+		 *
+		 *
+		 *
+		 *
+		**/
+		function isGameover(){
+			
+		}
 		/*辅助函数*/
 		//辨别触屏还是PC
 
