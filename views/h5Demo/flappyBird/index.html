@@ -43,6 +43,9 @@
 		var then = Date.now();
 		var interval = 1000/fps;
 		var delta;
+		var birdX=(screenWidth/2)-72;//小鸟X坐标
+		var birdY;//小鸟Y坐标
+		var gameover;//全局变量，判断游戏是否结束
 		window.onload = function(){
 			//new的顺序决定了哪个图在上层
 			var sky=new Sky(images[0].src,ctx,0,2,2);//画背景天空
@@ -59,13 +62,19 @@
 					bird.fly(4);
 				}
 			}
-			// canvas.addEventListener('click',function(e){
-				
-			// 	bird.fly(2);
-			// })
 			run();
 		};
+		//主函数
 		function run(){
+			//画天空
+
+			//画地面
+
+			//画水管
+
+			//画鸟
+			//动画执行
+			RAF(run);
 		};
 		//绘图可以整合到一个函数里
 		/*!!问题一：刷新canvas填充的图片会不全*/
@@ -139,7 +148,6 @@
 		 *思路：小鸟可以扇翅膀，定一个初始值this.x，随着RAF，逐渐增加，到一个临界值的时候修改图片，设置三个临界值(0,rate.rate*2);到第三个临界值，this.x归零。
 		 *问题：小鸟动起来的是会有叠影（解决：试试雪碧图，通过drawimage参数绘图）
 		**/
-		
 		var Bird = function(srcArr,ctx,rate){
 			var _self = this;
 			this.img = new Image();
@@ -170,7 +178,9 @@
 			this.animate();
 		};
 		Bird.prototype.draw = function(){
+			birdY = this.y;
 			this.ctx.drawImage(this.img, (screenWidth/2)-72, this.y, 144, 144);
+			//console.log('birdY=='+birdY);
 		};
 		Bird.prototype.fly = function(speed){
 			this.wing -=0.1;
@@ -236,10 +246,20 @@
 		Pipe.prototype.draw = function(){
 			var skyH = screenHeight-300;//管道占用的高度不算land,
 			var scale = 52/(screenWidth*0.2);//52是原图宽度，screenWidth*0.2为当前设备使用的屏幕宽度
+			var leftup = [this.x, (skyH-this.gap)/2+this.y],
+				leftdown =  [this.x, skyH-((skyH-this.gap)/2-this.y)],
+				rightup = [this.x+screenWidth*0.2,(skyH-this.gap)/2+this.y],
+				rightdown = [this.x+screenWidth*0.2,skyH-((skyH-this.gap)/2-this.y)];
 			this.imgUp.src = this.src[0];
 			this.imgDown.src = this.src[1];
 			this.ctx.drawImage(this.imgUp, 0, 320, 52, -scale*((skyH-this.gap)/2+this.y),this.x,0,screenWidth*0.2,(skyH-this.gap)/2+this.y);
 			this.ctx.drawImage(this.imgDown, 0, 0, 52, scale*((skyH-this.gap)/2-this.y),this.x,skyH-((skyH-this.gap)/2-this.y),screenWidth*0.2,(skyH-this.gap)/2-this.y);
+			//碰到管子的逻辑
+			if(((birdX+144)>leftup[0]&&(birdX+144)<rightup[0])&&(!(birdY>leftup[1]&&(birdY+144)<leftdown[1]))){
+				gameover = true;
+			}else{
+				gameover = false;
+			}
 		};
 		Pipe.prototype.update = function(){
 			this.x -=this.speed;
@@ -260,8 +280,12 @@
 		 *
 		 *
 		**/
-		function isGameover(){
-			
+		function isGameover(bx,by,dx,dy){//小鸟坐标和死亡区域坐标
+			if(by<0){
+				console.log('上天，over！');
+			}else if(by>=screenHeight){
+				console.log('碰到地，over!');
+			}
 		}
 		/*辅助函数*/
 		//辨别触屏还是PC
