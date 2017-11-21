@@ -34,71 +34,47 @@
 			{name: 'bird1', src:'/h5static/flappyBird/img/bird1_1.png'},
 			{name: 'bird2', src:'/h5static/flappyBird/img/bird1_2.png'},
 			{name: 'pipe1', src:'/h5static/flappyBird/img/pipe_down.png'},
-			{name: 'pipe2', src:'/h5static/flappyBird/img/pipe_up.png'}
+			{name: 'pipe2', src:'/h5static/flappyBird/img/pipe_up.png'},
+			{name: 'springs', src:'/h5static/flappyBird/img/atlas.png'}
 		];
 		//主动画函数
 		//控制requestAnimationFrame频率。教程：https://www.cnblogs.com/kenkofox/p/3849067.html
+		var scales = 288/screenWidth;//等比例
 		var fps = 8;//越小越慢
 		var now;
 		var then = Date.now();
 		var interval = 1000/fps;
 		var delta;
-		var birdX=(screenWidth/2)-72;//小鸟X坐标
-		var birdY;//小鸟Y坐标
-		var gameover;//全局变量，判断游戏是否结束
+		var gameover = false;//全局变量，判断游戏是否结束
+		var animate = '';
+		var canScore = false;//是否开始计分
+		var birdscore = 0;//得分
+		var isStarted = false;//是否开始
 		window.onload = function(){
 			//new的顺序决定了哪个图在上层
-			var sky=new Sky(images[0].src,ctx,0,2,2);//画背景天空
-			//绘制管道
-			var pipe1 = new Pipe([images[5].src,images[6].src],ctx,screenWidth,2, 500, 200);
-			var pipe2 = new Pipe([images[5].src,images[6].src],ctx,screenWidth*1.8,2, 500, 0);
-			var pipe3 = new Pipe([images[5].src,images[6].src],ctx,screenWidth*2.6,2, 500, -400);
-
-			var land=new Land(images[1].src,ctx,0,5,4);//画地面
-			var bird = new Bird([images[2].src,images[3].src,images[4].src],ctx,0.8);//画小鸟
 			//点击让小鸟跳跃
 			document.onkeydown = function(e){//问题：键盘事件好像只能绑定在document上？
 				if(e.keyCode===32){
+					isStarted = true;
 					bird.fly(4);
 				}
 			}
-			run();
+			//run();
 		};
-		//主函数
-		function run(){
-			//画天空
-
-			//画地面
-
-			//画水管
-
-			//画鸟
-			//动画执行
-			RAF(run);
-		};
-		//绘图可以整合到一个函数里
-		/*!!问题一：刷新canvas填充的图片会不全*/
-		//绘制背景
-		var Sky = function(src,ctx,initX,speed,count){
+		
+		
+		//画天空类
+		var Sky = function(img,ctx,initX,speed,count){
 			var _self = this;
-			this.img = new Image();
-			this.img.src = src;
+			this.img = img;
 			this.ctx = ctx;//总画布
 			this.speed = speed;//地面移动速度
 			this.x = initX;//起始位置
 			this.count = count;
-			this.img.onload = function(){
-				_self.draw();
-			};
-			this.animate = function(){
-				_self.update();
-				RAF(_self.animate);
-			};
-			this.animate();
 		};
 		Sky.prototype.draw = function(){
 			for(var i =0;i<this.count;i++){
-				this.ctx.drawImage(this.img, this.x+screenWidth*i, 0, screenWidth, screenHeight);//宽高度写活
+				this.ctx.drawImage(this.img, 0, 0, scales*screenWidth, scales*screenHeight, this.x+screenWidth*i, 0, screenWidth, screenHeight);
 			}
 		};
 		Sky.prototype.update = function(){
@@ -108,95 +84,95 @@
 			}
 			this.draw();
 		};
-		//var sky=new Sky(images[0].src,ctx,0,2,2);//画背景天空
-		//绘制地面
-		/**
-		 *思路：drawImage多个图片，并列放到canvas里(类似于轮播图)，通过设置排列图片的起始位置、速度speed来控制canvas内的img移动，移动超过一个图片宽的距离以后起始位置变为0，形成一个无缝滚动的效果。
-		**/
-		var Land = function(src,ctx,initX,speed,count){
+		//画地面类
+		var Land = function(img,ctx,initX,speed,count){
 			var _self = this;
-			this.img = new Image();
-			this.img.src = src;
+			this.img = img;
 			this.ctx = ctx;//总画布
 			this.speed = speed;//地面移动速度
 			this.x = initX;//起始位置
 			this.count = count;
-			this.img.onload = function(){
-				_self.draw();
-			};
-			this.animate = function(){
-				_self.update();
-				RAF(_self.animate);
-			};
-			this.animate();
 		};
 		Land.prototype.draw = function(){
 			for(var i =0;i<this.count;i++){
-				this.ctx.drawImage(this.img, this.x+336*i, screenHeight-300, 336, 300);
+				this.ctx.drawImage(this.img, 584, 0, 336, 112, this.x+(335/scales)*i, screenHeight-112/scales, 336/scales, 112/scales);
 			}
 		};
 		Land.prototype.update = function(){
 			this.x -=this.speed;
-			if(this.x <-336){
+			if(this.x <-336/scales){
 				this.x = 0;
 			}
 			this.draw();
 		};
-		// var land=new Land(images[1].src,ctx,0,5,4);//画地面
-		//绘制小鸟
-		/**
-		 *思路：小鸟可以扇翅膀，定一个初始值this.x，随着RAF，逐渐增加，到一个临界值的时候修改图片，设置三个临界值(0,rate.rate*2);到第三个临界值，this.x归零。
-		 *问题：小鸟动起来的是会有叠影（解决：试试雪碧图，通过drawimage参数绘图）
-		**/
-		var Bird = function(srcArr,ctx,rate){
+		//画水管类
+		var Pipe = function(img,ctx,initX,speed, gap, initY){
 			var _self = this;
-			this.img = new Image();
-			this.srcArr = srcArr;
-			this.img.src = this.srcArr[0];
-			this.img.onload = function(){
-				_self.draw(0);
-			};
+			this.img = img;
+			this.ctx = ctx;//总画布
+			this.speed = speed;//地面移动速度
+			this.x = initX;//起始位置X轴
+			this.y = initY;//起始位置Y轴,前几个管道初始值要设置下
+			this.gap = gap;
+			this.pipeTop = ((screenHeight-112/scales)-this.gap)/2+this.y;
+			this.pipeBottom = (screenHeight-112/scales)-(((screenHeight-112/scales)-this.gap)/2-this.y);
+		};
+		Pipe.prototype.draw = function(){
+			var skyH = screenHeight-112/scales;//管道占用的高度不算land,
+
+			this.ctx.drawImage(this.img, 112, 966, 52, -scales*((skyH-this.gap)/2+this.y),this.x,0,screenWidth*0.2,(skyH-this.gap)/2+this.y);
+			this.ctx.drawImage(this.img, 168, 646, 52, scales*((skyH-this.gap)/2-this.y),this.x,skyH-((skyH-this.gap)/2-this.y),screenWidth*0.2,(skyH-this.gap)/2-this.y);
+		};
+		Pipe.prototype.update = function(){
+			this.x -=this.speed;
+			if(this.x <-(screenWidth*0.7)){//宽度写活
+				this.x = screenWidth*1.7;
+				var negate = [1, -1, 0],
+				    direction = negate[Math.floor(Math.random() * negate.length)];
+				this.y = parseInt(direction*Math.random()*300)+50;//当管道回到初始值，同时修改上下开口的位置
+				this.pipeTop = ((screenHeight-112/scales)-this.gap)/2+this.y;
+				this.pipeBottom = (screenHeight-112/scales)-(((screenHeight-112/scales)-this.gap)/2-this.y);
+			}
+			this.draw();
+		};
+		//画小鸟类
+		var Bird = function(img,ctx,rate,initY){
+			var _self = this;
+			this.img = img;
 			this.ctx = ctx;
 			this.wing = 0;//小鸟煽动翅膀计时
 			this.rate = rate;//翅膀扑腾临界值，理解为速度,越小越快
 			this.upSpeed = 0;//小鸟跳跃初始速度值，用于控制鸟跳跃
 			this.grav = 0;//垂直下落的速度，重力加速度，初始为0 ;
-			this.y = (screenHeight/2)-72;//小鸟初始垂直位置
-			this.animate = function(){
-				_self.fly();
-				RAF(_self.animate);
-			};
-			// this.animate = function(){
-			// 　　now = Date.now();
-			// 　　delta = now - then;
-			// 　　if (delta > interval) {
-			// 　　　　then = now - (delta % interval);
-			// 　　　　_self.fly();
-			// 　　}
-			// 	RAF(_self.animate);
-			// }
-			this.animate();
+			this.x = (screenWidth/2)-(34/scales/2);//小鸟初始水平位置
+			this.y = initY;//小鸟初始垂直位置
 		};
-		Bird.prototype.draw = function(){
-			birdY = this.y;
-			this.ctx.drawImage(this.img, (screenWidth/2)-72, this.y, 144, 144);
-			//console.log('birdY=='+birdY);
+		Bird.prototype.draw = function(index){
+			this.ctx.save();
+			this.ctx.translate(this.x+17/scales, this.y+12/scales);//修改canvas的原点到鸟的中心
+			this.ctx.rotate(-(Math.PI/6)*this.upSpeed/8);//圆周率*值=角度大小
+			this.ctx.translate(-(this.x+17/scales), -(this.y+12/scales));//修改canvas的原点回到最初
+			switch(index){
+				case 0:this.ctx.drawImage(this.img, 6, 982, 34, 24, this.x, this.y, 34/scales, 24/scales);
+					break;
+				case 1:this.ctx.drawImage(this.img, 62, 982, 34, 24, this.x, this.y, 34/scales, 24/scales);
+					break;
+				case 2:this.ctx.drawImage(this.img, 118, 982, 34, 24, this.x, this.y, 34/scales, 24/scales);
+					break;
+			}
+			this.ctx.restore();
 		};
 		Bird.prototype.fly = function(speed){
 			this.wing -=0.1;
 			if(this.wing>-this.rate){
-				this.img.src = this.srcArr[0];
-				this.draw();
+				this.draw(0);
 			}else if(this.wing>-this.rate*2){
-				this.img.src = this.srcArr[1];
-				this.draw();
+				this.draw(1);
 			}else{
-				this.img.src = this.srcArr[2];
-				this.draw();
+				this.draw(2);
 				this.wing = 0;
 			}
 			//小鸟垂直运动
-			
 			if(speed&&speed>0){
 				this.upSpeed = speed;
 			}
@@ -209,7 +185,128 @@
 			}
 			this.draw();
 		};
-		//小鸟点击上跳，不点自动掉落
+		//画记分牌
+		var Blank = function(img, ctx){
+			this.img = img;
+			this.ctx = ctx;
+			//this.score = 0;
+		};
+		Blank.prototype.draw = function(score){
+			this.ctx.drawImage(this.img, 6, 518, 226, 114, (screenWidth-226/scales)/2,(screenHeight-114/scales)/2,226/scales, 114/scales);
+			this.ctx.drawImage(this.img, 224, 906, 44, 44, (screenWidth-226/scales)/2+25/scales,(screenHeight-114/scales)/2+43/scales,44/scales, 44/scales);//分数区域显示不同奖牌
+			this.ctx.font="bold 60px HarlemNights";          
+			//设置绘制分数的字体   
+			this.ctx.fillStyle="#FFFFFF";
+		    //从坐标点(50,50)开始绘制文字
+		    this.ctx.fillText(score, (screenWidth-226/scales)/2+175/scales,(screenHeight-114/scales)/2+50/scales);
+		};
+		//游戏初始
+		/**
+		 *思路：新做个canvas用来放这些
+		**/
+		var Init = function(img, ctx){
+			this.img = img;
+			this.ctx = ctx;
+		};
+		Init.prototype.begin = function(){
+			this.ctx.drawImage(this.img, 584, 182, 114, 98, (screenWidth-114/scales)/2, (screenHeight-98/scales)/2, 114/scales, 98/scales)
+		};
+		Init.prototype.restart = function(){};
+		Init.prototype.close = function(){};
+		Init.prototype.update = function(){
+			this.begin();
+		};
+		//画开始画面
+		var imgAtlas = new Image();
+			imgAtlas.src =  images[7].src;
+		
+		var sky=new Sky(imgAtlas,ctx,0,2,2);
+		var land=new Land(imgAtlas,ctx,0,5,4);
+		var pipe1 = new Pipe(imgAtlas,ctx,screenWidth,2, 500, 200);
+		var pipe2 = new Pipe(imgAtlas,ctx,screenWidth*1.8,2, 500, 0);
+		var pipe3 = new Pipe(imgAtlas,ctx,screenWidth*2.6,2, 500, -400);
+		var bird = new Bird(imgAtlas,ctx,0.8,(screenHeight-98/scales)/2);
+		var blank = new Blank(imgAtlas,ctx);//记分牌
+		var init = new Init(imgAtlas,ctx);//初始化
+		imgAtlas.onload = run;//图片加载完开始动画
+		//主动画函数
+		function run(){
+			var pipes = [pipe1, pipe2, pipe3];
+			pipes.forEach(function(item, index){//遍历进入画面的水管开始规则校验
+				if((item.x+(screenWidth*0.2))>bird.x&&item.x<screenWidth){
+					isGameover(bird, item);
+				}
+				//计分
+				if(item.x<(bird.x+34/scales)&&(item.x+(screenWidth*0.2))>bird.x){
+					canScore = true;
+				}
+				if(bird.x>(item.x+(screenWidth*0.2))&&item.x>0&&canScore){
+					canScore = false;
+					birdscore++;
+					console.log(birdscore);
+				};
+			});
+
+			if(gameover){
+				setTimeout(function(){
+					blank.draw(birdscore);
+				},100);
+				return;
+			}else{
+				//判断游戏是否开始
+				if(!isStarted){
+					//画天空
+					sky.update();
+					//画地面
+					land.update();
+					//画鸟
+					bird.fly();
+				}else{
+					//画天空
+					sky.update();
+					//画地面
+					land.update();
+					//画水管
+					pipe1.update();
+					pipe2.update();
+					pipe3.update();
+					//画鸟
+					bird.fly();
+				}
+				//动画执行
+				animate = RAF(run);//获取动画RAF的id
+			}
+		};
+		//规则判断
+		/**
+		 *思路：碰到管子挂，飞出画面挂，碰到地面挂
+		**/
+		function isGameover(obj1,obj2){//小鸟坐标和死亡区域坐标
+			if(((obj1.x+34/scales)>obj2.x)&&(obj1.x<(obj2.x+screenWidth*0.2))&&(obj1.y<obj2.pipeTop||(obj1.y+24/scales)>obj2.pipeBottom)){
+				gameover = true;
+			}else if(obj1.y<0||(obj1.y+24/scales)>screenHeight){
+				gameover = true;
+			}
+		};
+		//拼接数字图片
+		function imgNumber(val){
+			var num = val.toString();
+			console.log(num);
+			var arr = num.split('');
+			console.log(arr);
+
+		}
+		imgNumber(0);
+		//绘制背景
+		//绘制地面
+		/**
+		 *思路：drawImage多个图片，并列放到canvas里(类似于轮播图)，通过设置排列图片的起始位置、速度speed来控制canvas内的img移动，移动超过一个图片宽的距离以后起始位置变为0，形成一个无缝滚动的效果。
+		**/
+		//绘制小鸟
+		/**
+		 *思路：小鸟可以扇翅膀，定一个初始值this.x，随着RAF，逐渐增加，到一个临界值的时候修改图片，设置三个临界值(0,rate.rate*2);到第三个临界值，this.x归零。
+		 *问题：小鸟动起来的是会有叠影（解决：试试雪碧图，通过drawimage参数绘图）
+		**/
 		/**
 		 *效果：初始的时候一直在一个位置飞，第一次点击后有了重力加速度开始自由落体，点击一次上跳一次，上跳玩开始自由落体。掉落到地面后alert();
 		 *思路:小鸟只做上下运动(使用drawImage的参数确定小鸟上下位置)。对应两个速度，一个是重力加速度向下固定值，点击的那一下给一个速度向上，小鸟就往上动，然后速度逐渐衰减到重力速度，然后继续依据重力速度移动
@@ -221,72 +318,6 @@
 		 *思路：通过传入随机数this.y来设置上下管道间空隙的位置，同时设置上下管道间隔可配this.gap。
 		 *
 		**/
-		var Pipe = function(src,ctx,initX,speed, gap, initY){
-			var _self = this;
-			this.imgUp = new Image();
-			this.imgDown = new Image();
-			this.src = src;
-			this.ctx = ctx;//总画布
-			this.speed = speed;//地面移动速度
-			this.x = initX;//起始位置X轴
-			this.y = initY;//起始位置Y轴,前几个管道初始值要设置下
-			this.gap = gap;
-			this.imgUp.onload = function(){
-				_self.draw();
-			};
-			this.animate = function(){
-				_self.update();
-				RAF(_self.animate);
-			};
-			this.animate();
-		};
-		/**
-		 *优化OK：在原图片上截取的时候要等比例换算
-		**/
-		Pipe.prototype.draw = function(){
-			var skyH = screenHeight-300;//管道占用的高度不算land,
-			var scale = 52/(screenWidth*0.2);//52是原图宽度，screenWidth*0.2为当前设备使用的屏幕宽度
-			var leftup = [this.x, (skyH-this.gap)/2+this.y],
-				leftdown =  [this.x, skyH-((skyH-this.gap)/2-this.y)],
-				rightup = [this.x+screenWidth*0.2,(skyH-this.gap)/2+this.y],
-				rightdown = [this.x+screenWidth*0.2,skyH-((skyH-this.gap)/2-this.y)];
-			this.imgUp.src = this.src[0];
-			this.imgDown.src = this.src[1];
-			this.ctx.drawImage(this.imgUp, 0, 320, 52, -scale*((skyH-this.gap)/2+this.y),this.x,0,screenWidth*0.2,(skyH-this.gap)/2+this.y);
-			this.ctx.drawImage(this.imgDown, 0, 0, 52, scale*((skyH-this.gap)/2-this.y),this.x,skyH-((skyH-this.gap)/2-this.y),screenWidth*0.2,(skyH-this.gap)/2-this.y);
-			//碰到管子的逻辑
-			if(((birdX+144)>leftup[0]&&(birdX+144)<rightup[0])&&(!(birdY>leftup[1]&&(birdY+144)<leftdown[1]))){
-				gameover = true;
-			}else{
-				gameover = false;
-			}
-		};
-		Pipe.prototype.update = function(){
-			this.x -=this.speed;
-			if(this.x <-(screenWidth*0.7)){//宽度写活
-				this.x = screenWidth*1.7;
-				var negate = [1, -1, 0],
-				    direction = negate[Math.floor(Math.random() * negate.length)];
-				this.y = parseInt(direction*Math.random()*300)+50;//当管道回到初始值，同时修改上下开口的位置
-			}
-			this.draw();
-		};
-		//规则判断
-		/**
-		 *思路：碰到管子挂，飞出画面挂，碰到地面挂
-		 *
-		 *
-		 *
-		 *
-		 *
-		**/
-		function isGameover(bx,by,dx,dy){//小鸟坐标和死亡区域坐标
-			if(by<0){
-				console.log('上天，over！');
-			}else if(by>=screenHeight){
-				console.log('碰到地，over!');
-			}
-		}
 		/*辅助函数*/
 		//辨别触屏还是PC
 
