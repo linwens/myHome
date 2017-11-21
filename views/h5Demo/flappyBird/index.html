@@ -5,9 +5,22 @@
 	<title>flappyBird</title>
 	<link rel='stylesheet' href='/stylesheets/style.css' />
 	<link rel="stylesheet" href="/h5static/flappyBird/css/style.css">
+	<style>
+		#u-restart{
+			position: absolute;
+			top:0;
+			left: 0;
+			display: none;
+			background: url(/h5static/flappyBird/img/atlas.png) -708px -236px no-repeat;
+			width: 104px;
+			height: 58px;
+			z-index: 999;
+		}
+	</style>
 </head>
 <body style="width:100%;height:100%;">
 	<canvas id="J_flappybird"></canvas>
+	<div id="u-restart"></div>
 	<!-- <canvas id="J_land" style="display: none;"></canvas> --><!-- 如果不隐藏掉，嵌套里有一张画布，嵌套外又有一张画布 -->
 	<script src="/h5static/flappyBird/js/flappybird.js"></script>
 	<script>
@@ -26,18 +39,6 @@
 		canvas.height = screenHeight;
 		var ctx = canvas.getContext('2d');//上下文对象
 
-		//存放图片
-		var images = [
-			{name: 'bg_day', src:'/h5static/flappyBird/img/bg_day.png'},
-			{name: 'land', src:'/h5static/flappyBird/img/land.png'},
-			{name: 'bird0', src:'/h5static/flappyBird/img/bird1_0.png'},
-			{name: 'bird1', src:'/h5static/flappyBird/img/bird1_1.png'},
-			{name: 'bird2', src:'/h5static/flappyBird/img/bird1_2.png'},
-			{name: 'pipe1', src:'/h5static/flappyBird/img/pipe_down.png'},
-			{name: 'pipe2', src:'/h5static/flappyBird/img/pipe_up.png'},
-			{name: 'springs', src:'/h5static/flappyBird/img/atlas.png'}
-		];
-		//主动画函数
 		//控制requestAnimationFrame频率。教程：https://www.cnblogs.com/kenkofox/p/3849067.html
 		var scales = 288/screenWidth;//等比例
 		var fps = 8;//越小越慢
@@ -48,8 +49,21 @@
 		var gameover = false;//全局变量，判断游戏是否结束
 		var animate = '';
 		var canScore = false;//是否开始计分
-		var birdscore = 0;//得分
+		var birdScore = 0;//得分
+		var bestScore = 0;//最高得分
 		var isStarted = false;//是否开始
+		var rsBtn = document.getElementById('u-restart'); //restart按钮
+		var imgAtlas = new Image();
+			imgAtlas.src =  '/h5static/flappyBird/img/atlas.png';
+			imgAtlas.onload = init;
+		var sky = null,
+			land = null,
+			pipe1 = null,
+			pipe2 = null,
+			pipe3 = null,
+			bird = null,
+			blank = null,
+			start = null;
 		window.onload = function(){
 			//new的顺序决定了哪个图在上层
 			//点击让小鸟跳跃
@@ -59,7 +73,10 @@
 					bird.fly(4);
 				}
 			}
-			//run();
+			//restart按钮
+			rsBtn.onclick =function(){
+				restart();
+			};
 		};
 		
 		
@@ -191,44 +208,47 @@
 			this.ctx = ctx;
 			//this.score = 0;
 		};
-		Blank.prototype.draw = function(score){
-			this.ctx.drawImage(this.img, 6, 518, 226, 114, (screenWidth-226/scales)/2,(screenHeight-114/scales)/2,226/scales, 114/scales);
+		Blank.prototype.draw = function(score, bestscore){
+			this.ctx.drawImage(this.img, 790, 118, 192, 42, (screenWidth-192/scales)/2,screenHeight/2-120/scales,192/scales, 42/scales);//GAMEOVER
+			this.ctx.drawImage(this.img, 6, 518, 226, 114, (screenWidth-226/scales)/2,(screenHeight-114/scales)/2,226/scales, 114/scales);//大背景
 			this.ctx.drawImage(this.img, 224, 906, 44, 44, (screenWidth-226/scales)/2+25/scales,(screenHeight-114/scales)/2+43/scales,44/scales, 44/scales);//分数区域显示不同奖牌
+			//显示restart按钮
+			rsBtn.style.display='block';
+			rsBtn.style.top=(screenHeight+114/scales)/2+20+'px';
+			rsBtn.style.left=(screenWidth-104)/2+'px';
 			this.ctx.font="bold 60px HarlemNights";          
 			//设置绘制分数的字体   
 			this.ctx.fillStyle="#FFFFFF";
-		    //从坐标点(50,50)开始绘制文字
+		    //绘制得分
 		    this.ctx.fillText(score, (screenWidth-226/scales)/2+175/scales,(screenHeight-114/scales)/2+50/scales);
+		    //绘制最高分
+		    this.ctx.fillText(bestscore, (screenWidth-226/scales)/2+175/scales,(screenHeight-114/scales)/2+100/scales);
 		};
-		//游戏初始
+		//游戏初始提示图片
 		/**
 		 *思路：新做个canvas用来放这些
 		**/
-		var Init = function(img, ctx){
+		var Start = function(img, ctx){
 			this.img = img;
 			this.ctx = ctx;
 		};
-		Init.prototype.begin = function(){
+		Start.prototype.draw = function(){
 			this.ctx.drawImage(this.img, 584, 182, 114, 98, (screenWidth-114/scales)/2, (screenHeight-98/scales)/2, 114/scales, 98/scales)
 		};
-		Init.prototype.restart = function(){};
-		Init.prototype.close = function(){};
-		Init.prototype.update = function(){
-			this.begin();
+		//游戏初始化
+		function init(){
+			//画开始画面
+			sky=new Sky(imgAtlas,ctx,0,2,2);
+			land=new Land(imgAtlas,ctx,0,5,4);
+			pipe1 = new Pipe(imgAtlas,ctx,screenWidth,2, 500, 200);
+			pipe2 = new Pipe(imgAtlas,ctx,screenWidth*1.8,2, 500, 0);
+			pipe3 = new Pipe(imgAtlas,ctx,screenWidth*2.6,2, 500, -400);
+			bird = new Bird(imgAtlas,ctx,0.8,(screenHeight-98/scales)/2);
+			blank = new Blank(imgAtlas,ctx);//记分牌
+			start = new Start(imgAtlas,ctx);//初始化
+			//imgAtlas.onload = run;//图片加载完开始动画
+			run();
 		};
-		//画开始画面
-		var imgAtlas = new Image();
-			imgAtlas.src =  images[7].src;
-		
-		var sky=new Sky(imgAtlas,ctx,0,2,2);
-		var land=new Land(imgAtlas,ctx,0,5,4);
-		var pipe1 = new Pipe(imgAtlas,ctx,screenWidth,2, 500, 200);
-		var pipe2 = new Pipe(imgAtlas,ctx,screenWidth*1.8,2, 500, 0);
-		var pipe3 = new Pipe(imgAtlas,ctx,screenWidth*2.6,2, 500, -400);
-		var bird = new Bird(imgAtlas,ctx,0.8,(screenHeight-98/scales)/2);
-		var blank = new Blank(imgAtlas,ctx);//记分牌
-		var init = new Init(imgAtlas,ctx);//初始化
-		imgAtlas.onload = run;//图片加载完开始动画
 		//主动画函数
 		function run(){
 			var pipes = [pipe1, pipe2, pipe3];
@@ -242,40 +262,43 @@
 				}
 				if(bird.x>(item.x+(screenWidth*0.2))&&item.x>0&&canScore){
 					canScore = false;
-					birdscore++;
-					console.log(birdscore);
+					birdScore++;
+					console.log(birdScore);
 				};
 			});
 
 			if(gameover){
 				setTimeout(function(){
-					blank.draw(birdscore);
+					if(birdScore>bestScore){
+						bestScore=birdScore
+					}
+					blank.draw(birdScore, bestScore);
 				},100);
+				cancelAnimationFrame(animate);//停止动画
 				return;
-			}else{
-				//判断游戏是否开始
-				if(!isStarted){
-					//画天空
-					sky.update();
-					//画地面
-					land.update();
-					//画鸟
-					bird.fly();
-				}else{
-					//画天空
-					sky.update();
-					//画地面
-					land.update();
-					//画水管
-					pipe1.update();
-					pipe2.update();
-					pipe3.update();
-					//画鸟
-					bird.fly();
-				}
-				//动画执行
-				animate = RAF(run);//获取动画RAF的id
 			}
+			//判断游戏是否开始
+			if(!isStarted){
+				//画天空
+				sky.update();
+				//画地面
+				land.update();
+				//开始的图片
+				start.draw();
+			}else{
+				//画天空
+				sky.update();
+				//画地面
+				land.update();
+				//画水管
+				pipe1.update();
+				pipe2.update();
+				pipe3.update();
+				//画鸟
+				bird.fly();
+			}
+			//动画执行
+			animate = RAF(run);//获取动画RAF的id
 		};
 		//规则判断
 		/**
@@ -287,6 +310,19 @@
 			}else if(obj1.y<0||(obj1.y+24/scales)>screenHeight){
 				gameover = true;
 			}
+		};
+		//重新开始
+		function restart(){
+			if(birdScore>bestScore){//刷新最高分
+				bestScore = birdScore;
+			}
+			rsBtn.style.display='none';//restart按钮隐藏
+			cancelAnimationFrame(animate);//停止动画
+			canScore = false;
+			birdScore = 0;
+			gameover = false;//游戏未结束
+			isStarted = false;//游戏未开始
+			init();
 		};
 		//拼接数字图片
 		function imgNumber(val){
