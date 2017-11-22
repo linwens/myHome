@@ -21,7 +21,6 @@
 <body style="width:100%;height:100%;">
 	<canvas id="J_flappybird"></canvas>
 	<div id="u-restart"></div>
-	<!-- <canvas id="J_land" style="display: none;"></canvas> --><!-- 如果不隐藏掉，嵌套里有一张画布，嵌套外又有一张画布 -->
 	<script src="/h5static/flappyBird/js/flappybird.js"></script>
 	<script>
 		//基础：context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);除了第一个，2-5参数是在原img上设置，后四个是在canvas上设置
@@ -40,7 +39,7 @@
 		var ctx = canvas.getContext('2d');//上下文对象
 
 		//控制requestAnimationFrame频率。教程：https://www.cnblogs.com/kenkofox/p/3849067.html
-		var scales = 288/screenWidth;//等比例
+		var scales = 512/screenHeight;//等比例or  288/screenWidth
 		var fps = 8;//越小越慢
 		var now;
 		var then = Date.now();
@@ -48,10 +47,13 @@
 		var delta;
 		var gameover = false;//全局变量，判断游戏是否结束
 		var animate = '';
+		var negate = [1, -1, 0];//设置方向随机用到的数组
+		var direction = negate[Math.floor(Math.random() * negate.length)];//设置方向随机
 		var canScore = false;//是否开始计分
 		var birdScore = 0;//得分
 		var bestScore = 0;//最高得分
 		var isStarted = false;//是否开始
+		var canTap = true;//能不能点击
 		var rsBtn = document.getElementById('u-restart'); //restart按钮
 		var imgAtlas = new Image();
 			imgAtlas.src =  '/h5static/flappyBird/img/atlas.png';
@@ -67,10 +69,11 @@
 		window.onload = function(){
 			//new的顺序决定了哪个图在上层
 			//点击让小鸟跳跃
+			canvas.addEventListener('touchstart',taptap);
 			document.onkeydown = function(e){//问题：键盘事件好像只能绑定在document上？
-				if(e.keyCode===32){
-					isStarted = true;
-					bird.fly(4);
+				console.log(canTap);
+				if(e.keyCode===32&&canTap){
+					taptap();
 				}
 			}
 			//restart按钮
@@ -78,7 +81,11 @@
 				restart();
 			};
 		};
-		
+		//点击开跳函数
+		function taptap(){
+			isStarted = true;
+			bird.fly(4);
+		};
 		
 		//画天空类
 		var Sky = function(img,ctx,initX,speed,count){
@@ -91,7 +98,7 @@
 		};
 		Sky.prototype.draw = function(){
 			for(var i =0;i<this.count;i++){
-				this.ctx.drawImage(this.img, 0, 0, scales*screenWidth, scales*screenHeight, this.x+screenWidth*i, 0, screenWidth, screenHeight);
+				this.ctx.drawImage(this.img, 0, 0, 288, 512, this.x+screenWidth*i, 0, screenWidth, screenHeight);
 			}
 		};
 		Sky.prototype.update = function(){
@@ -144,8 +151,6 @@
 			this.x -=this.speed;
 			if(this.x <-(screenWidth*0.7)){//宽度写活
 				this.x = screenWidth*1.7;
-				var negate = [1, -1, 0],
-				    direction = negate[Math.floor(Math.random() * negate.length)];
 				this.y = parseInt(direction*Math.random()*300)+50;//当管道回到初始值，同时修改上下开口的位置
 				this.pipeTop = ((screenHeight-112/scales)-this.gap)/2+this.y;
 				this.pipeBottom = (screenHeight-112/scales)-(((screenHeight-112/scales)-this.gap)/2-this.y);
@@ -222,7 +227,7 @@
 		    //绘制得分
 		    this.ctx.fillText(score, (screenWidth-226/scales)/2+175/scales,(screenHeight-114/scales)/2+50/scales);
 		    //绘制最高分
-		    this.ctx.fillText(bestscore, (screenWidth-226/scales)/2+175/scales,(screenHeight-114/scales)/2+100/scales);
+		    this.ctx.fillText(bestscore, (screenWidth-226/scales)/2+175/scales,(screenHeight-114/scales)/2+90/scales);
 		};
 		//游戏初始提示图片
 		/**
@@ -233,16 +238,16 @@
 			this.ctx = ctx;
 		};
 		Start.prototype.draw = function(){
-			this.ctx.drawImage(this.img, 584, 182, 114, 98, (screenWidth-114/scales)/2, (screenHeight-98/scales)/2, 114/scales, 98/scales)
+			this.ctx.drawImage(this.img, 584, 182, 114, 98, (screenWidth-114/scales)/2, (screenHeight-98/scales)/2, 114/scales, 98/scales);
 		};
 		//游戏初始化
 		function init(){
 			//画开始画面
 			sky=new Sky(imgAtlas,ctx,0,2,2);
 			land=new Land(imgAtlas,ctx,0,5,4);
-			pipe1 = new Pipe(imgAtlas,ctx,screenWidth,2, 500, 200);
-			pipe2 = new Pipe(imgAtlas,ctx,screenWidth*1.8,2, 500, 0);
-			pipe3 = new Pipe(imgAtlas,ctx,screenWidth*2.6,2, 500, -400);
+			pipe1 = new Pipe(imgAtlas,ctx,screenWidth,2, 300, parseInt(direction*Math.random()*300));
+			pipe2 = new Pipe(imgAtlas,ctx,screenWidth*1.8,2, 300, parseInt(direction*Math.random()*300));
+			pipe3 = new Pipe(imgAtlas,ctx,screenWidth*2.6,2, 300, parseInt(direction*Math.random()*300));
 			bird = new Bird(imgAtlas,ctx,0.8,(screenHeight-98/scales)/2);
 			blank = new Blank(imgAtlas,ctx);//记分牌
 			start = new Start(imgAtlas,ctx);//初始化
@@ -268,12 +273,15 @@
 			});
 
 			if(gameover){
+				//移除点击事件(匿名函数不可移除)
+				canvas.removeEventListener('touchstart',taptap);
 				setTimeout(function(){
 					if(birdScore>bestScore){
 						bestScore=birdScore
 					}
 					blank.draw(birdScore, bestScore);
 				},100);
+				canTap = false;//放在gameover函数里不行，因为AnimationFrame还在继续
 				cancelAnimationFrame(animate);//停止动画
 				return;
 			}
@@ -307,7 +315,7 @@
 		function isGameover(obj1,obj2){//小鸟坐标和死亡区域坐标
 			if(((obj1.x+34/scales)>obj2.x)&&(obj1.x<(obj2.x+screenWidth*0.2))&&(obj1.y<obj2.pipeTop||(obj1.y+24/scales)>obj2.pipeBottom)){
 				gameover = true;
-			}else if(obj1.y<0||(obj1.y+24/scales)>screenHeight){
+			}else if(obj1.y<0||(obj1.y+24/scales)>(screenHeight-112/scales)){
 				gameover = true;
 			}
 		};
@@ -322,6 +330,8 @@
 			birdScore = 0;
 			gameover = false;//游戏未结束
 			isStarted = false;//游戏未开始
+			canTap = true;
+			canvas.addEventListener('touchstart',taptap);//重新绑定上触摸事件
 			init();
 		};
 		//拼接数字图片
