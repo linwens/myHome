@@ -25,7 +25,7 @@
 	<script>
 		//基础：context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);除了第一个，2-5参数是在原img上设置，后四个是在canvas上设置
 		//首先建一块画布
-		var screenWidth = document.body.clientWidth;
+		var screenWidth = document.body.clientWidth;//宽高要设置一个最大值，避免非常规窗口搞乱了布局
 		var screenHeight = document.body.clientHeight;
 		var canvas = document.getElementById('J_flappybird');//canvas对象
 
