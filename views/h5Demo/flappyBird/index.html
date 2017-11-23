@@ -240,17 +240,57 @@
 		Start.prototype.draw = function(){
 			this.ctx.drawImage(this.img, 584, 182, 114, 98, (screenWidth-114/scales)/2, (screenHeight-98/scales)/2, 114/scales, 98/scales);
 		};
+		//拼接数字图片
+		/**
+		 *思路：数字改为数组，数组长度决定数字位数，遍历drawImage();
+		**/
+		var ImgNum = function(img, ctx){
+			this.num = "0";//字符串0
+			this.arr = this.num.split();
+			this.img = img;
+			this.ctx = ctx;
+			this.numXY = [
+				{x:276,y:646},//0
+				{x:276,y:664},//1
+				{x:276,y:698},//2
+				{x:276,y:716},//3
+				{x:276,y:750},//4
+				{x:276,y:768},//5
+				{x:276,y:802},//6
+				{x:276,y:820},//7
+				{x:276,y:854},//8
+				{x:276,y:872}//9
+			];
+		}
+		ImgNum.prototype.draw=function(i, j){
+			
+			this.ctx.drawImage(this.img, this.numXY[j].x, this.numXY[j].y, 12, 14, (14/scales)*i, 0, 12/scales, 14/scales);
+		};
+		ImgNum.prototype.update = function(val){
+			this.num = val?String(val):"0";
+			this.arr = this.num.split("");
+			for(var i=0;i<this.arr.length;i++){
+				//console.log('i=='+i);
+				for(var j=0;j<10;j++){
+					if(this.arr[i]==j){//字符串和数字作比较
+						//console.log('i=='+i+'j=='+j);
+						this.draw(i, j);
+					}
+				}
+			}
+		};
 		//游戏初始化
 		function init(){
 			//画开始画面
 			sky=new Sky(imgAtlas,ctx,0,2,2);
 			land=new Land(imgAtlas,ctx,0,5,4);
-			pipe1 = new Pipe(imgAtlas,ctx,screenWidth,2, 300, parseInt(direction*Math.random()*300));
-			pipe2 = new Pipe(imgAtlas,ctx,screenWidth*1.8,2, 300, parseInt(direction*Math.random()*300));
-			pipe3 = new Pipe(imgAtlas,ctx,screenWidth*2.6,2, 300, parseInt(direction*Math.random()*300));
+			pipe1 = new Pipe(imgAtlas,ctx,screenWidth,2, 700, parseInt(direction*Math.random()*300));
+			pipe2 = new Pipe(imgAtlas,ctx,screenWidth*1.8,2, 700, parseInt(direction*Math.random()*300));
+			pipe3 = new Pipe(imgAtlas,ctx,screenWidth*2.6,2, 700, parseInt(direction*Math.random()*300));
 			bird = new Bird(imgAtlas,ctx,0.8,(screenHeight-98/scales)/2);
 			blank = new Blank(imgAtlas,ctx);//记分牌
 			start = new Start(imgAtlas,ctx);//初始化
+			imgNum = new ImgNum(imgAtlas,ctx);//计分数字
 			//imgAtlas.onload = run;//图片加载完开始动画
 			run();
 		};
@@ -304,6 +344,11 @@
 				pipe3.update();
 				//画鸟
 				bird.fly();
+				//测试计分显示
+				if(birdScore>bestScore){//刷新最高分
+					bestScore = birdScore;
+				}
+				imgNum.update(bestScore);
 			}
 			//动画执行
 			animate = RAF(run);//获取动画RAF的id
@@ -334,15 +379,6 @@
 			canvas.addEventListener('touchstart',taptap);//重新绑定上触摸事件
 			init();
 		};
-		//拼接数字图片
-		function imgNumber(val){
-			var num = val.toString();
-			console.log(num);
-			var arr = num.split('');
-			console.log(arr);
-
-		}
-		imgNumber(0);
 		//绘制背景
 		//绘制地面
 		/**
