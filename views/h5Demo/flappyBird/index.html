@@ -19,6 +19,10 @@
 <body style="width:100%;height:100%;">
 	<canvas id="J_flappybird"></canvas>
 	<div id="u-restart"></div>
+	<audio id="J_hit" autoplay="autoplay" src=""></audio>
+	<audio id="J_point" autoplay="autoplay" src=""></audio>
+	<audio id="J_wing" autoplay="autoplay" src=""></audio>
+	<audio id="J_swooshing" autoplay="autoplay" src=""></audio>
 	<script src="/h5static/flappyBird/js/flappybird.js"></script>
 	<script>
 		//基础：context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);除了第一个，2-5参数是在原img上设置，后四个是在canvas上设置
@@ -64,12 +68,16 @@
 			bird = null,
 			blank = null,
 			start = null;
+		//增加音效
+		var J_hit = null;
+		var J_point = null;
+		var J_wing = null;
+		var J_swooshing = null;
 		window.onload = function(){
 			//new的顺序决定了哪个图在上层
 			//点击让小鸟跳跃
 			canvas.addEventListener('touchstart',taptap);
 			document.onkeydown = function(e){//问题：键盘事件好像只能绑定在document上？
-				console.log(canTap);
 				if(e.keyCode===32&&canTap){
 					taptap();
 				}
@@ -82,6 +90,7 @@
 		//点击开跳函数
 		function taptap(){
 			isStarted = true;
+			//playAudio(J_swooshing, '/h5static/flappyBird/sounds/swooshing.mp3');
 			bird.fly(4);
 		};
 		
@@ -306,6 +315,10 @@
 			blank = new Blank(imgAtlas,ctx);//记分牌
 			start = new Start(imgAtlas,ctx);//初始化
 			imgNum = new ImgNum(imgAtlas,ctx);//计分数字
+			J_hit = document.getElementById('J_hit');//撞击音效
+			J_point = document.getElementById('J_point');//得分音效
+			J_wing = document.getElementById('J_wing');//扇翅膀音效
+			J_swooshing = document.getElementById('J_swooshing');//点击上跳音效
 			//imgAtlas.onload = run;//图片加载完开始动画
 			run();
 		};
@@ -323,6 +336,7 @@
 				if(bird.x>(item.x+(screenWidth*0.2))&&item.x>0&&canScore){
 					canScore = false;
 					birdScore++;
+					//playAudio(J_point, '/h5static/flappyBird/sounds/point.mp3');
 					console.log(birdScore);
 				};
 			});
@@ -377,8 +391,10 @@
 		**/
 		function isGameover(obj1,obj2){//小鸟坐标和死亡区域坐标
 			if(((obj1.x+34/scales)>obj2.x)&&(obj1.x<(obj2.x+screenWidth*0.2))&&(obj1.y<obj2.pipeTop||(obj1.y+24/scales)>obj2.pipeBottom)){
+				//playAudio(J_hit, '/h5static/flappyBird/sounds/hit.mp3');
 				gameover = true;
 			}else if(obj1.y<0||(obj1.y+24/scales)>(screenHeight-112/scales)){
+				//playAudio(J_hit, '/h5static/flappyBird/sounds/hit.mp3');
 				gameover = true;
 			}
 		};
@@ -397,6 +413,17 @@
 			canvas.addEventListener('touchstart',taptap);//重新绑定上触摸事件
 			init();
 		};
+		//产生音效
+		/**
+		 *思路：先预留好audio标签，并设置自动播放，单次播放，通过函数给audio增加src,实现播放功能。
+		 *问题：手机上延迟问题很严重
+		**/
+		function playAudio(sound, src){
+			if(src!='' && typeof src!=undefined){
+				sound.src = src;
+				sound.play();
+			}
+		}
 		//绘制背景
 		//绘制地面
 		/**
