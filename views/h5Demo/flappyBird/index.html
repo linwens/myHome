@@ -11,9 +11,7 @@
 			top:0;
 			left: 0;
 			display: none;
-			background: url(/h5static/flappyBird/img/atlas.png) -708px -236px no-repeat;
-			width: 104px;
-			height: 58px;
+			background: url(/h5static/flappyBird/img/atlas.png) no-repeat;
 			z-index: 999;
 		}
 	</style>
@@ -211,23 +209,40 @@
 		var Blank = function(img, ctx){
 			this.img = img;
 			this.ctx = ctx;
-			//this.score = 0;
+			this.medal = [
+				{x:224,y:906},//iron
+				{x:224,y:954},//copper
+				{x:242,y:516},//silver
+				{x:242,y:564}//gold
+			];
 		};
-		Blank.prototype.draw = function(score, bestscore){
-			this.ctx.drawImage(this.img, 790, 118, 192, 42, (screenWidth-192/scales)/2,screenHeight/2-120/scales,192/scales, 42/scales);//GAMEOVER
-			this.ctx.drawImage(this.img, 6, 518, 226, 114, (screenWidth-226/scales)/2,(screenHeight-114/scales)/2,226/scales, 114/scales);//大背景
-			this.ctx.drawImage(this.img, 224, 906, 44, 44, (screenWidth-226/scales)/2+25/scales,(screenHeight-114/scales)/2+43/scales,44/scales, 44/scales);//分数区域显示不同奖牌
-			//显示restart按钮
+		Blank.prototype.draw = function(score, bestscore, cb){
+			//GAMEOVER
+			this.ctx.drawImage(this.img, 790, 118, 192, 42, (screenWidth-192/scales)/2,screenHeight/2-120/scales,192/scales, 42/scales);
+			//大背景
+			this.ctx.drawImage(this.img, 6, 518, 226, 114, (screenWidth-226/scales)/2,(screenHeight-114/scales)/2,226/scales, 114/scales);
+			//分数区域显示不同奖牌
+			if(score<20){
+				this.ctx.drawImage(this.img, this.medal[0].x, this.medal[0].y, 44, 44, (screenWidth-226/scales)/2+25/scales,(screenHeight-114/scales)/2+43/scales,44/scales, 44/scales);
+			}
+			for(var i=1;i<5;i++){
+				if(score>=Math.pow(2,i)*10){
+					this.ctx.drawImage(this.img, this.medal[i-1].x, this.medal[i-1].y, 44, 44, (screenWidth-226/scales)/2+25/scales,(screenHeight-114/scales)/2+43/scales,44/scales, 44/scales);
+				}
+			}
+			//新纪录增加图标
+			if(birdScore==bestScore){
+				this.ctx.drawImage(this.img, 224, 1002, 32, 14, (screenWidth-226/scales)/2+130/scales,(screenHeight-114/scales)/2+58/scales,32/scales, 14/scales);
+			}
+			//显示restart按钮,修改样式
 			rsBtn.style.display='block';
+			rsBtn.style.width= 104/scales/2 +'px';
+			rsBtn.style.height= 58/scales/2 +'px';
+			rsBtn.style.backgroundPosition= (-708/scales/2)+'px '+(-236/scales/2)+'px';
+			rsBtn.style.backgroundSize= 1024/scales/2+'px';
 			rsBtn.style.top=(screenHeight+114/scales)/2+20+'px';
-			rsBtn.style.left=(screenWidth-104)/2+'px';
-			this.ctx.font="bold 60px HarlemNights";          
-			//设置绘制分数的字体   
-			this.ctx.fillStyle="#FFFFFF";
-		    //绘制得分
-		    this.ctx.fillText(score, (screenWidth-226/scales)/2+175/scales,(screenHeight-114/scales)/2+50/scales);
-		    //绘制最高分
-		    this.ctx.fillText(bestscore, (screenWidth-226/scales)/2+175/scales,(screenHeight-114/scales)/2+90/scales);
+			rsBtn.style.left=(screenWidth-58/scales)/2+'px';
+		    cb();
 		};
 		//游戏初始提示图片
 		/**
@@ -238,6 +253,7 @@
 			this.ctx = ctx;
 		};
 		Start.prototype.draw = function(){
+			this.ctx.drawImage(this.img, 590, 118, 184, 50, (screenWidth-184/scales)/2, (screenHeight-220/scales)/2, 184/scales, 50/scales);
 			this.ctx.drawImage(this.img, 584, 182, 114, 98, (screenWidth-114/scales)/2, (screenHeight-98/scales)/2, 114/scales, 98/scales);
 		};
 		//拼接数字图片
@@ -262,22 +278,21 @@
 				{x:276,y:872}//9
 			];
 		}
-		ImgNum.prototype.draw=function(i, j){
-			
-			this.ctx.drawImage(this.img, this.numXY[j].x, this.numXY[j].y, 12, 14, (14/scales)*i, 0, 12/scales, 14/scales);
-		};
-		ImgNum.prototype.update = function(val){
+		ImgNum.prototype.draw=function(val, initX, initY){//分数值，画图位置
+			var initX = initX?initX:screenWidth-14/scales,
+				initY = initY?initY:8;
 			this.num = val?String(val):"0";
-			this.arr = this.num.split("");
+			this.arr = this.num.split("").reverse();//从右往左排图；
 			for(var i=0;i<this.arr.length;i++){
-				//console.log('i=='+i);
 				for(var j=0;j<10;j++){
 					if(this.arr[i]==j){//字符串和数字作比较
-						//console.log('i=='+i+'j=='+j);
-						this.draw(i, j);
+						this.ctx.drawImage(this.img, this.numXY[j].x, this.numXY[j].y, 12, 14, initX-(14/scales)*i, initY, 12/scales, 14/scales);
 					}
 				}
 			}
+		};
+		ImgNum.prototype.update = function(val){
+			this.draw(val);
 		};
 		//游戏初始化
 		function init(){
@@ -319,7 +334,10 @@
 					if(birdScore>bestScore){
 						bestScore=birdScore
 					}
-					blank.draw(birdScore, bestScore);
+					blank.draw(birdScore, bestScore, function(){
+						imgNum.draw(birdScore,(screenWidth-226/scales)/2+192/scales,(screenHeight-114/scales)/2+32/scales);
+						imgNum.draw(bestScore,(screenWidth-226/scales)/2+192/scales,(screenHeight-114/scales)/2+74/scales);
+					});
 				},100);
 				canTap = false;//放在gameover函数里不行，因为AnimationFrame还在继续
 				cancelAnimationFrame(animate);//停止动画
