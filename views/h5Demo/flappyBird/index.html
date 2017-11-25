@@ -23,7 +23,7 @@
 	<audio id="J_point" autoplay="autoplay" src=""></audio>
 	<audio id="J_wing" autoplay="autoplay" src=""></audio>
 	<audio id="J_swooshing" autoplay="autoplay" src=""></audio>
-	<script src="/h5static/flappyBird/js/flappybird.js"></script>
+	<!-- <script src="/h5static/flappyBird/js/flappybird.js"></script> -->
 	<script>
 		//基础：context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);除了第一个，2-5参数是在原img上设置，后四个是在canvas上设置
 		//首先建一块画布
@@ -416,12 +416,17 @@
 		//产生音效
 		/**
 		 *思路：先预留好audio标签，并设置自动播放，单次播放，通过函数给audio增加src,实现播放功能。
-		 *问题：手机上延迟问题很严重
+		 *问题：手机上延迟问题很严重,在移动端，如果设置多个audio，只有点击触发的taptap函数里的audio发声了。因为ios下不允许未做交互就进行声音播放，若通过一个audio设置多个src会有延迟且会有音频间的冲突，很不自然。
+		 *想到的一个办法是音频spring，通过js指定音轨位置实现声音切换，但也可能有声音覆盖不自然的问题。
 		**/
 		function playAudio(sound, src){
 			if(src!='' && typeof src!=undefined){
 				sound.src = src;
-				sound.play();
+			    sound.play();  
+			    document.addEventListener("WeixinJSBridgeReady", function () {
+			    	sound.src = src;
+			        sound.play();
+			    }, false);  
 			}
 		}
 		//绘制背景
