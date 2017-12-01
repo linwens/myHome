@@ -158,7 +158,7 @@
 			this.x -=this.speed;
 			if(this.x <-(screenWidth*0.7)){//宽度写活
 				this.x = screenWidth*1.7;
-				this.y = parseInt(Math.random()*400-200)+56;//当管道回到初始值，同时修改上下开口的位置
+				this.y = parseInt(Math.random()*600-300)+56;//当管道回到初始值，同时修改上下开口的位置
 				this.pipeTop = ((screenHeight-112/scales)-this.gap)/2+this.y;
 				this.pipeBottom = (screenHeight-112/scales)-(((screenHeight-112/scales)-this.gap)/2-this.y);
 			}
@@ -308,9 +308,9 @@
 			//画开始画面
 			sky=new Sky(imgAtlas,ctx,0,2,2);
 			land=new Land(imgAtlas,ctx,0,5,4);
-			pipe1 = new Pipe(imgAtlas,ctx,screenWidth,2, 300, parseInt(Math.random()*600-300)+56);
-			pipe2 = new Pipe(imgAtlas,ctx,screenWidth*1.8,2, 300, parseInt(Math.random()*600-300)+56);
-			pipe3 = new Pipe(imgAtlas,ctx,screenWidth*2.6,2, 300, parseInt(Math.random()*600-300)+56);
+			pipe1 = new Pipe(imgAtlas,ctx,screenWidth,3, 300, parseInt(Math.random()*600-300)+56);
+			pipe2 = new Pipe(imgAtlas,ctx,screenWidth*1.8,3, 300, parseInt(Math.random()*600-300)+56);
+			pipe3 = new Pipe(imgAtlas,ctx,screenWidth*2.6,3, 300, parseInt(Math.random()*600-300)+56);
 			bird = new Bird(imgAtlas,ctx,0.8,(screenHeight-98/scales)/2);
 			blank = new Blank(imgAtlas,ctx);//记分牌
 			start = new Start(imgAtlas,ctx);//初始化
