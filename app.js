@@ -59,9 +59,8 @@ app.use((req, res, next)=>{
 
 // error handler
 app.use((err, req, res, next)=>{
-	console.log('进入错误处理');
-	console.log(req.app);
   // set locals, only providing error in development
+  //res.locals主要用于存储一些需要放进全局的变量，
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

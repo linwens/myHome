@@ -1,6 +1,7 @@
-var Articles = require('./mongoose').Articles;
-var marked = require('marked');
-var uuid = require('node-uuid');
+import {Articles} from './mongoose';
+import marked from 'marked';
+import uuid from 'node-uuid';
+
 marked.setOptions({
 	renderer: new marked.Renderer(),
 	gfm: true,
