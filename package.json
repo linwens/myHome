@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "babel-node ./bin/www --preset"
   },
   "dependencies": {
     "body-parser": "~1.16.0",
@@ -22,5 +22,9 @@
     "serve-favicon": "~2.3.2",
     "wechat": "^2.1.0",
     "wechat-api": "^1.35.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1"
   }
 }
