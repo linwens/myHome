@@ -7,12 +7,12 @@
 var app = require('../app');
 var debug = require('debug')('myhome:server');
 var http = require('http');
-
+import config from '../config';//获取应用配置文件信息
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '8888');//本地开发用8488端口
+var port = normalizePort(process.env.PORT || config.PORT);
 app.set('port', port);
 
 /**
