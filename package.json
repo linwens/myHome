@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "set NODE_ENV=development&&babel-node ./bin/www --preset",
+    "babel-node": "babel-node ./bin/www --preset",
+    "dev": "set NODE_ENV=development&&nodemon --exec npm run babel-node",
     "prod": "set NODE_ENV=production&&babel-node ./bin/www --preset"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1"
+    "babel-preset-env": "^1.6.1",
+    "nodemon": "^1.14.11"
   }
 }
