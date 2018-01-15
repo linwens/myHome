@@ -1,43 +1,43 @@
-var User = require('./mongoose').User;
+import {User} from './mongoose'
 //登录
 exports.Login = function(req, res, next){
 	var users = new User({//针对vue本地调试，改为body=>query
         username: decodeURI(req.body.username),
         password: decodeURI(req.body.password)
     });
-    User.find({username:users.username}, function(err, data){
-        if(err){
-            console.log(err);
-        }else{
-            if(data&&data!=''){
-                console.log('find:', data);
-                if(data[0].password == users.password){//验证密码
-                    //设置cookie
-                    //res.cookie('uid', data[0]._id, {maxAge:60*1000, httpOnly: false, secure: false, signed: true});
-                    //设置session,存入用户名及登录密码
-                    req.session.users = users;
-                    console.log(req.session);
-                    res.json({
-                        res_code:'1',
-                        res_msg:'登录成功',
-                        data:{
-                            uid:data[0]._id
-                        }
-                    })
-                }else{
-                    res.json({
-                        res_code:'2',
-                        res_msg:'密码错误'
-                    })
-                }
+    User.find({username:users.username})
+    .then(function(data){
+        if(data&&data!=''){
+            console.log('find:', data);
+            if(data[0].password == users.password){//验证密码
+                //设置cookie
+                //res.cookie('uid', data[0]._id, {maxAge:60*1000, httpOnly: false, secure: false, signed: true});
+                //设置session,存入用户名及登录密码
+                req.session.users = users;
+                console.log(req.session);
+                res.json({
+                    res_code:'1',
+                    res_msg:'登录成功',
+                    data:{
+                        uid:data[0]._id
+                    }
+                })
             }else{
                 res.json({
-                    res_code:'-1',
-                    res_msg:'用户不存在'
-                });
+                    res_code:'2',
+                    res_msg:'密码错误'
+                })
             }
+        }else{
+            res.json({
+                res_code:'-1',
+                res_msg:'用户不存在'
+            });
         }
     })
+    .catch(function(err){
+        console.log(err);
+    });
 };
 //注册
 exports.Regist = function(req, res, next){
@@ -46,34 +46,68 @@ exports.Regist = function(req, res, next){
         username: req.body.username,
         password: req.body.password
     });
-    User.find({username:users.username}, function(err, data){//mongoose里model的实例不存在find方法，用users.find()会报错，所以用User.find()
-        if(err){
-            console.log(err);
+    User.find({username:users.username})
+    .then(function(data){
+        if(data&&data!=''&&data!='[]'){
+            res.json({
+                res_code:'0',
+                res_msg:'用户已经存在'
+            });
+            return new Promise((resolve, reject)=>{
+                reject('用户已存在');
+            });
         }else{
-            console.log('find:', data);
-            if(data&&data!=''){
-                res.json({
-                    res_code:'0',
-                    res_msg:'用户已经存在'
-                });
-                return;
-            }else{
-                users.save(function(err, data){
-                    if(err){
-                        console.log(err);
-                    }else{
-                        console.log('Saved:', data);
-                        //返回前端一个唯一id
-                        res.json({
-                            res_code:'1',
-                            res_msg:'注册成功',
-                            data:{
-                                uid:data[0]._id
-                            }
-                        })
-                    }
-                })
-            }
+            return new Promise((resolve, reject)=>{
+                resolve(users);
+            });
         }
+    }).then(function(users){
+        users.save()
+        .then(function(data){
+            //返回前端一个唯一id
+            res.json({
+                res_code:'1',
+                res_msg:'注册成功',
+                data:{
+                    uid:data._id
+                }
+            })
+        }).catch(function(err){
+            console.log('save--err');
+            console.log(err);
+        })
+    }).catch(function(err){
+        console.log('find--err');
+        console.log(err);
     })
+    // User.find({username:users.username}, function(err, data){//mongoose里model的实例不存在find方法，用users.find()会报错，所以用User.find()
+    //     if(err){
+    //         console.log(err);
+    //     }else{
+    //         console.log('find:', data);
+    //         if(data&&data!=''){
+    //             res.json({
+    //                 res_code:'0',
+    //                 res_msg:'用户已经存在'
+    //             });
+    //             return;
+    //         }else{
+    //             users.save(function(err, data){
+    //                 if(err){
+    //                     console.log(err);
+    //                 }else{
+    //                     console.log('Saved:', data);
+    //                     //返回前端一个唯一id
+    //                     res.json({
+    //                         res_code:'1',
+    //                         res_msg:'注册成功',
+    //                         data:{
+    //                             uid:data[0]._id
+    //                         }
+    //                     })
+    //                 }
+    //             })
+    //         }
+    //     }
+    // })
 }

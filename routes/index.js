@@ -43,6 +43,8 @@ router.get('/admin', function(req, res, next) {
 //测试页面
 router.get('/test', function(req, res, next) {
   	res.render('test', { title: '测试' });
-  	
+});
+router.get('/testLogin', function(req, res, next) {
+    res.render('testLogin', { title: '测试登录' });
 });
 module.exports = router;

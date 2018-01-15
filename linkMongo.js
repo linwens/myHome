@@ -2,7 +2,7 @@
 import config from './config';
 //链接数据库
 import mongoose from 'mongoose';
-
+mongoose.Promise = global.Promise;//mongoose支持es6异步
 mongoose.connect(config.mongoUrl);
 
 mongoose.connection.on('error', function cb(){

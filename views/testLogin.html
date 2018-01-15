@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>测试各种代码</title>
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <script src="/javascripts/jquery.js"></script>
+        <style>
+         .m-login, .m-regist{
+             width: 20%;
+             margin: 50px auto;
+         }
+         .m-regist{}
+         .u-ipt{
+             display: block;
+             width: 200px;
+             height: 30px;
+             margin: 20px 0;
+         }
+         .u-btn{
+             display: block;
+             width: 200px;
+             height: 30px;
+             line-height: 30px;
+             border-radius: 5px;
+             background: #2985DF;
+             font-size: 18px;
+             color: #fff;
+             text-align: center;
+         }
+        </style>
+    </head>
+    <body>
+        <div class="m-login">
+            <p>登录</p>
+            <input type="text" class="u-ipt u-username" placeholder="用户名" id="username">
+            <input type="password" class="u-ipt u-password" placeholder="密码" id="password">
+            <a href="javascript:;" class="u-btn u-submit" id="doLogin">登录</a>
+        </div>
+        <div class="m-regist">
+            <p>登录</p>
+            <input type="text" class="u-ipt u-username" placeholder="用户名" id="reg_username">
+            <input type="password" class="u-ipt u-password" placeholder="密码" id="reg_password">
+            <a href="javascript:;" class="u-btn u-submit" id="doReg">注册</a>
+        </div>
+        <script>
+            $(function(){
+                var loginBtn = $('#doLogin');
+                var regBtn = $('#doReg');
+                loginBtn.on('click',doLogin);
+                regBtn.on('click',doReg);
+            });
+            function doLogin(){
+                var username = $('#username').val(),
+                    password = $('#password').val();
+                $.ajax({
+                    url:"/ajax/login",
+                    type:"POST",
+                    datatype:"JSON",
+                    data:{username:username, password:password},
+                    success:function(rslt){
+                        console.log(rslt);
+                        if(rslt.res_code==1){
+                            window.location.href = '/';
+                        }
+                    },
+                    error:function(){}
+                })
+            };
+            function doReg(){
+                var username = $('#reg_username').val(),
+                    password = $('#reg_password').val();
+                $.ajax({
+                    url:"/ajax/regist",
+                    type:"POST",
+                    datatype:"JSON",
+                    data:{username:username, password:password},
+                    success:function(rslt){
+                        console.log(rslt);
+                        if(rslt.res_code==1){
+                            window.location.href = '/';
+                        }
+                    },
+                    error:function(){}
+                })
+            }
+        </script>
+    </body>
+</html> 
