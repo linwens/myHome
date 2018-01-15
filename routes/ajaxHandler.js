@@ -1,25 +1,14 @@
-var express = require('express');
-var router = express.Router();
+'use strict'
+import express from 'express';
+const router = express.Router();
 //用户操作
-var Login = require('../modules/users').Login;
-var Regist = require('../modules/users').Regist;
+import {Login, Regist} from '../modules/users'
 //文章操作
-var Subarticle = require('../modules/articles').Subarticle;
-var Removearticle = require('../modules/articles').Removearticle;
-var Getarticle = require('../modules/articles').Getarticle;
-var Getlist = require('../modules/articles').Getlist;
-var Gettags = require('../modules/articles').Gettags;
+import {Subarticle, Removearticle, Getarticle, Getlist, Gettags} from '../modules/articles'
 //html5相关操作----功能重复后期考虑优化
-var subH5 = require('../modules/html5').subH5;
-var RemoveH5 = require('../modules/html5').RemoveH5;
-var Geth5list = require('../modules/html5').Geth5list;
-var GetH5 = require('../modules/html5').GetH5;
+import {subH5, RemoveH5, Geth5list, GetH5} from '../modules/html5'
 //图片操作
-var ImgUpload = require('../modules/imgHandler').ImgUpload;
-var ImgInfosave = require('../modules/imgHandler').ImgInfosave;
-var Getimglist = require('../modules/imgHandler').Getimglist;
-var RemoveImg = require('../modules/imgHandler').RemoveImg;
-var Getimginfo = require('../modules/imgHandler').Getimginfo;
+import {ImgUpload, ImgInfosave, Getimglist, RemoveImg, Getimginfo} from '../modules/imgHandler'
 //登录
 router.post('/login',function(req, res, next){
     Login(req, res, next);

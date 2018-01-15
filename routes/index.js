@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express'
+const router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 });
 //H5宣传
 router.get('/h5Demo', function(req, res, next) {
-  res.render('h5Demo/index', { title: 'h5Demo' });
+    res.render('h5Demo/index', { title: 'h5Demo' });
 });
 router.get('/h5Demo/:name', function(req, res, next) {
   	res.render('h5Demo/'+req.params.name+'/index', { title: req.params.name });
