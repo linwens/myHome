@@ -1,7 +1,14 @@
-var Img = require('./mongoose').Img;
-var multer = require('multer');
-var qiniu = require('qiniu');
-var uuid = require('node-uuid');
+// var Img = require('./mongoose').Img;
+// var multer = require('multer');
+// var qiniu = require('qiniu');
+// var uuid = require('node-uuid');
+
+import {Img} from './mongoose';
+import multer from 'multer';
+import qiniu from 'qiniu';
+import uuid from 'node-uuid';
+
+
 //multer配置
 //直接存本地磁盘
 // var storage = multer.diskStorage({
@@ -29,19 +36,6 @@ var multerConf = multer({
 }).single('imgFiles');
 //图片上传
 exports.ImgUpload = function(req, res, next){
-    console.log('=======');
-    //本地存储
-    // multerConf(req, res, function(err){
-    //     if(err){
-    //         console.log('errrr');
-    //     }else{
-    //         console.log(req.file);
-    //         res.json({
-    //             res_code:'0',
-    //             res_msg:'上传成功'
-    //         })
-    //     }
-    // });
     //传七牛
     multerConf(req, res, function(err){
         //req.body.bucketType
@@ -113,28 +107,36 @@ exports.ImgInfosave = function(req, res, next){
     });
     //判断是修改还是新加
     if(req.query.option&&req.query.option=='modify'){
-        Img.update({gid:req.query.gid}, {title: req.query.title,desc:req.query.desc},function(err, data){
-            if(err){
-                console.log(err);
-            }else{
-                console.log('Updated:', data);
-                res.json({
-                    res_code:1,
-                    res_msg:'图片信息修改成功'
-                })
-            }
+        Img.update({gid:req.query.gid}, {title: req.query.title,desc:req.query.desc})
+        .then((data)=>{
+            console.log('Updated:', data);
+            res.json({
+                res_code:1,
+                res_msg:'图片信息修改成功'
+            })
+        })
+        .catch((err)=>{
+            console.log(err);
+            res.json({
+                res_code:4,
+                res_msg:'图片信息修改失败'
+            })
         })
     }else{
-        img.save(function(err, data){
-            if(err){
-                console.log(err);
-            }else{
-                console.log('Saved:', data);
-                res.json({
-                    res_code:1,
-                    res_msg:'图片信息保存成功'
-                })
-            }
+        img.save()
+        .then((data)=>{
+            console.log('Saved:', data);
+            res.json({
+                res_code:1,
+                res_msg:'图片信息保存成功'
+            })
+        })
+        .catch((err)=>{
+            console.log(err);
+            res.json({
+                res_code:4,
+                res_msg:'图片信息保存失败'
+            })
         })
     }
 }
@@ -148,96 +150,109 @@ exports.Getimglist = function(req, res, next){
         var schRegExp = new RegExp(schWord,"i");
         findParams = {"$or":[{'title':schRegExp}, {'desc':schRegExp}, {'type':'galleryImg'}]};
     }
-    Img.count(findParams,function(err, total){//为了获取总条数
-        Img.find(findParams).skip((curPage-1)*pageSize).limit(pageSize).sort({time:-1}).exec(function(err, data){
-            if(err){
-                console.log(err);
+    Img.count(findParams)
+    .then((total)=>{
+        Img.find(findParams)
+        .skip((curPage-1)*pageSize)
+        .limit(pageSize)
+        .sort({time:-1})
+        .then((data)=>{
+            console.log(findParams);
+            console.log('find:',data);
+            if(data&&data!=''){
+                var galleryImglist = [];
+                for(var i = 0;i<data.length;i++){
+                    if(data[i].type ==='galleryImg'){
+                        galleryImglist.push(data[i]);
+                    }
+                }
                 res.json({
-                    res_code:4,
-                    res_msg:'图片列表数据出错'
+                    res_code:1,
+                    dataList:galleryImglist,
+                    page:curPage,
+                    page_size:pageSize,
+                    total:total
                 })
             }else{
-                console.log('find:',data);
-                if(data&&data!=''){
-                    var galleryImglist = [];
-                    for(var i = 0;i<data.length;i++){
-                        if(data[i].type ==='galleryImg'){
-                            galleryImglist.push(data[i]);
-                        }
-                    }
-                    console.log(galleryImglist);
-                    res.json({
-                        res_code:1,
-                        dataList:galleryImglist,
-                        page:curPage,
-                        page_size:pageSize,
-                        total:total
-                    })
-                    return
-                }else{
-                    res.json({
-                        res_code:2,
-                        dataList:data,
-                        page:curPage,
-                        page_size:pageSize,
-                        total:0,
-                        res_msg:'没有更多！'
-                    })
-                    return
-                }
-            };
-        });
+                res.json({
+                    res_code:2,
+                    dataList:data,
+                    page:curPage,
+                    page_size:pageSize,
+                    total:0,
+                    res_msg:'没有更多！'
+                })
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+            res.json({
+                res_code:4,
+                res_msg:'图片列表数据出错'
+            })
+        })
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.json({
+            res_code:4,
+            res_msg:'获取图片总条数出错'
+        })
     });
 }
 //图片删除
 exports.RemoveImg = function(req, res, next){
-    Img.remove({gid:req.query.gid},function(err, data){
-        if(err){
-            console.log(err);
+    Img.remove({gid:req.query.gid})
+    .then((data)=>{
+        if(data&&data!=''){
+            res.json({
+                res_code:1,
+                res_msg:'图片删除成功'
+            })
         }else{
-            if(data&&data!=''){
-                res.json({
-                    res_code:1,
-                    res_msg:'图片删除成功'
-                })
-            }else{
-                res.json({
-                    res_code:2,
-                    res_msg:'图片不存在'
-                })
-            }
+            res.json({
+                res_code:2,
+                res_msg:'图片不存在'
+            })
         }
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.json({
+            res_code:4,
+            res_msg:'图片删除出错'
+        })
     });
 };
 //图片详情获取
 exports.Getimginfo = function(req, res, next){
-    Img.find({gid:req.query.gid},function(err, data){
-        if(err){
-            console.log(err);
+    Img.find({gid:req.query.gid})
+    .then((data)=>{
+        if(data&&data!=''){
             res.json({
-                res_code:4,
-                res_msg:'获取图片详情错误'
+                res_code:1,
+                imgInfo:{
+                    time:data[0].time,
+                    title:data[0].title,
+                    desc:data[0].desc?data[0].desc:'获取的图片没有描述',
+                    size: data[0].size,
+                    url:data[0].url,
+                    exif:data[0].exif,
+                    type:data[0].type
+                }
             })
         }else{
-            if(data&&data!=''){
-                res.json({
-                    res_code:1,
-                    imgInfo:{
-                        time:data[0].time,
-                        title:data[0].title,
-                        desc:data[0].desc?data[0].desc:'获取的图片没有描述',
-                        size: data[0].size,
-                        url:data[0].url,
-                        exif:data[0].exif,
-                        type:data[0].type
-                    }
-                })
-            }else{
-                res.json({
-                    res_code:2,
-                    res_msg:'图片不存在'
-                })
-            }
-        };
+            res.json({
+                res_code:2,
+                res_msg:'图片不存在'
+            })
+        }
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.json({
+            res_code:4,
+            res_msg:'获取图片详情错误'
+        })
     });
 };

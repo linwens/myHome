@@ -56,8 +56,10 @@
 			<#= data.text#>
 			<div class="m-atcTags">
 				标签：
-				<#for(var i = 0;i<data.tags.length;i++){#>
-					<a href="/blog?tag=<#= data.tags[i]#>"><#= data.tags[i]#></a>
+				<# if(data.tags){ #>
+					<#for(var i = 0;i<data.tags.length;i++){#>
+						<a href="/blog?tag=<#= data.tags[i]#>"><#= data.tags[i]#></a>
+					<#}#>
 				<#}#>
 			</div>
 		</div>
