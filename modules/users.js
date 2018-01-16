@@ -46,6 +46,7 @@ exports.Regist = function(req, res, next){
         username: req.body.username,
         password: req.body.password
     });
+    //mongoose里model的实例(这里就是小写的users)不存在find方法，用users.find()会报错，所以用User.find()
     User.find({username:users.username})
     .then(function(data){
         if(data&&data!=''&&data!='[]'){
@@ -53,15 +54,14 @@ exports.Regist = function(req, res, next){
                 res_code:'0',
                 res_msg:'用户已经存在'
             });
-            return new Promise((resolve, reject)=>{
-                reject('用户已存在');
-            });
+            return Promise.reject('用户已存在');
         }else{
-            return new Promise((resolve, reject)=>{
-                resolve(users);
-            });
+            return users;
+            //return Promise.resolve(users);//两句的效果是一样的，
+            //return的值会由 Promise.resolve(return的返回值); 进行相应的包装处理，因此不管回调函数中会返回一个什么样的值，最终 then 的结果都是返回一个新创建的promise对象。
         }
     }).then(function(users){
+        //实例具有save()方法进行存储，所以用users,而不是用构造函数User
         users.save()
         .then(function(data){
             //返回前端一个唯一id
