@@ -106,19 +106,38 @@ exports.ImgInfosave = function(req, res, next){
             })
         })
     }else{
-        img.save()
+        Img.find({url:req.body.url})
         .then((data)=>{
-            console.log('Saved:', data);
-            res.json({
-                res_code:1,
-                res_msg:'图片信息保存成功'
+            console.log('图片data==========');
+            console.log(data);
+            if(data&&data!=''){
+                return Promise.reject('图片信息已存在');
+            }else{
+                return img
+            }
+        })
+        .then((img)=>{
+            img.save()
+            .then((data)=>{
+                console.log('Saved:', data);
+                res.json({
+                    res_code:1,
+                    res_msg:'图片信息保存成功'
+                })
+            })
+            .catch((err)=>{
+                console.log(err);
+                res.json({
+                    res_code:4,
+                    res_msg:'图片信息保存失败'
+                })
             })
         })
         .catch((err)=>{
             console.log(err);
             res.json({
                 res_code:4,
-                res_msg:'图片信息保存失败'
+                res_msg:err
             })
         })
     }
