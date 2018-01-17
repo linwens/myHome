@@ -53,7 +53,6 @@ exports.ImgUpload = function(req, res, next){
                         throw respErr;
                     }
                     if (respInfo.statusCode == 200) {
-                        console.log(respBody);
                         var exifObj = {};
                             exifObj.model = respBody.model;
                             exifObj.iso = respBody.iso;
@@ -66,7 +65,7 @@ exports.ImgUpload = function(req, res, next){
                             res_msg:'上传成功',
                             size:respBody.width+'x'+respBody.height,
                             exif:exifObj,
-                            backUrl:'http://osurqoqxj.bkt.clouddn.com/'+respBody.key
+                            backUrl:(bucket==='linwens-img'?'http://osurqoqxj.bkt.clouddn.com/':'http://otvt0q8hg.bkt.clouddn.com/')+respBody.key
                         })
                     } else {
                         console.log(respInfo.statusCode);
