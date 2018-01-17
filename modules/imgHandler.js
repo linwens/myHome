@@ -108,8 +108,6 @@ exports.ImgInfosave = function(req, res, next){
     }else{
         Img.find({url:req.body.url})
         .then((data)=>{
-            console.log('图片data==========');
-            console.log(data);
             if(data&&data!=''){
                 return Promise.reject('图片信息已存在');
             }else{
