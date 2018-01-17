@@ -1,8 +1,3 @@
-// var Img = require('./mongoose').Img;
-// var multer = require('multer');
-// var qiniu = require('qiniu');
-// var uuid = require('node-uuid');
-
 import {Img} from './mongoose';
 import multer from 'multer';
 import qiniu from 'qiniu';
@@ -10,17 +5,6 @@ import uuid from 'node-uuid';
 
 
 //multer配置
-//直接存本地磁盘
-// var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, './public/images/gallery')
-//   },
-//   filename: function (req, file, cb) {
-//      console.log(file);
-//     cb(null, file.originalname)
-//   }
-// })
-// var multerConf = multer({ storage: storage }).single('imgFiles');
 //存为buffer
 var storage = multer.memoryStorage();
 var multerConf = multer({
@@ -97,17 +81,17 @@ exports.ImgUpload = function(req, res, next){
 exports.ImgInfosave = function(req, res, next){
     var img = new Img({
         time: Math.round(Date.parse(new Date())/1000),
-        title:req.query.title,
-        desc: req.query.desc,
-        size: req.query.size,
-        url: req.query.url,
-        exif:JSON.parse(req.query.exif),
-        type:req.query.type,
+        title:req.body.title,
+        desc: req.body.desc,
+        size: req.body.size,
+        url: req.body.url,
+        exif:JSON.parse(req.body.exif),
+        type:req.body.type,
         gid:uuid.v1()
     });
     //判断是修改还是新加
-    if(req.query.option&&req.query.option=='modify'){
-        Img.update({gid:req.query.gid}, {title: req.query.title,desc:req.query.desc})
+    if(req.body.option&&req.body.option=='modify'){
+        Img.update({gid:req.body.gid}, {title: req.body.title,desc:req.body.desc})
         .then((data)=>{
             console.log('Updated:', data);
             res.json({
@@ -142,13 +126,15 @@ exports.ImgInfosave = function(req, res, next){
 }
 //获取图片列表(需要做缓存处理)
 exports.Getimglist = function(req, res, next){
+    console.log(req.query);
     var schWord = req.query.schWord?req.query.schWord:null,
         curPage = req.query.curPage?parseInt(req.query.curPage):1,
         pageSize = req.query.pageSize?parseInt(req.query.pageSize):10,
-        findParams = {'type':'galleryImg'};//只筛选摄影作品 add by lws 2017.9.28
+        imgType = req.query.dataType?req.query.dataType:'galleryImg',
+        findParams = {'type':imgType};//只筛选摄影作品 add by lws 2017.9.28
     if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
         var schRegExp = new RegExp(schWord,"i");
-        findParams = {"$or":[{'title':schRegExp}, {'desc':schRegExp}, {'type':'galleryImg'}]};
+        findParams = {"$or":[{'title':schRegExp}, {'desc':schRegExp}], 'type':imgType};
     }
     Img.count(findParams)
     .then((total)=>{
@@ -162,7 +148,7 @@ exports.Getimglist = function(req, res, next){
             if(data&&data!=''){
                 var galleryImglist = [];
                 for(var i = 0;i<data.length;i++){
-                    if(data[i].type ==='galleryImg'){
+                    if(data[i].type ===imgType){
                         galleryImglist.push(data[i]);
                     }
                 }
@@ -202,7 +188,7 @@ exports.Getimglist = function(req, res, next){
 }
 //图片删除
 exports.RemoveImg = function(req, res, next){
-    Img.remove({gid:req.query.gid})
+    Img.remove({gid:req.body.gid})
     .then((data)=>{
         if(data&&data!=''){
             res.json({

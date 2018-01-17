@@ -18,32 +18,32 @@ marked.setOptions({
 //文章发布
 exports.Subarticle = function(req, res, next){
 	var tags = [];//针对vue本地调试，改为body=>query
-	for(var key in JSON.parse(req.query.tags)){
-	    tags.push(JSON.parse(req.query.tags)[key])
+	for(var key in JSON.parse(req.body.tags)){
+	    tags.push(JSON.parse(req.body.tags)[key])
 	}
 	var articles = new Articles({
 	    time: Math.round(Date.parse(new Date())/1000),
-	    title: req.query.title,
-	    text:req.query.text,
-	    tags:tags,//req.query.tags?Object.values(req.query.tags):[]//遍历对象生成数组
+	    title: req.body.title,
+	    text:req.body.text,
+	    tags:tags,//req.body.tags?Object.values(req.body.tags):[]//遍历对象生成数组
 	    aid:uuid.v1(),
-	    brief:req.query.brief,
-	    operate:req.query.operate,
+	    brief:req.body.brief,
+	    operate:req.body.operate,
 	    pv:0
 	});
 	//判断是修改还是新加
-	if(req.query.option&&req.query.option=='modify'){//文章修改返回原markdown
+	if(req.body.option&&req.body.option=='modify'){//文章修改返回原markdown
 		let params = {
-			title: req.query.title,
-			text: req.query.text,
-			brief: req.query.brief,
+			title: req.body.title,
+			text: req.body.text,
+			brief: req.body.brief,
 			tags:tags,
-			operate:req.query.operate
+			operate:req.body.operate
 		};
-		Articles.update({aid:req.query.aid}, params)
+		Articles.update({aid:req.body.aid}, params)
 		.then((data)=>{
 			console.log('Updated:', data);
-			if(req.query.operate==='save'){
+			if(req.body.operate==='save'){
 				res.json({
 				    res_code:1,
 				    res_msg:'文章修改成功未发布'
@@ -63,7 +63,7 @@ exports.Subarticle = function(req, res, next){
 		articles.save()
 		.then((data)=>{
 			console.log('Saved:', data);
-			if(req.query.operate==='save'){
+			if(req.body.operate==='save'){
 				res.json({
 				    res_code:1,
 				    res_msg:'文章保存成功未发布'
@@ -83,8 +83,8 @@ exports.Subarticle = function(req, res, next){
 };
 //文章删除
 exports.Removearticle = function(req, res, next){
-	console.log('query==getArticle=='+JSON.stringify(req.query));
-	Articles.remove({aid:req.query.aid})
+	console.log('query==getArticle=='+JSON.stringify(req.body));
+	Articles.remove({aid:req.body.aid})
 	.then((data)=>{
 		if(data&&data!=''){
 			res.json({

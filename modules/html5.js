@@ -4,13 +4,13 @@ import uuid from 'node-uuid';
 exports.subH5 = function(req, res, next){
 	var html5 = new Html5({
 	    time: Math.round(Date.parse(new Date())/1000),
-	    name: req.query.name,
-	    desc:req.query.desc,
+	    name: req.body.name,
+	    desc: req.body.desc,
 	    hid:uuid.v1()
 	});
 	//判断是修改还是新加
-	if(req.query.option&&req.query.option=='modify'){
-		Html5.update({hid:req.query.hid}, {name: req.query.name,desc:req.query.desc})
+	if(req.body.option&&req.body.option=='modify'){
+		Html5.update({hid:req.body.hid}, {name: req.body.name,desc:req.body.desc})
 		.then((data)=>{
 			console.log('Updated:', data);
 			res.json({
@@ -37,8 +37,8 @@ exports.subH5 = function(req, res, next){
 };
 //作品删除
 exports.RemoveH5 = function(req, res, next){
-	console.log('query==getArticle=='+JSON.stringify(req.query));
-	Html5.remove({hid:req.query.hid})
+	console.log('query==getArticle=='+JSON.stringify(req.body));
+	Html5.remove({hid:req.body.hid})
 	.then((data)=>{
 		if(data&&data!=''){
 			res.json({
