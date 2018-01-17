@@ -5,7 +5,7 @@
   "scripts": {
     "babel-node": "babel-node ./bin/www --preset",
     "dev": "set NODE_ENV=development&&nodemon --exec npm run babel-node",
-    "prod": "set NODE_ENV=production&&babel-node ./bin/www --preset"
+    "prod": "npm run babel-node"
   },
   "dependencies": {
     "body-parser": "~1.16.0",
