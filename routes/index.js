@@ -40,11 +40,20 @@ router.get('/blog/detail', function(req, res, next) {
 router.get('/admin', function(req, res, next) {
   res.render('vue', { title: '后台系统' });
 });
-//测试页面
+//以下是测试页面
 router.get('/test', function(req, res, next) {
   	res.render('test', { title: '测试' });
 });
 router.get('/testLogin', function(req, res, next) {
     res.render('testLogin', { title: '测试登录' });
+});
+router.get('/b_index', function(req, res, next) {
+    res.render('b_index', { title: '新首页' });
+});
+router.get('/b_gallery', function(req, res, next) {
+    res.render('b_gallery', { title: '新照片页' });
+});
+router.get('/b_blog', function(req, res, next) {
+    res.render('b_blog', { title: '新blog页' });
 });
 module.exports = router;
