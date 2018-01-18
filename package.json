@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "babel-node": "babel-node ./bin/www --preset",
-    "dev": "set NODE_ENV=development&&nodemon --exec npm run babel-node",
-    "prod": "npm run babel-node"
+    "dev": "set NODE_ENV=development&&nodemon bin/www --exec babel-node --preset",
+    "prod": "babel-node bin/www --preset"
   },
   "dependencies": {
     "body-parser": "~1.16.0",
@@ -28,6 +27,8 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "browser-sync": "^2.23.5",
+    "gulp": "^3.9.1",
     "nodemon": "^1.14.11"
   }
 }
