@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "set NODE_ENV=development&&nodemon bin/www --exec babel-node --preset",
+    "dev": "set NODE_ENV=development&&nodemon bin/www --ignore public/javascripts --exec babel-node --preset",
     "prod": "babel-node bin/www --preset"
   },
   "dependencies": {
