@@ -6,12 +6,118 @@
 	<title>嘘嘘的小站</title>
 	<link rel='stylesheet' href='/bootstraps/css/bootstrap.min.css'/>
 	<link rel='stylesheet' href='/bootstraps/css/bootstrap-theme.min.css'/>
+	<link rel='stylesheet' href='/stylesheets/diy-bs.css'/>
 	<script src="https://cdn.bootcss.com/jquery/1.12.3/jquery.js"></script>
 	<script src="/bootstraps/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div class="container-fluid">
-		bootstrap测试
+	<div class="xx-page-index">
+		<div class="jumbotron xx-header">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8">
+						<h1>欢迎</h1>
+						<p>林文书的主页</p>
+					</div>
+					<div class="col-xs-8 col-sm-6 col-md-2 thumbnail xx-portrait">
+						<img src="/images/yellower.jpg" class="img-responsive" alt="">
+					</div>
+				</div>
+			</div>
+	  	</div>
+	  	<div class="container-fluid xx-img-container">
+  			<h2>我的摄影作品</h2>
+  			<ul class="xx-img-list row">
+  				<li class="col-xs-12 col-sm-6 col-md-3">
+  					<img src="/images/yellower.jpg" class="img-responsive" alt="">
+  					<div class="xx-u-panel"><p>日本</p></div>
+  				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-3">
+  					<img src="/images/yellower.jpg" class="img-responsive" alt="">
+  					<div class="xx-u-panel"><p>杭州</p></div>
+  				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-3">
+  					<img src="/images/yellower.jpg" class="img-responsive" alt="">
+  					<div class="xx-u-panel"><p>舟山</p></div>
+  				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-3">
+  					<img src="/images/yellower.jpg" class="img-responsive" alt="">
+  					<div class="xx-u-panel"><p>日本</p></div>
+  				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-3">
+  					<img src="/images/yellower.jpg" class="img-responsive" alt="">
+  					<div class="xx-u-panel"><p>日本</p></div>
+  				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-3">
+  					<img src="/images/yellower.jpg" class="img-responsive" alt="">
+  					<div class="xx-u-panel"><p>日本</p></div>
+  				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-3">
+  					<img src="/images/yellower.jpg" class="img-responsive" alt="">
+  					<div class="xx-u-panel"><p>日本</p></div>
+  				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-3">
+  					<img src="/images/yellower.jpg" class="img-responsive" alt="">
+  					<div class="xx-u-panel"><p>日本</p></div>
+  				</li>
+  			</ul>
+  		</div>
+  		<div class="container xx-blog-container">
+  			<h2>关于blog</h2>
+  			<ul class="xx-blog-list row">
+  				<li class="col-xs-12 col-sm-6 col-md-4">
+  					<a href="javascript:;">文章一</a>
+  					<div>文章简介文章简介文章简介</div>
+  					<span>2018-1-19</span>
+  				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-4">
+  					<a href="javascript:;">文章二</a>
+  					<div>文章简介文章简介文章简介</div>
+  					<span>2018-1-19</span>
+  				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-4">
+  					<a href="javascript:;">文章三</a>
+  					<div>文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介文章简介</div>
+  					<span>2018-1-19</span>
+  				</li>
+  			</ul>
+  		</div>
+	  	<div class="xx-m-footer">
+	  		<div class="container">
+	  			<div class="row">
+	  				<div class="col-xs-6 col-sm-3 col-md-2 xx-u-contact">
+	  					<h6>CONTACT</h6>
+	  					<p>zhejiang·hangzhou</p>
+	  					<p>lws200841001@163.com</p>
+	  				</div>
+	  				<div class="col-xs-6 col-sm-3 col-md-2 xx-u-work">
+	  					<h6>WORK</h6>
+	  					<a href="/blog">blog</a>
+	  					<a href="/gallery">gallery</a>
+	  					<a href="https://github.com/linwens">github</a>
+	  					<p id="J_weixin">微信公众号</p>
+	  				</div>
+	  			</div>
+	  		</div>
+	  		<div class="container">
+	  			<p class="xx-copyright">Copyright© linwens 2018</p>
+	  		</div>
+	  	</div>
 	</div>
+	<!-- 
+		一、页头：简介、导航
+		二、主体两个模块：1、照片，2、blog
+		三、页脚：联系方式、公众号地址、git地址
+	 -->
+	 <script>
+	 	$(function(){
+	 		$('.xx-img-list>li').hover(function(){
+	 			console.log($(this));
+	 			$(this).find('div.xx-u-panel').css({'height':'190px'});
+	 		},function(){
+	 			$(this).find('div.xx-u-panel').css({'height':'0'});
+	 		})
+	 	})
+	 </script>
 </body>
 </html>
