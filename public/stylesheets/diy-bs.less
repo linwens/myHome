@@ -19,6 +19,32 @@ del,ins,u,s,a,a:hover{text-decoration:none;}
 html,body {
   height: 100%;
 }
+/*公共页脚*/
+.xx-m-footer{
+	background: #292929;
+	.row{
+		padding-top: 2em;
+	}
+	h6{
+		
+		font-weight: bold;
+		font-size: 1.2em;
+	}
+	h6,a,p{
+		line-height: 2em;
+		color: #f1f1f1;
+	}
+	a{
+		display: block;
+		&:hover{
+			text-decoration: underline;
+			color: #fff;
+		}
+	}
+	.xx-copyright{
+		margin: 1em 0;
+	}
+}
 /*首页自定义样式*/
 .xx-page-index{
 	height: 100%;
@@ -44,8 +70,8 @@ html,body {
 		z-index: 1;
 		background: #fff;
 		font-size: inherit;
-		h2{
-			font-size: 1em;
+		h1{
+			padding: 0.6em;
 			text-align: center;
 		}
 	}
@@ -55,7 +81,10 @@ html,body {
 			/*width: 25%;*/
 			height: 190px;
 		    line-height: 190px;
-		    background: #73F6C2;
+		    background-color: #73F6C2;
+		    background-position: center center;
+		    -webkit-background-size: cover;
+		    background-size: cover;
 		    text-align: center;
 			img{
 				position: absolute;
@@ -99,7 +128,7 @@ html,body {
 			/*width: 100%;*/
 			/*height: 165px;*/
 			padding: 15px 5px 10px;
-		    &:after{
+		    /*&:after{
 		    	content:" ";
 		    	position: absolute;
 		    	top: 0;
@@ -112,7 +141,7 @@ html,body {
 		    }
 		    &:nth-child(3):after{
 				content: none;
-		    }
+		    }*/
 		    >a{
 		    	display: block;
 		    	font-size: 20px;
@@ -129,29 +158,117 @@ html,body {
 		    }
 		}
 	}
-	.xx-m-footer{
-		background: #292929;
-		.row{
-			padding-top: 2em;
+}
+/*blog自定义样式*/
+.xx-page-blog{
+	position: relative;
+	.xx-m-header{
+		background-color: #00A5FF;
+		color: #fff;
+		.xx-pc-hd{
+			height: 150px;
+			padding: 50px 0 0 50px;
 		}
-		h6{
-			
-			font-weight: bold;
-			font-size: 1.2em;
-		}
-		h6,a,p{
-			line-height: 2em;
-			color: #f1f1f1;
-		}
-		a{
-			display: block;
-			&:hover{
-				text-decoration: underline;
-				color: #fff;
+		.xx-mb-hd{
+			position: relative;
+			text-align: center;
+			h2{
+				height: 40px;
+				line-height: 40px;
+				font-size: 20px;
+			}
+			i{
+				position: absolute;
+				top: 10px;
+				left: 10px;
 			}
 		}
-		.xx-copyright{
-			margin: 1em 0;
+	}
+	.xx-u-bc{
+		&:before{
+			content:'位置: ';
+			color: #777;
+			margin-right: 10px;
+		};
+	}
+	.xx-page-main{
+		max-width: 970px;
+		padding: 0;
+		.xx-m-sidemain{
+			padding: 0;
+			border-radius: 0;
+			float: left;
+			.panel-heading{
+				background-color: #ACFFF1;
+			}
 		}
+		.xx-m-article{
+			float: right;
+			margin-bottom: 30px;
+			article{
+			}
+			>hr{
+				margin: 30px auto;
+				width: 30%;
+				background-color: #ccc;
+			}
+			.xx-u-ttpic{
+				display: block;
+				width: 100%;
+				height: 14em;
+				background-color: #eee;
+				background-position: center center;
+				-webkit-background-size: cover;
+				background-size: cover;
+			}
+			.xx-m-txt{
+				margin-top: 20px;
+				color: #555;
+				h2{
+					font-size: 1.6em;
+				}
+				a{
+					color: inherit;
+				}
+				p>a{
+					color: #D8C000;
+				}
+			}
+		}
+	}
+	.xx-m-mobile-sidebar{
+		z-index: 4;
+		position: fixed;
+		top: 0;
+		left: -60%;
+		width: 60%;
+		height: 100%;
+		padding: 0;
+		background-color: #00A5FF;
+		.xx-u-brief{
+			padding: 20px 0 0 20px;
+			color: #fff;
+			h2{
+				font-size: 1.6em;
+			}
+			span{
+				font-size: 0.8em;
+			}
+		}
+		.panel{
+			margin-top: 3em;
+			border-radius: 0;
+			border:none!important;
+		}
+		transition: all 0.2s ease-out;
+	}
+	.xx-u-mask{
+		position: fixed;
+		top:0;
+		left: 0;
+		z-index: 3;
+		background-color: rgba(0,0,0,0.2);
+		width: 100%;
+		height: 100%;
 	}
 }

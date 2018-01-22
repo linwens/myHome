@@ -54,6 +54,6 @@ router.get('/b_gallery', function(req, res, next) {
     res.render('b_gallery', { title: '新照片页' });
 });
 router.get('/b_blog', function(req, res, next) {
-    res.render('b_blog', { title: '新blog页' });
+    res.render('blog/b_blog', { title: '新blog页' });
 });
 module.exports = router;
