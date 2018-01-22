@@ -185,7 +185,13 @@ html,body {
 		}
 	}
 	.xx-u-bc{
-		&:before{
+		width: inherit;
+		background-color: #f5f5f5;
+		.breadcrumb{
+			max-width: 970px;
+			margin: 0 auto 10px;
+		}
+		&>.breadcrumb:before{
 			content:'位置: ';
 			color: #777;
 			margin-right: 10px;
