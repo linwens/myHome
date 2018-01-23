@@ -25,11 +25,11 @@
 			</div>
 	  	</div>
 	  	<div class="container-fluid xx-blog-container">
-  			<h1>我的博客</br><small> 记录自己的进步</small></h1>
-  			<a href="/blog">查看更多文章</a>
+  			<h1>我的博客</br><small>记录自己的进步</small></h1>
   			<div>
   				<ul class="xx-blog-list row" id="J_blog"></ul>
   			</div>
+  			<a href="/blog">更多文章</a>
   		</div>
 	  	<div class="container-fluid xx-img-container">
   			<h1>我的记录</br><small>没事儿按按快门</small></h1>
@@ -40,33 +40,29 @@
   				<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4" style="background-image: url(/images/gallery/starbuck.jpg);">
   					<div class="xx-u-panel"><p>杭州</p></div>
   				</li>
+  				<li class="col-xs-12 col-sm-6 col-md-6 col-lg-4" style="background-image: url(/images/gallery/Japan.jpg);">
+  					<div class="xx-u-panel"><p>日本</p></div>
+  				</li>
   			</ul>
   		</div>
-  		
 	  	<% include ./footer%>
 	</div>
-	<!-- 
-		一、页头：简介、导航
-		二、主体两个模块：1、照片，2、blog
-		三、页脚：联系方式、公众号地址、git地址
-	 -->
-	 <script type="text/template" id="tpl_blog">
+	<script type="text/template" id="tpl_blog">
 	 	<#for(var i = 0;i<data.length;i++){#>
 			<li class="col-xs-12 col-sm-6 col-md-4">
 				<a href="/blog/detail?id=<#=data[i].aid#>"><#= data[i].title #></a>
-				<div><#= data[i].brief #>...<a href="/blog/detail?id=<#=data[i].aid#>">[阅读全文]</a></div>
-				<span><#= Utils.timeFormat(data[i].time)#></span>
+				<p><#= data[i].brief #>...</p>
+				<div>
+					<a href="/blog/detail?id=<#=data[i].aid#>">[阅读全文]</a>
+					<span><#= Utils.timeFormat(data[i].time)#></span>
+				</div>
+				<#if(i<data.length-1){#><b class="hidden-sm"></b><#}#>
 			</li>
+
 	 	<#}#>
-	 </script>
-	 <script>
+	</script>
+	<script>
 	 	$(function(){
-	 		$('.xx-img-list>li').hover(function(){
-	 			console.log($(this));
-	 			$(this).find('div.xx-u-panel').css({'height':'190px'});
-	 		},function(){
-	 			$(this).find('div.xx-u-panel').css({'height':'0'});
-	 		});
 	 		getList(1,3);
 	 	});
 	 	//请求文章数据
@@ -94,6 +90,6 @@
 	 			error:function(rslt){}
 	 		})
 	 	};
-	 </script>
+	</script>
 </body>
 </html>

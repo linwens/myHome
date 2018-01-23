@@ -21,18 +21,33 @@ html,body {
 }
 /*公共页脚*/
 .xx-m-footer{
-	background: #292929;
+	height:20%;
+	min-height:150px;
+	position: relative;
+	padding-top: 2em;
+	background-color: #292929;
+	background-attachment: fixed;
+	>div{
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+	}
 	.row{
-		padding-top: 2em;
+		max-width: 1200px;
+		margin:0 auto;
 	}
 	h6{
-		
-		font-weight: bold;
-		font-size: 1.2em;
+		font-weight: normal;
+		font-size: 1em;
 	}
 	h6,a,p{
 		line-height: 2em;
-		color: #f1f1f1;
+		color: rgba(241,241,241,0.55);
+	}
+	a,p{
+		font-weight: 100;
+		font-size:0.8em;
 	}
 	a{
 		display: block;
@@ -43,9 +58,14 @@ html,body {
 	}
 	.xx-u-contact{
 		min-width: 170px;
+		text-align: right;
+	}
+	.xx-u-work{
+		text-align: left;
 	}
 	.xx-copyright{
 		margin: 1em 0;
+		text-align: center;
 	}
 }
 /*首页自定义样式*/
@@ -77,22 +97,52 @@ html,body {
 		font-size: inherit;
 		text-align: center;
 		h1{
-			padding: 0.6em 0 0;
+			line-height: 0.9em;
+			padding: 1.5em 0 0;
 			text-align: center;
+			font-size:1.8em;
 			small{
+				font-weight: 100;
 				font-size: 0.5em;
+				color: #333;
 			}
 		}
 	}
 	.xx-img-container{
-		margin-bottom: 20px;
+		padding-bottom: 20px;
+		background-color: #292929;
+		color: #fff;
+		h1>small{
+			color: #fff;
+		}
 	}
-	.xx-blog-container>div{
-		max-width: 1200px;
-		margin: 0 auto;
+	.xx-blog-container{
+		>div{
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+		>a{
+			display: block;
+			width:10%;
+			min-width: 6em;
+			height: 3em;
+			line-height: 3em;
+			margin: 4em auto 2em;
+			border-radius: 30px;
+			border: 1px solid #333;
+			text-align: center;
+			font-weight: 100;
+			font-size: 1em;
+			color: #333;
+			&:hover{
+				background-color: #333;
+				color: #fff;
+			}
+			transition:all 0.2s ease-in;
+		}
 	}
 	.xx-img-list{
-		margin-top: 10px;
+		margin-top: 40px;
 		font-size: 0;/*取消li之间的间隙*/
 		>li{
 			display: inline-block;/*为了让不定数量的li自动居中*/
@@ -121,18 +171,24 @@ html,body {
 				bottom:0;
 				left: 0;
 				width: 100%;
-				opacity: 0.7;
+				height: 250px;
 				text-align: center;
 				z-index: 2;
 				overflow: hidden;
 				font-size: 14px;
+				opacity: 0;
+				background-color: #000;
+				transition: all 0.2s linear;
+				&:hover{
+					opacity: 0.6;
+				}
 				p{
 					position: absolute;
 					top: 50%;
 					left: 50%;
 					transform: translate(-50%,-50%);
 					width: 20%;
-					height: 20%;
+					height: 16%;
 					line-height: 200%;
 					border: 2px solid #fff;
 					color: #fff;
@@ -145,22 +201,39 @@ html,body {
 		margin: 20px 0;
 		>li{
 			position: relative;
-			padding: 15px 5px 10px;
+			padding: 15px 50px 10px;
 			text-align: left;
 		    >a{
 		    	display: block;
 		    	font-size: 20px;
+		    	margin-bottom: 0.6em;
 		    }
-		    div{
-		    	height: 110px;
+		    p{
+		    	height: 6em;
 		    	color: #777;
 		    	font-size: 14px;
+		    	margin-bottom: 1em;
 		    }
-		    span{
-		    	display: block;
-		    	color: #999;
-		    	text-align: right;
-		    }
+		    div{
+		    	overflow: hidden;
+		    	font-size: 12px;
+		    	a{
+		    		float: left;
+		    		color: #337ab7;
+		    	}
+		    	span{
+		    		float: right;
+		    		color: #999;
+		    		text-align: right;
+		    	}
+		    }   
+		    >b{
+		    	position: absolute;
+		    	bottom: 1em;
+		    	right: 0;
+		    	height:11em;
+		    	border-right: 1px solid #e3e1e1;
+		    } 
 		}
 	}
 }
@@ -336,6 +409,23 @@ html,body {
 				word-wrap: break-word;
 				font-size: 14px;
 		  	}
+		}
+	}
+}
+/*自定义小屏*/
+@media (max-width: 768px) {
+	.xx-page-index{
+		.xx-blog-list{
+			>li{
+				padding: 15px 5px 10px;
+			    >b{
+			    	bottom: 0;
+			    	width: 100%;
+			    	height:0;
+			    	border-right: none;
+			    	border-bottom: 1px solid #e3e1e1;
+			    } 
+			}
 		}
 	}
 }
