@@ -31,10 +31,10 @@ router.get('/gallery', function(req, res, next) {
 });
 //博客
 router.get('/blog', function(req, res, next) {
-  res.render('blog/index', { title: 'Blog' });
+  res.render('blog/index', { title: '我的博客', type:'blog' });//type用于区别渲染
 });
 router.get('/blog/detail', function(req, res, next) {
-  res.render('blog/detail', { title: 'Blog详情页' });
+  res.render('blog/index', { title: '文章详情页面', type:'detail' });
 });
 //后台页面
 router.get('/admin', function(req, res, next) {

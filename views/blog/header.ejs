@@ -1,18 +1,18 @@
-<div class="bl-hd">
-	<div class="m-ctbox">
-		<div class="u-logo">
-			<a href="/blog"><img src="/images/xxLogo.png" alt=""></a>
-		</div>
-		<div class="u-sch">
-			<input type="text" name='schWork' id="schWork">
-			<button id="btn_sch">搜索</button>
-		</div>
+<!-- 页头 -->
+<div class="xx-m-header container-fluid">
+	<div class="xx-pc-hd row visible-sm-block visible-md-block visible-lg-block">
+		<h2>我的博客</h2>
+		<span>每天进步一点点</span>
+	</div>
+	<div class="xx-mb-hd visible-xs-block">
+		<i class="iconfont" id="J_show_mbside">&#xe69a;</i>
+		<h2>我的博客</h2>
 	</div>
 </div>
-<script>
-	$('#btn_sch').on('click', function(){
-		var schWord = $('#schWork').val();
-		// schWord = schWord.replace(/select|update|delete|truncate|join|union|exec|insert|drop|count|script|%22|%3E|%3C|'|"|>|<|\\/gi, "_");
-		window.location.href="/blog?schWord="+schWord
-	});
-</script>
+<!-- 面包屑 -->
+<div class="xx-u-bc">
+	<ol class="breadcrumb">
+	  	<li><a href="/">首页</a></li>
+	  	<li><a href="/blog">博客</a></li>
+	</ol>
+</div>

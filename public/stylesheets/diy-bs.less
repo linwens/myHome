@@ -41,6 +41,9 @@ html,body {
 			color: #fff;
 		}
 	}
+	.xx-u-contact{
+		min-width: 170px;
+	}
 	.xx-copyright{
 		margin: 1em 0;
 	}
@@ -52,14 +55,16 @@ html,body {
 	background: #eee;
 	.xx-header{
 		position: relative;
-		height: 50%;
-		min-height: 50%;
+		max-width: 1200px;
+		height: 70%;
+		min-height: 70%;
+		margin:0 auto;
 		background-attachment: fixed;
 		.container{
 			z-index: 0;
 			position: fixed;
 			top: 48px;
-			left: 0;
+			/*left: 0;*/ /*加上的话，fixed会定位到最左边*/
 		}
 		.xx-portrait{
 			margin: 0 auto;
@@ -70,17 +75,31 @@ html,body {
 		z-index: 1;
 		background: #fff;
 		font-size: inherit;
+		text-align: center;
 		h1{
-			padding: 0.6em;
+			padding: 0.6em 0 0;
 			text-align: center;
+			small{
+				font-size: 0.5em;
+			}
 		}
 	}
+	.xx-img-container{
+		margin-bottom: 20px;
+	}
+	.xx-blog-container>div{
+		max-width: 1200px;
+		margin: 0 auto;
+	}
 	.xx-img-list{
+		margin-top: 10px;
+		font-size: 0;/*取消li之间的间隙*/
 		>li{
-			position: relative;
-			/*width: 25%;*/
-			height: 190px;
-		    line-height: 190px;
+			display: inline-block;/*为了让不定数量的li自动居中*/
+			float: none;
+			height: 250px;
+		    line-height: 250px;
+		    padding: 0;
 		    background-color: #73F6C2;
 		    background-position: center center;
 		    -webkit-background-size: cover;
@@ -106,6 +125,7 @@ html,body {
 				text-align: center;
 				z-index: 2;
 				overflow: hidden;
+				font-size: 14px;
 				p{
 					position: absolute;
 					top: 50%;
@@ -125,23 +145,8 @@ html,body {
 		margin: 20px 0;
 		>li{
 			position: relative;
-			/*width: 100%;*/
-			/*height: 165px;*/
 			padding: 15px 5px 10px;
-		    /*&:after{
-		    	content:" ";
-		    	position: absolute;
-		    	top: 0;
-		    	right: 0;
-		    	width: 2px;
-		    	height: 186px;
-		    	background-color: #e4e4e4;
-		    	border-radius: 50%;
-		    	
-		    }
-		    &:nth-child(3):after{
-				content: none;
-		    }*/
+			text-align: left;
 		    >a{
 		    	display: block;
 		    	font-size: 20px;
@@ -160,7 +165,7 @@ html,body {
 	}
 }
 /*blog自定义样式*/
-.xx-page-blog{
+.xx-page-blog{/*公共*/
 	position: relative;
 	.xx-m-header{
 		background-color: #00A5FF;
@@ -197,47 +202,18 @@ html,body {
 			margin-right: 10px;
 		};
 	}
+	/*主体部分侧边栏*/
 	.xx-page-main{
 		max-width: 970px;
 		padding: 0;
 		.xx-m-sidemain{
-			padding: 0;
-			border-radius: 0;
 			float: left;
-			.panel-heading{
-				background-color: #ACFFF1;
-			}
-		}
-		.xx-m-article{
-			float: right;
-			margin-bottom: 30px;
-			article{
-			}
-			>hr{
-				margin: 30px auto;
-				width: 30%;
-				background-color: #ccc;
-			}
-			.xx-u-ttpic{
-				display: block;
-				width: 100%;
-				height: 14em;
-				background-color: #eee;
-				background-position: center center;
-				-webkit-background-size: cover;
-				background-size: cover;
-			}
-			.xx-m-txt{
-				margin-top: 20px;
-				color: #555;
-				h2{
-					font-size: 1.6em;
-				}
-				a{
-					color: inherit;
-				}
-				p>a{
-					color: #D8C000;
+			.panel{
+				width: 94%;
+				padding: 0;
+				border-radius: 0;
+				.panel-heading{
+					background-color: #ACFFF1;
 				}
 			}
 		}
@@ -276,5 +252,90 @@ html,body {
 		background-color: rgba(0,0,0,0.2);
 		width: 100%;
 		height: 100%;
+	}
+	/*blog列表页*/
+	.xx-m-article{
+		float: right;
+		margin-bottom: 30px;
+		article{
+		}
+		hr{
+			margin: 30px auto;
+			width: 30%;
+			background-color: #ccc;
+		}
+		.xx-u-ttpic{
+			display: block;
+			width: 100%;
+			height: 14em;
+			background-color: #eee;
+			background-position: center center;
+			-webkit-background-size: cover;
+			background-size: cover;
+		}
+		.xx-m-txt{
+			margin-top: 20px;
+			color: #555;
+			h2{
+				font-size: 1.6em;
+			}
+			a{
+				color: inherit;
+			}
+			p>a{
+				color: #D8C000;
+			}
+		}
+		/*分页*/
+		.xx-u-page li>button{
+		    display: inline-block;
+		    padding: 5px 14px;
+		    background-color: #fff;
+		    border: 1px solid #ddd;
+		    border-radius: 15px;
+		    color: #337ab7;
+		}
+	}
+	/*blog详情页*/
+	.xx-m-artDetail{
+		float: right;
+		box-shadow: 0px 2px 2px 2px #eee;
+		.blog-header {
+		  padding-top: 20px;
+		  padding-bottom: 20px;
+		}
+		.blog-post-title {
+		  margin-bottom: 5px;
+		  font-size: 2.6em;
+		}
+		.blog-post-meta {
+		  margin-bottom: 20px;
+		  color: #999;
+		}
+		.xx-u-text {
+			font-size: 14px;
+			color: #555;
+			line-height: 1.8em;
+			>p{
+				text-indent: 1.6em;
+			}
+			h1{
+				font-size: 1.6em;
+				font-weight: bold;
+				margin: 0.4em 0;
+			}
+			h2{
+				margin: 0.4em 0;
+				font-size: 1.2em;
+				font-weight: bold;
+			}
+		  	blockquote{
+		  		padding: 10px 14px;
+				margin: 0.6em 0px;
+				border-left: 5px solid rgb(238,238,238);
+				word-wrap: break-word;
+				font-size: 14px;
+		  	}
+		}
 	}
 }
