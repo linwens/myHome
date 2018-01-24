@@ -2,9 +2,11 @@
 <html lang="zh" class="no-js">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>gallery</title>
-	<link rel="stylesheet" href="/stylesheets/style.css">
-	<link rel="stylesheet" href="/stylesheets/gallery.css">
+	<link rel='stylesheet' href='/bootstraps/css/bootstrap.min.css'/>
+	<link rel='stylesheet' href='/bootstraps/css/bootstrap-theme.min.css'/>
+	<link rel='stylesheet' href='/stylesheets/diy-bs.css'/>
 	<link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="/stylesheets/gallery/style2.css" />
 	<script src='/javascripts/jquery.js'></script>
@@ -12,14 +14,22 @@
 	<script src="/javascripts/gallery/modernizr-custom.js"></script>
 </head>
 <body>
-	<div class="g-hd">
-		<div>linwens's gallery</div>
-	</div>
-	<div class="g-bd gallery">
-		<div class="m-banner" style="background-image: url(/images/test.jpg);"></div>
-		<div class="container">
+	<div class="xx-page-gallery">
+		<div class="container-fluid xx-gallery-header">
+			<div class="jumbotron">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-8">
+							<h1>日本</h1>
+							<p>记录这次日本之行</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	  	<div class="container">
 			<div class="content">
-				<div class="grid" id="J_imagesList"></div>
+				<div class="grid xx-img-container" id="J_imagesList"></div>
 				<!-- /grid -->
 				<div class="preview">
 					<button class="action action--close"><i class="fa fa-times"></i><span class="text-hidden">Close</span></button>
@@ -28,8 +38,8 @@
 				<!-- /preview -->
 			</div>
 		</div>
+	  	<% include ./footer%>
 	</div>
-	<div class="g-ft"></div>
 	<script type="text/template" id="tpl_imagesList">
 		<#for(var i = 0;i<data.length;i++){#>
 			<div class="grid__item" data-size="<#=data[i].size#>">
@@ -59,6 +69,9 @@
 	<script>
 		$(function(){
 			getList(1,'');
+			console.log(window.screen.width);
+			console.log(window.devicePixelRatio);
+			console.log(window.screen.width * window.devicePixelRatio);
 		});
 		//获取列表数据
 		function getList(cur,sch){
@@ -114,7 +127,7 @@
 
 			new GridFx(document.querySelector('.grid'), {
 				imgPosition : {
-					x : -0.5,
+					x : window.screen.width<=768?1:-0.5,
 					y : 1
 				},
 				onOpenItem : function(instance, item) {

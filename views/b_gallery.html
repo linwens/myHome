@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>嘘嘘的小站</title>
+	<link rel='stylesheet' href='/bootstraps/css/bootstrap.min.css'/>
+	<link rel='stylesheet' href='/bootstraps/css/bootstrap-theme.min.css'/>
+	<link rel='stylesheet' href='/stylesheets/diy-bs.css'/>
+	<script src="https://cdn.bootcss.com/jquery/1.12.3/jquery.js"></script>
+	<script src="/bootstraps/js/bootstrap.min.js"></script>
+	<script src="/javascripts/underscore-min.js"></script>
+	<script src='/javascripts/util.js'></script>
+</head>
+<body>
+	<div class="xx-page-gallery">
+		<div class="container-fluid xx-gallery-header">
+			<div class="jumbotron">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-8">
+							<h1>日本</h1>
+							<p>记录这次日本之行</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	  	<div class="container xx-img-container">
+	  		<div class="xx-img-list" id="J_imgList">
+	  			<!-- <div class="grid-item"></div>
+				<div class="grid-item"></div>
+				<div class="grid-item" style="height: 245px;"></div>
+				<div class="grid-item"></div>
+				<div class="grid-item" style="height: 290px;"></div>
+				<div class="grid-item"></div>
+				<div class="grid-item" style="height: 140px;"></div>
+				<div class="grid-item" style="height: 200px"></div>
+				<div class="grid-item" style="height: 150px"></div>
+				<div class="grid-item"></div>
+				<div class="grid-item" style="height: 220px"></div>
+				<div class="grid-item" style="height: 205px"></div>
+				<div class="grid-item"></div>
+				<div class="grid-item"></div>
+				<div class="grid-item"></div>
+				<div class="grid-item"></div> -->
+	  		</div>
+	  	</div>
+	  	<% include ./footer%>
+	</div>
+	<script type="text/template" id="tpl_imgList">
+		<#for(var i = 0;i<data.length;i++){#>
+		<#var w = data[i].size.split('x')[0]#>
+		<#var h = data[i].size.split('x')[1]#>
+		<div class="grid-item" style="height: <#= h*(160/w)#>px">
+			<img src="<#=data[i].url#>" />
+		</div>
+		<#}#>
+	</script>
+	<script src='/javascripts/gallery/minigrid.js'></script>
+	<script>
+		$(function(){
+			getList(1,'',function(){//数据加载完以后，异步调用瀑布流
+				setTimeout(function(){
+					minigrid('.xx-img-list', '.grid-item', 6, null, 
+					  	function(){
+					    	var d = document.querySelector('.xx-img-container');
+					    	d.style.opacity = 1;
+					  	}
+					);
+				}, 0);
+			});
+		  	window.addEventListener('resize', function(){
+		    	minigrid('.xx-img-list', '.grid-item');
+		  	});
+		});
+		//获取列表数据
+		function getList(cur,sch, cb){
+			$.ajax({
+				url:'/ajax/getImglist',
+				type:'GET',
+				dataType:'JSON',
+				data:{curPage:cur,schWord:sch},
+				success:function(rslt){
+					if(rslt.res_code==2){
+						alert(rslt.res_msg);
+					}else{
+						var html = $('#tpl_imgList').html();
+						_.templateSettings = {	//避免前端模板被ejs语法解析
+							evaluate    : /<#([\s\S]+?)#>/g,
+						    interpolate : /<#=([\s\S]+?)#>/g,
+						    escape      : /<#-([\s\S]+?)#>/g
+						};
+						var template = _.template(html);
+						var tpl = template({data:rslt.dataList});
+						$('#J_imgList').append(tpl);//针对滑动加载
+						//分页信息
+						//确保数据获取后调用图片展示插件（问题就是阻塞）
+						cb();
+					}
+				},
+				error:function(rslt){}
+			})
+		};
+	</script>
+</body>
+</html>

@@ -30,7 +30,7 @@
 
 .grid__item {
 	width: 270px;
-	padding: 10px;
+	padding: 0.2em;
 }
 
 .grid__item--current {
@@ -348,7 +348,7 @@
 	color: transparent;
 }
 
-@media screen and (max-width: 40em) {
+@media screen and (max-width: 768px) {
 	.description--preview h3 {
 		font-size: 0.5em;
 	}
