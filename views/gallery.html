@@ -12,6 +12,7 @@
 	<script src='/javascripts/jquery.js'></script>
 	<script src="/javascripts/underscore-min.js"></script>
 	<script src="/javascripts/gallery/modernizr-custom.js"></script>
+	<script src='/javascripts/util.js'></script>
 </head>
 <body>
 	<div class="xx-page-gallery">
@@ -20,8 +21,8 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-8">
-							<h1>日本</h1>
-							<p>记录这次日本之行</p>
+							<h1></h1>
+							<p></p>
 						</div>
 					</div>
 				</div>
@@ -67,12 +68,43 @@
 	<script src="/javascripts/gallery/classie.js"></script>
 	<script src="/javascripts/gallery/main.js"></script>
 	<script>
+		var assort = Utils.getUrlquery('assort')?Utils.getUrlquery('assort'):'';
 		$(function(){
-			getList(1,'');
+			
+			getList(1,assort);
+			//设置页头文案
+			switch(assort){
+				case '日本':
+					$('.xx-gallery-header h1').html(assort);
+					$('.xx-gallery-header p').html('记录我们的日本行');
+					break;
+				case '杭州':
+					$('.xx-gallery-header h1').html(assort);
+					$('.xx-gallery-header p').html('我在杭州第十个年头了？');
+					break;
+				default: 
+					$('.xx-gallery-header h1').html('全部');
+					$('.xx-gallery-header p').html('我的全部了');
+			}
 			console.log(window.screen.width);
 			console.log(window.devicePixelRatio);
 			console.log(window.screen.width * window.devicePixelRatio);
 		});
+		//滚动加载更多
+		// var count = 1;
+		// var flag = false;
+		// var $container = $('#J_imagesList');  
+		// $(window).scroll(function(){  
+  //           var scrollTop = $(this).scrollTop();
+  //           var scrollHeight = $(document).height();
+  //           var windowHeight = $(this).height();
+  //           if((scrollTop + windowHeight)>(scrollHeight-windowHeight*0.2)&&!flag){
+  //           	count++;
+  //           	flag = true;
+  //      			getList(count,assort); 
+                 
+  //           }  
+  //       })
 		//获取列表数据
 		function getList(cur,sch){
 			$.ajax({
@@ -82,7 +114,8 @@
 				data:{curPage:cur,schWord:sch},
 				success:function(rslt){
 					if(rslt.res_code==2){
-						alert(rslt.res_msg);
+						$('#J_imagesList').append(rslt.res_msg);
+						doPlugin();
 					}else{
 						var html = $('#tpl_imagesList').html();
 						_.templateSettings = {	//避免前端模板被ejs语法解析
@@ -92,12 +125,13 @@
 						};
 						var template = _.template(html);
 						var tpl = template({data:rslt.dataList});
-						$('#J_imagesList').html(tpl);
+						$('#J_imagesList').append(tpl);
 						//分页信息
 						//确保数据获取后调用图片展示插件（问题就是阻塞）
 						setTimeout(function(){
 							doPlugin()
 						}, 0);
+						//flag = false;
 					}
 				},
 				error:function(rslt){}

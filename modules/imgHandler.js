@@ -150,7 +150,7 @@ exports.Getimglist = function(req, res, next){
         findParams = {'type':imgType};//只筛选摄影作品 add by lws 2017.9.28
     if(schWord){//标题，正文，标签内包含关键字(js的RegExp对象)
         var schRegExp = new RegExp(schWord,"i");
-        findParams = {"$or":[{'title':schRegExp}, {'desc':schRegExp}], 'type':imgType};
+        findParams = {"$or":[{'desc':schRegExp}], 'type':imgType};//图片搜索只根据图片描述进行搜索
     }
     Img.count(findParams)
     .then((total)=>{
