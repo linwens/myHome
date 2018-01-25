@@ -49,8 +49,10 @@ html,body {
 		font-weight: 100;
 		font-size:0.8em;
 	}
-	a{
+	b{
 		display: block;
+	}
+	a{
 		&:hover{
 			text-decoration: underline;
 			color: #fff;
@@ -64,18 +66,18 @@ html,body {
 				cursor: pointer;
 				position: relative;
 				display: inline-block;
+				overflow: hidden;
 				img{
 					position: absolute;
 					bottom: 0.6em;
-					right: 4em;
+					right: 5em;
 					width: 200%;
-					opacity: 0;
-					transition:all .2s ease-out;
+					transition:all .3s ease-out;
 				}
 				&:hover{
+					overflow: initial;
 					img{
 						right: 5.4em;
-						opacity: 1;
 					}
 				}
 			}
