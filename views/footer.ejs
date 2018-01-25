@@ -22,3 +22,20 @@
 		</div>
 	</div>
 </div>
+<script>
+	$(function(){
+		var flag = true;
+		//if(document.body.clientWidth<=768){
+			$('#J_weixin>em').click(function(){
+				if(flag){
+					$(this).css({'overflow': 'initial'});
+					$(this).find('img').css({'right': '5.4em','opacity': 1});
+				}else{
+					$(this).css({'overflow': 'hidden'});
+					$(this).find('img').css({'right': '5.1em','opacity': 0});
+				}
+				flag = !flag;
+			});
+		//}
+	})
+</script>
