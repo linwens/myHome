@@ -9,6 +9,14 @@
 	<h2 class="blog-post-title"><#= data.title#></h2>
 	<p class="blog-post-meta">发表时间：<#= Utils.timeFormat(data.time)#> by LinWenshu</p>
 	<div class="xx-u-text"><#= data.text#></div>
+	<div class="xx-u-tags">
+		<span><i class="iconfont">&#xe6e0;</i>本文标签 : </span>
+		<# if(data.tags){ #>
+			<#for(var i = 0;i<data.tags.length;i++){#>
+				<a class="label label-default" href="/blog?tag=<#= data.tags[i]#>"><#= data.tags[i]#></a>
+			<#}#>
+		<#}#>
+	</div>
 </script>
 <script>
 	$(function(){

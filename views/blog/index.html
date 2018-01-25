@@ -39,6 +39,9 @@
 		</div>
 		<!-- 遮罩 -->
 		<div class="xx-u-mask" style="display: none;"></div>
+		<div class="xx-u-gotop">
+			<i class="iconfont">&#xe612;</i>
+		</div>
 		<% include ../footer%>
 	</div>
 	<script>
@@ -51,6 +54,47 @@
 			$('.xx-u-mask, .xx-m-mobile-sidebar').click(function(){
 				$('.xx-m-mobile-sidebar').css({'left':'-60%'});
 				$('.xx-u-mask').hide();
+			});
+			//返回顶部效果
+			$('.xx-u-gotop').click(function(e){
+				e.preventDefault();
+				$('body,html').animate({scrollTop:0},{duration:800,easing:'easeInOutCubic'});//easeInOutCubic，快慢快 
+		                return false; 
+			});
+			jQuery.extend( jQuery.easing,{  //定义easeInOutCubic 函数
+			    easeInOutCubic: function(a, b, c, d, e) {
+					if ((b /= e / 2) < 1) return d / 2 * b * b * b + c;
+					return d / 2 * ((b -= 2) * b * b + 2) + c;
+				},  
+			});
+			$(window).scroll(function(){
+				var scrollTop = $(this).scrollTop();
+				if(scrollTop>100){
+					$('.xx-u-gotop').css({'opacity':1});
+				}else{
+					$('.xx-u-gotop').css({'opacity':0});
+				}
+			})
+		 	//获取侧边栏文章数
+		 	var urlArr = document.body.clientWidth<768?$('.xx-m-mobile-sidebar .list-group-item>a'):$('.xx-m-sidemain .list-group-item>a');
+			urlArr.each(function(el){
+				setTimeout(function(i){
+					$.ajax({
+						url:'/ajax/getList',
+						type:'GET',
+						dataType:'JSON',
+						data:{curPage: 1, schWord:urlArr.eq(i).html(),from:'front'},
+						success:function(rslt){
+							if(rslt.res_code==2){
+		 						urlArr.eq(i).siblings('i').html('(0)');
+		 					}else{
+		 						urlArr.eq(i).siblings('i').html('('+rslt.total+')');
+		 					}
+							
+						},
+						error:function(){}
+					});
+				}, 0, el);
 			});
 		})
 	</script>

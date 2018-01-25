@@ -59,6 +59,25 @@ html,body {
 	.xx-u-contact{
 		min-width: 160px;
 		text-align: right;
+		#J_weixin{
+			position: relative;
+			cursor: pointer;
+			img{
+				position: absolute;
+				bottom: 0.6em;
+				right: 4em;
+				width: 20%;
+				opacity: 0;
+				transition:all .2s ease-out;
+			}
+			&:hover{
+				img{
+					right: 5.4em;
+					opacity: 1;
+				}
+			}
+			
+		}
 	}
 	.xx-u-work{
 		min-width: 110px;
@@ -242,8 +261,9 @@ html,body {
 /*blog自定义样式*/
 .xx-page-blog{/*公共*/
 	position: relative;
+	height: 100%;
 	.xx-m-header{
-		background-color: #00A5FF;
+		background-color: #292929;
 		color: #fff;
 		.xx-pc-hd{
 			max-width: 970px;
@@ -282,6 +302,7 @@ html,body {
 	/*主体部分侧边栏*/
 	.xx-page-main{
 		max-width: 970px;
+		min-height:63%;
 		padding: 0;
 		.xx-m-sidemain{
 			float: left;
@@ -303,7 +324,7 @@ html,body {
 		width: 60%;
 		height: 100%;
 		padding: 0;
-		background-color: #00A5FF;
+		background-color: #292929;
 		.xx-u-brief{
 			padding: 20px 0 0 20px;
 			color: #fff;
@@ -330,10 +351,26 @@ html,body {
 		width: 100%;
 		height: 100%;
 	}
+	.xx-u-gotop{
+		position: fixed;
+		bottom: 22%;
+		right: 50%;
+		transform: translate(37em, 0);
+		z-index: 4;
+		cursor: pointer;
+		transition:all .3s ease-out;
+		opacity: 0;
+		i{
+			font-size: 3em;
+		}
+	}
 	/*blog列表页*/
 	.xx-m-article{
 		float: right;
-		margin-bottom: 30px;
+		position: relative;
+		z-index: 1;
+		background: #fff;
+		padding-bottom: 30px;
 		article{
 		}
 		hr{
@@ -416,6 +453,19 @@ html,body {
 				font-size: 14px;
 		  	}
 		}
+		.xx-u-tags{
+			margin:1em 0;
+			padding: 1em 0 0.5em 1em;
+			border-top: 1px dashed #eee;
+			>span{
+				display: inline-block;
+				position: relative;
+				top: 1px;
+				i{
+					vertical-align: middle;
+				}
+			}
+		}
 	}
 }
 /*摄影页面样式*/
@@ -464,6 +514,16 @@ html,body {
 }
 /*自定义小屏*/
 @media (max-width: 768px) {
+	.xx-m-footer{
+		.xx-u-contact{
+			#J_weixin{
+				img{
+					bottom: -2.6em;
+					width: 70%;
+				}
+			}
+		}
+	}
 	.xx-page-index{
 		.xx-blog-list{
 			>li{
@@ -489,6 +549,14 @@ html,body {
 			.description--preview{
 				left:0;
 			}
+		}
+	}
+}
+@media (max-width: 992px) {
+	.xx-page-blog{
+		.xx-u-gotop{
+			right: 1%;
+			transform: translate(0, 0);
 		}
 	}
 }
