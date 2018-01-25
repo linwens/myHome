@@ -9,6 +9,8 @@
 	<link rel='stylesheet' href='/stylesheets/diy-bs.css'/>
 	<link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="/stylesheets/gallery/style2.css" />
+	<link rel='stylesheet' href='/iconfont/iconfont.css'/>
+	<script src="/iconfont/iconfont.js"></script>
 	<script src='/javascripts/jquery.js'></script>
 	<script src="/javascripts/underscore-min.js"></script>
 	<script src="/javascripts/gallery/modernizr-custom.js"></script>
@@ -83,8 +85,8 @@
 					$('.xx-gallery-header p').html('我在杭州第十个年头了？');
 					break;
 				default: 
-					$('.xx-gallery-header h1').html('全部');
-					$('.xx-gallery-header p').html('我的全部了');
+					$('.xx-gallery-header h1').html('ALL IN');
+					$('.xx-gallery-header p').html('我的全部');
 			}
 		});
 		//获取列表数据
@@ -96,9 +98,11 @@
 				data:{curPage:cur,pageSize:ps,schWord:sch},
 				success:function(rslt){
 					if(rslt.res_code==2){
-						$('#J_imagesList').append(rslt.res_msg);
+						$('#J_imagesList').html('<div class="xx-u-nomore"><i class="iconfont">&#xe61a;</i><p>'+rslt.res_msg+' ~ ~</p></div>');
 						doPlugin();
-					}else{
+					}if(rslt.res_code==4){
+ 						$('#J_imagesList').html('<div class="xx-u-nomore"><i class="iconfont">&#xe87c;</i><p>'+rslt.res_msg+' ~ ~</p></div>');
+ 					}else{
 						var html = $('#tpl_imagesList').html();
 						_.templateSettings = {	//避免前端模板被ejs语法解析
 							evaluate    : /<#([\s\S]+?)#>/g,

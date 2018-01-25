@@ -77,7 +77,9 @@
  			data:{curPage: cur,pageSize: ps,schWord:sch,from:'front'},
  			success:function(rslt){
  				if(rslt.res_code==2){
- 					$('.xx-m-article').html(rslt.res_msg);
+ 					$('.xx-m-article').html('<div class="xx-u-nomore"><i class="iconfont">&#xe652;</i><p>'+rslt.res_msg+' ~ ~</p></div>');
+ 				}if(rslt.res_code==4){
+ 					$('.xx-m-article').html('<div class="xx-u-nomore"><i class="iconfont">&#xe87c;</i><p>'+rslt.res_msg+' ~ ~</p></div>');
  				}else{
  					var html = $('#tpl_blog').html();
  					_.templateSettings = {	//避免前端模板被ejs语法解析

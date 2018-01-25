@@ -182,7 +182,7 @@ exports.Getimglist = function(req, res, next){
                     page:curPage,
                     page_size:pageSize,
                     total:0,
-                    res_msg:'没有更多！'
+                    res_msg:'这题材我还没拍'
                 })
             }
         })

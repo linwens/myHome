@@ -60,23 +60,25 @@ html,body {
 		min-width: 160px;
 		text-align: right;
 		#J_weixin{
-			position: relative;
-			cursor: pointer;
-			img{
-				position: absolute;
-				bottom: 0.6em;
-				right: 4em;
-				width: 20%;
-				opacity: 0;
-				transition:all .2s ease-out;
-			}
-			&:hover{
+			>em{
+				cursor: pointer;
+				position: relative;
+				display: inline-block;
 				img{
-					right: 5.4em;
-					opacity: 1;
+					position: absolute;
+					bottom: 0.6em;
+					right: 4em;
+					width: 200%;
+					opacity: 0;
+					transition:all .2s ease-out;
+				}
+				&:hover{
+					img{
+						right: 5.4em;
+						opacity: 1;
+					}
 				}
 			}
-			
 		}
 	}
 	.xx-u-work{
@@ -87,6 +89,17 @@ html,body {
 		margin: 1em 0;
 		text-align: center;
 		clear: both;
+	}
+}
+.xx-u-nomore{
+	width: 100%;
+	text-align: center;
+	i{
+		font-size: 3.4em;
+		color: #dadada;
+	}
+	p{
+		color: #777;
 	}
 }
 /*首页自定义样式*/
@@ -302,8 +315,11 @@ html,body {
 	/*主体部分侧边栏*/
 	.xx-page-main{
 		max-width: 970px;
-		min-height:63%;
+		min-height:70%;
 		padding: 0;
+		background: #fff;
+	    position: relative;
+	    z-index: 1;
 		.xx-m-sidemain{
 			float: left;
 			.panel{
@@ -485,6 +501,9 @@ html,body {
 	}
 	>.container{
 		min-height:30%;
+		background: #fff;
+	    position: relative;
+	    z-index: 1;
 	}
 	.xx-img-container{
 		position: relative;
@@ -517,9 +536,11 @@ html,body {
 	.xx-m-footer{
 		.xx-u-contact{
 			#J_weixin{
-				img{
-					bottom: -2.6em;
-					width: 70%;
+				>em{
+					img{
+						bottom: -2.6em;
+						width: 150%;
+					}
 				}
 			}
 		}
