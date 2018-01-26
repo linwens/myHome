@@ -8,7 +8,23 @@
 		<p class="blog-post-meta">发表时间：0000-00-00 by LinWenshu</p>
 		<div class="xx-u-text">文章内容加载中</div>
 	</div>
+	<div id="J_comment-box"></div><!-- 评论区的容器 -->
 </div>
+<!-- 评论系统start -->
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: 'linwens',//写github账号的username就好了不用写id
+  repo: 'xxBlog',//直接写项目的name
+  oauth: {
+    client_id: '',
+    client_secret: '',
+  },
+})
+gitment.render('J_comment-box');
+</script>
+<!-- 评论系统end -->
 <script type="text/template" id="tpl_detail">
 	<h2 class="blog-post-title"><#= data.title#></h2>
 	<p class="blog-post-meta"><i class="iconfont">&#xe620;</i>发表时间：<#= Utils.timeFormat(data.time, 1)#> <i class="iconfont">&#xe613;</i> by Linws </p>

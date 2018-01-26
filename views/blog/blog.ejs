@@ -32,7 +32,7 @@
 	<#var imgArr = ['css','css3','html5','javascript','node','gulp','vue','less','jquery'];#>
 	<#for(var i = 0;i<data.length;i++){#>
 		<article>
-			<#if(imgArr.indexOf(data[i].tags[0].toLowerCase())<=0){#>
+			<#if(imgArr.indexOf(data[i].tags[0]?data[i].tags[0].toLowerCase():'')<=0){#>
 				<a href="/blog/detail?id=<#=data[i].aid#>" class="xx-u-ttpic" style="background-image: url(/images/titleImg/default.jpg);">
 				</a>
 			<#}else{#>
