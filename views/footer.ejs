@@ -4,7 +4,7 @@
 			<div class="col-xs-5 col-sm-6 col-md-6 col-lg-6 xx-u-contact">
 				<h6>联系方式</h6>
 				<p>浙江·杭州</p>
-				<p>lws200841001@163.com</p>
+				<a href="mailto:lws200841001@163.com" target="_blank">lws200841001@163.com</a>
 				<p id="J_weixin">
 					<em>微信公众号
 						<img src="/images/wechat.jpg" alt="公众号二维码">
@@ -31,17 +31,15 @@
 <script>
 	$(function(){
 		var flag = true;
-		//if(document.body.clientWidth<=768){
-			$('#J_weixin>em').click(function(){
-				if(flag){
-					$(this).css({'overflow': 'initial'});
-					$(this).find('img').css({'right': '5.4em','opacity': 1});
-				}else{
-					$(this).css({'overflow': 'hidden'});
-					$(this).find('img').css({'right': '5.1em','opacity': 0});
-				}
-				flag = !flag;
-			});
-		//}
+		$('#J_weixin>em').click(function(){
+			if(flag){
+				$(this).css({'overflow': 'initial'});
+				$(this).find('img').css({'right': '5.4em','opacity': 1});
+			}else{
+				$(this).css({'overflow': 'hidden'});
+				$(this).find('img').css({'right': '5.1em','opacity': 0});
+			}
+			flag = !flag;
+		});
 	})
 </script>
