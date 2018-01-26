@@ -8,6 +8,7 @@
 	<link rel='stylesheet' href='/bootstraps/css/bootstrap-theme.min.css'/>
 	<link rel='stylesheet' href='/stylesheets/diy-bs.css'/>
 	<link rel='stylesheet' href='/iconfont/iconfont.css'/>
+	<link rel="stylesheet" href="/stylesheets/highlight/tomorrow-night.css">
 	<script src="/iconfont/iconfont.js"></script>
 	<script src="https://cdn.bootcss.com/jquery/1.12.3/jquery.js"></script>
 	<script src="/bootstraps/js/bootstrap.min.js"></script>
@@ -67,12 +68,20 @@
 					return d / 2 * ((b -= 2) * b * b + 2) + c;
 				},  
 			});
+			var barTop = $('.xx-m-sidemain').offset().top;
 			$(window).scroll(function(){
+				
 				var scrollTop = $(this).scrollTop();
 				if(scrollTop>200){
 					$('.xx-u-gotop').css({'opacity':1});
 				}else{
 					$('.xx-u-gotop').css({'opacity':0});
+				}
+				//左侧边栏下移
+				if(scrollTop>(barTop-10)){
+					$('.xx-m-sidemain').css({'position':'absolute','top':scrollTop-barTop+10});
+				}else{
+					$('.xx-m-sidemain').css({'position':'static','top':0});
 				}
 			})
 		 	//获取侧边栏文章数

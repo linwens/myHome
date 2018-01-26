@@ -41,7 +41,7 @@
 			<#}#>
 			<div class="xx-m-txt">
 				<h2><a href="/blog/detail?id=<#=data[i].aid#>"><#= data[i].title #></a></h2>
-				<span><i class="iconfont"></i>发表于:<#= Utils.timeFormat(data[i].time)#></span>
+				<span><i class="iconfont">&#xe620;</i>发表于 : <#= Utils.timeFormat(data[i].time,1)#> <i class="iconfont">&#xe613;</i> by linws</span>
 				<p><#= data[i].brief #>...<a href="/blog/detail?id=<#=data[i].aid#>">[阅读全文]</a></p>
 			</div>
 		</article>
@@ -90,6 +90,7 @@
  					var template = _.template(html);
  					var tpl = template({data:rslt.dataList});
  					$('#J_blog').html(tpl);
+ 					$('.xx-m-article').css({'opacity':1,'top':0});
  					//分页信息
  					if(rslt.page==1){
  						$('#btn-prev').attr({'disabled':true}).css({'color':'#ddd'});
