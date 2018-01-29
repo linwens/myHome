@@ -61,12 +61,12 @@
 		}else{
 			getList(1);
 		}
-	});
-	//分页限制
-	$('#btn-prev, #btn-next').on('click', function(){
-		document.body.scrollTop = 0;
-		getList($(this).attr('data-page'), 5);
-		$(this).parents('li').siblings().find('button').attr({'disabled':false});
+		//分页限制
+		$('#btn-prev, #btn-next').on('click', function(){
+			document.body.scrollTop = 0;
+			getList($(this).attr('data-page'), 5, schWord);
+			$(this).parents('li').siblings().find('button').attr({'disabled':false});
+		});
 	});
 	//请求文章数据
 	function getList(cur, ps, sch){
