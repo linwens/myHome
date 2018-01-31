@@ -29,10 +29,10 @@
 	</nav>
 </div>
 <script type="text/template" id="tpl_blog">
-	<#var imgArr = ['css','css3','html5','javascript','node','gulp','vue','less','jquery'];#>
+	<#var imgArr = ['css','css3','html5','javascript','node','gulp','vue','less','jquery',"git"];#>
 	<#for(var i = 0;i<data.length;i++){#>
 		<article>
-			<#if(imgArr.indexOf(data[i].tags[0].toLowerCase())<=0){#>
+			<#if(imgArr.indexOf(data[i].tags[0]?data[i].tags[0].toLowerCase():'')<=0){#>
 				<a href="/blog/detail?id=<#=data[i].aid#>" class="xx-u-ttpic" style="background-image: url(/images/titleImg/default.jpg);">
 				</a>
 			<#}else{#>
@@ -41,7 +41,7 @@
 			<#}#>
 			<div class="xx-m-txt">
 				<h2><a href="/blog/detail?id=<#=data[i].aid#>"><#= data[i].title #></a></h2>
-				<span><i class="iconfont"></i>发表于:<#= Utils.timeFormat(data[i].time)#></span>
+				<span><i class="iconfont">&#xe620;</i>发表于 : <#= Utils.timeFormat(data[i].time,1)#> <i class="iconfont">&#xe613;</i> by linws</span>
 				<p><#= data[i].brief #>...<a href="/blog/detail?id=<#=data[i].aid#>">[阅读全文]</a></p>
 			</div>
 		</article>
@@ -61,12 +61,12 @@
 		}else{
 			getList(1);
 		}
-	});
-	//分页限制
-	$('#btn-prev, #btn-next').on('click', function(){
-		document.body.scrollTop = 0;
-		getList($(this).attr('data-page'), 5);
-		$(this).parents('li').siblings().find('button').attr({'disabled':false});
+		//分页限制
+		$('#btn-prev, #btn-next').on('click', function(){
+			document.body.scrollTop = 0;
+			getList($(this).attr('data-page'), 5, schWord);
+			$(this).parents('li').siblings().find('button').attr({'disabled':false});
+		});
 	});
 	//请求文章数据
 	function getList(cur, ps, sch){
@@ -90,6 +90,7 @@
  					var template = _.template(html);
  					var tpl = template({data:rslt.dataList});
  					$('#J_blog').html(tpl);
+ 					$('.xx-m-article').css({'opacity':1,'top':0});
  					//分页信息
  					if(rslt.page==1){
  						$('#btn-prev').attr({'disabled':true}).css({'color':'#ddd'});
