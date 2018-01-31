@@ -86,6 +86,14 @@ html,body {
 		margin: 1em 0;
 		text-align: center;
 		clear: both;
+		color: rgba(241,241,241,0.55);
+		.xx-u-static{
+			display: inline-block;
+			margin-left: 10px;
+			i{
+				margin-right: 5px;
+			}
+		}
 	}
 }
 .xx-u-nomore{
@@ -309,13 +317,14 @@ html,body {
 	/*主体部分侧边栏*/
 	.xx-page-main{
 		max-width: 970px;
-		min-height:70%;
+		min-height:87%;
 		padding: 0;
 		background: #fff;
 	    position: relative;
 	    z-index: 1;
 		.xx-m-sidemain{
 			float: left;
+			transition: all 0.3s ease-out;
 			.panel{
 				width: 94%;
 				padding: 0;
@@ -378,9 +387,12 @@ html,body {
 	.xx-m-article{
 		float: right;
 		position: relative;
+		top: -10px;
 		z-index: 1;
 		background: #fff;
 		padding-bottom: 30px;
+		opacity: 0;
+		transition: all 0.2s linear;
 		article{
 		}
 		hr{
@@ -404,10 +416,17 @@ html,body {
 				font-size: 1.6em;
 			}
 			a{
-				color: inherit;
+				color: #337ab7;
 			}
-			p>a{
-				color: #D8C000;
+			span{
+				display: block;
+				margin: 0.4em 0 1em;
+				color: #adadad;
+				i{
+					position: relative;
+					top: 0.1em;
+					font-size: 1.4em;
+				}
 			}
 		}
 		/*分页*/
@@ -423,20 +442,30 @@ html,body {
 	/*blog详情页*/
 	.xx-m-artDetail{
 		float: right;
+		position: relative;
+		right: -10px;
 		box-shadow: 0px 2px 2px 2px #eee;
+		padding-top: 0.8em;
 		padding-bottom: 0.8em;
 		margin-bottom: 2em;
+		opacity: 0;
+		transition: all 0.2s linear;
 		.blog-header {
 		  padding-top: 20px;
 		  padding-bottom: 20px;
 		}
 		.blog-post-title {
 		  margin-bottom: 5px;
-		  font-size: 2.6em;
+		  font-size: 2em;
 		}
 		.blog-post-meta {
 		  margin-bottom: 20px;
 		  color: #999;
+		  i{
+		  	position: relative;
+		  	top: 0.1em;
+		  	font-size: 1.4em;
+		  }
 		}
 		.xx-u-text {
 			font-size: 14px;
@@ -444,16 +473,17 @@ html,body {
 			line-height: 1.8em;
 			>p{
 				text-indent: 1.6em;
+				line-height: 2em;
+			}
+			h1,h2{
+				font-weight: bold;
+				margin: 0.4em 0 1em;
 			}
 			h1{
 				font-size: 1.6em;
-				font-weight: bold;
-				margin: 0.4em 0;
 			}
 			h2{
-				margin: 0.4em 0;
 				font-size: 1.2em;
-				font-weight: bold;
 			}
 		  	blockquote{
 		  		padding: 10px 14px;
@@ -461,6 +491,14 @@ html,body {
 				border-left: 5px solid rgb(238,238,238);
 				word-wrap: break-word;
 				font-size: 14px;
+		  	}
+		  	/*copy自highlight的css主题样式*/
+		  	code{
+		  		display: block;
+		  		overflow-x: auto;
+		  		background: #1d1f21;
+		  		color: #c5c8c6;
+		  		padding: 0.5em;
 		  	}
 		}
 		.xx-u-tags{
@@ -476,6 +514,14 @@ html,body {
 				}
 			}
 		}
+		#J_comment-box{
+			border-top: 1px dashed #eee;
+		}
+		.xx-u-readstc{/*阅读量*/
+			position: absolute;
+			right: 1.2em;
+			top: 3.7em;
+		}
 	}
 }
 /*摄影页面样式*/
@@ -485,6 +531,8 @@ html,body {
 	>.xx-gallery-header{
 		background-color: #eee;
 		background-position: center center;
+		background-repeat: no-repeat;
+		background-size: cover;
 		height: 60%;
 		min-height: 60%;
 		.jumbotron{
@@ -555,10 +603,12 @@ html,body {
 			}
 		}
 	}
-	.xx-page-gallery{
-		>.xx-gallery-header{
-			background-size: cover;
+	.xx-page-blog{
+		.xx-m-artDetail{
+			box-shadow: none;
 		}
+	}
+	.xx-page-gallery{
 		#J_imagesList{
 			.grid__item{
 				width: 160px;
