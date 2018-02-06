@@ -50,23 +50,6 @@
                 var regBtn = $('#doReg');
                 loginBtn.on('click',doLogin);
                 regBtn.on('click',doReg);
-                var xhr = new XMLHttpRequest();
-                //xhr初始化
-                xhr.onreadystatechange = function(){
-                    if(xhr.readyState==4){
-                        if((xhr.status>=200 && xhr.status<300)||xhr.status == 304){
-                            console.log(xhr.responseXML);
-                            console.log(xhr.getAllResponseHeaders());
-                            console.log(xhr.responseText);
-                            document.getElementById('J_xhr').innerHTML=JSON.parse(xhr.responseText).tags[2];
-                        }else{
-                            alert('响应失败状态码'+xhr.status);
-                        }
-                    }
-                };
-                //执行xhr请求 
-                xhr.open('get','http://localhost:8488/ajax/getTags');
-                xhr.send(null);
             });
 
             function doLogin(){
