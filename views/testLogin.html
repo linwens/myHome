@@ -36,9 +36,11 @@
             <input type="text" class="u-ipt u-username" placeholder="用户名" id="username">
             <input type="password" class="u-ipt u-password" placeholder="密码" id="password">
             <a href="javascript:;" class="u-btn u-submit" id="doLogin">登录</a>
+            <!-- <label for="remb">记住密码</label>
+            <input type="checkbox" id="remb"> -->
         </div>
         <div class="m-regist">
-            <p>登录</p>
+            <p>注册</p>
             <input type="text" class="u-ipt u-username" placeholder="用户名" id="reg_username">
             <input type="password" class="u-ipt u-password" placeholder="密码" id="reg_password">
             <a href="javascript:;" class="u-btn u-submit" id="doReg">注册</a>
@@ -53,6 +55,7 @@
             });
 
             function doLogin(){
+                //var isRemb = document.getElementById('remb').checked?1:0;
                 var username = $('#username').val(),
                     password = $('#password').val();
                 $.ajax({
@@ -63,7 +66,7 @@
                     success:function(rslt){
                         console.log(rslt);
                         if(rslt.res_code==1){
-                            window.location.href = '/';
+                            window.location.href = '/auth';
                         }
                     },
                     error:function(){}
