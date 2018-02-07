@@ -52,6 +52,8 @@
                 var regBtn = $('#doReg');
                 loginBtn.on('click',doLogin);
                 regBtn.on('click',doReg);
+                sessionStorage.setItem('test','测试能不能跨页面');
+                console.log(sessionStorage.getItem('test'));
             });
 
             function doLogin(){
