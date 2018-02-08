@@ -26,18 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //处理每一个请求的cookie,里面的字符串用于cookie签名
 app.use(cookieParser());
-//session设置
-app.use(session({
-	name:'xuxuweb',
-	secret:'signSessionid',
-	saveUninitialized: false,
-	resave: true,
-	cookie:{
-	    secure: false,
-	    httpOnly: true,
-	    maxAge: null
-	}
-}))
+
 //静态资源处理
 app.use(express.static(path.join(__dirname, 'public')));//主页面获取静态资源路径
 app.use('/h5static', express.static(path.join(__dirname, 'views/h5Demo')));//H5宣传页获取静态资源路径
