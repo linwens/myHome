@@ -45,13 +45,14 @@ router.get('/test', function(req, res, next) {
   	res.render('test', { title: '测试' });
 });
 router.get('/testLogin', function(req, res, next) {
-    if(req.signedCookies.uid){//如果cookie存在直接跳转到auth
-      console.log('req.signedCookies.uid==='+req.signedCookies.uid);
-      res.redirect('/auth');
-    }
+    // if(req.signedCookies.uid){//如果cookie存在直接跳转到auth
+    //   console.log('req.signedCookies.uid==='+req.signedCookies.uid);
+    //   res.redirect('/auth');
+    // }
     res.render('testLogin', { title: '测试登录' });
 });
 router.get('/auth', function(req, res, next) {
+  console.log(req.signedCookies);
     if(!req.signedCookies.uid){//如果cookie不存在跳到testLogin
       res.redirect('/testLogin');
     }

@@ -6,11 +6,26 @@
 </head>
 <body>
 	只有登录了才能查看
-	<a href="" target="_blank">跳转到首页</a>
+	<a href="/testLogin" target="_blank">跳转到登录页</a>
+	<button id="J_ls">修改localStorage</button>
+	<button id="J_ss">修改sessionStorage</button>
 	<script>
 		window.onload = function(){
-			console.log(sessionStorage.getItem('test'));
+			sessionStorage.setItem('test','B页面测试sessionStorage');
+			localStorage.setItem('test','测试localStorage');
+			document.getElementById('J_ls').onclick = function(){
+				localStorage.setItem('test','测试localStorage,change');
+			}
+			document.getElementById('J_ss').onclick = function(){
+				sessionStorage.setItem('test','测试sessionStorage,change');
+			}
+
+			window.addEventListener('storage',function(e){
+				console.log('来自auth------------------');
+				console.log(e);
+			});
 		}
+		
 	</script>
 </body>
 </html>

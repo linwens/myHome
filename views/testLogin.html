@@ -52,10 +52,12 @@
                 var regBtn = $('#doReg');
                 loginBtn.on('click',doLogin);
                 regBtn.on('click',doReg);
-                sessionStorage.setItem('test','测试能不能跨页面');
+                sessionStorage.setItem('test','A页面修改sessionStorage');
                 console.log(sessionStorage.getItem('test'));
             });
-
+            window.addEventListener('storage',function(e){
+                console.log(e);
+            })
             function doLogin(){
                 //var isRemb = document.getElementById('remb').checked?1:0;
                 var username = $('#username').val(),
