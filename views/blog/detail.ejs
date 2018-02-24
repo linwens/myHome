@@ -40,16 +40,16 @@ gitment.render('J_comment-box');
 </script>
 <script>
 	$(function(){
-		var id = Utils.getUrlquery('id');
-		setTimeout(function(){getDetail(id)}, 100, id);
+		var t = Utils.getUrlquery('t');
+		setTimeout(function(){getDetail(t)}, 100, t);
 		// getDetail(id);
 	});
-	function getDetail(id){
+	function getDetail(t){
 		$.ajax({
 			url:"/ajax/getArticle",
 			type:"GET",
 			dataType:"JSON",
-			data:{aid:id},
+			data:{time:t},
 			success:function(rslt){
 				if(rslt.res_code==2){
  					$('.xx-m-artDetail').html('<div class="xx-u-nomore"><i class="iconfont">&#xe652;</i><p>'+rslt.res_msg+' ~ ~</p></div>');
