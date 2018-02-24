@@ -106,7 +106,7 @@ exports.Removearticle = function(req, res, next){
 //文章详情获取
 exports.Getarticle = function(req, res, next){
 	console.log('query==getArticle=='+JSON.stringify(req.query));
-	Articles.find({aid:req.query.aid})
+	Articles.find({"$or":[{'time':req.query.time}, {'aid':req.query.aid}]})
 	.then((data)=>{
 		if(data&&data!=''){
 			//data[0].text代表第一条，所以是针对具体id查询一篇文章

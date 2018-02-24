@@ -52,10 +52,10 @@
 	<script type="text/template" id="tpl_blog">
 	 	<#for(var i = 0;i<data.length;i++){#>
 			<li class="col-xs-12 col-sm-6 col-md-4">
-				<a href="/blog/detail?id=<#=data[i].aid#>"><#= data[i].title #></a>
+				<a href="/blog/detail?t=<#=data[i].time#>"><#= data[i].title #></a>
 				<p><#= data[i].brief #>...</p>
 				<div>
-					<a href="/blog/detail?id=<#=data[i].aid#>">[阅读全文]</a>
+					<a href="/blog/detail?t=<#=data[i].time#>">[阅读全文]</a>
 					<span><#= Utils.timeFormat(data[i].time)#></span>
 				</div>
 				<#if(i<data.length-1){#><b class="hidden-sm"></b><#}#>

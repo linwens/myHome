@@ -33,16 +33,16 @@
 	<#for(var i = 0;i<data.length;i++){#>
 		<article>
 			<#if(imgArr.indexOf(data[i].tags[0]?data[i].tags[0].toLowerCase():'')<=0){#>
-				<a href="/blog/detail?id=<#=data[i].aid#>" class="xx-u-ttpic" style="background-image: url(/images/titleImg/default.jpg);">
+				<a href="/blog/detail?t=<#=data[i].time#>" class="xx-u-ttpic" style="background-image: url(/images/titleImg/default.jpg);">
 				</a>
 			<#}else{#>
-				<a href="/blog/detail?id=<#=data[i].aid#>" class="xx-u-ttpic" style="background-image: url(/images/titleImg/<#=data[i].tags[0].toLowerCase()#>.jpg);">
+				<a href="/blog/detail?t=<#=data[i].time#>" class="xx-u-ttpic" style="background-image: url(/images/titleImg/<#=data[i].tags[0].toLowerCase()#>.jpg);">
 				</a>
 			<#}#>
 			<div class="xx-m-txt">
-				<h2><a href="/blog/detail?id=<#=data[i].aid#>"><#= data[i].title #></a></h2>
+				<h2><a href="/blog/detail?t=<#=data[i].time#>"><#= data[i].title #></a></h2>
 				<span><i class="iconfont">&#xe620;</i>发表于 : <#= Utils.timeFormat(data[i].time,1)#> <i class="iconfont">&#xe613;</i> by linws</span>
-				<p><#= data[i].brief #>...<a href="/blog/detail?id=<#=data[i].aid#>">[阅读全文]</a></p>
+				<p><#= data[i].brief #>...<a href="/blog/detail?t=<#=data[i].time#>">[阅读全文]</a></p>
 			</div>
 		</article>
 		<#if(i<(data.length-1)){#><hr><#}#>
