@@ -177,11 +177,15 @@
 			this.y = initY;//小鸟初始垂直位置
 		};
 		Bird.prototype.draw = function(index){
-			this.ctx.save();
-			this.ctx.translate(this.x+17/scales, this.y+12/scales);//修改canvas的原点到鸟的中心
+			//脑子里也要有个思想是：图片是一帧一帧画的，到这里的时候小鸟还没画出来，只有天空地面和水管。
+			this.ctx.save();//此时保存下整个背景画面，没有鸟！
+			//接下来的画布理解成透明空白的一块画布，跟之前保存的画布没关系
+			this.ctx.translate(this.x+17/scales, this.y+12/scales);//修改canvas的原点到鸟的中心（即使没有鸟也预判位置了）
+			//透明空白的画布旋转了一定角度
 			this.ctx.rotate(-(Math.PI/6)*this.upSpeed/8);//圆周率*值=角度大小
-			this.ctx.translate(-(this.x+17/scales), -(this.y+12/scales));//修改canvas的原点回到最初
-			switch(index){
+			//修改canvas的原点回到最初，注意是倾斜后的画布左上角那个点
+			this.ctx.translate(-(this.x+17/scales), -(this.y+12/scales));
+			switch(index){//然后再倾斜的画布上画鸟
 				case 0:this.ctx.drawImage(this.img, 6, 982, 34, 24, this.x, this.y, 34/scales, 24/scales);
 					break;
 				case 1:this.ctx.drawImage(this.img, 62, 982, 34, 24, this.x, this.y, 34/scales, 24/scales);
@@ -189,7 +193,7 @@
 				case 2:this.ctx.drawImage(this.img, 118, 982, 34, 24, this.x, this.y, 34/scales, 24/scales);
 					break;
 			}
-			this.ctx.restore();
+			this.ctx.restore();//鸟画完了，回到之前保存的背景画面，注意是没鸟的！鸟要重新画。
 		};
 		Bird.prototype.fly = function(speed){
 			this.wing -=0.1;
