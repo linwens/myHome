@@ -67,4 +67,7 @@ router.get('/b_gallery', function(req, res, next) {
 router.get('/b_blog', function(req, res, next) {
     res.render('blog/b_blog', { title: '新blog页' });
 });
+router.get('/learnmvvm', function(req, res, next) {
+    res.render('learnmvvm');
+});
 module.exports = router;

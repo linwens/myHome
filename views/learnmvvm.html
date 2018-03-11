@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>学习MVVM</title>
+	<script src="https://unpkg.com/vue@2.0.1/dist/vue.js"></script>
+</head>
+<body>
+	<!-- <div id="vm">
+    	<p>Hello, {{ name }}!</p>
+    	<p>You are {{ age }} years old!</p>
+    </div> -->
+    <form id="vm" action="#">
+        <p><input v-model="name"></p>
+        <p><input v-model="age"></p>
+    </form>
+    <script>
+    	window.onload = function(){
+    		var vm = new Vue({
+    			el:'#vm',
+    			data:{
+    				name: 'Robot',
+    				age: 15
+    			}
+    		});
+    		window.vm = vm;
+    	}
+
+    </script>
+
+</body>
+</html>
