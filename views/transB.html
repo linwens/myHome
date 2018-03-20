@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>微信授权跳转B</title>
+	<script src="/javascripts/jquery.js"></script>
+	<script src="/javascripts/util.js"></script>
+</head>
+<body>
+	<script>
+		window.onload = function(){
+			var code = Utils.getUrlquery('code');
+			getOpenid(code);
+		};
+		function getOpenid(code){
+			console.log(code);
+			$.ajax({
+				url:'/wechat/opid',
+				type:'GET',
+				dataType:'JSON',
+				data:{code:code},
+				success:function(){},
+				error:function(){}
+			})
+		}
+	</script>
+</body>
+</html>

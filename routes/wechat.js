@@ -5,6 +5,7 @@ var config = require('./config');//配置参数
 var wcSet = require('./set');//公众号基本配置
 var wcNotice = require('./sendMsg').wcNotice;//发送模板通知模块
 var wcjsSDK = require('./jssdk').wcjsSDK;//链接微信js-sdk
+var wcOpenid = require('./getOpenid');//获取用户openid
 
 router.use(express.query());
 //发送模板通知接口
@@ -57,6 +58,12 @@ router.post('/getjssdk', function(req, res, next){
 		        data:rslt
 		    })
 		}
+	});
+});
+//获取用户openid
+router.get('/opid',function(req,res,next){
+	wcOpenid(req.query.code,function(res){
+		console.log(res);
 	});
 });
 router.use('/',wechat(config, function(req, res, next){

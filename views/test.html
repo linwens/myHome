@@ -5,6 +5,7 @@
     <title>测试各种代码</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/util.js"></script>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <style>
         .u-btn{
@@ -39,12 +40,14 @@
             //页面初始化是获取微信config
             getSDK(wx_handle);
         });
+        //获取用户openid
+
         function doNotice(){
             $.ajax({
                 url:"/wechat/notice",
                 type:"POST",
                 datatype:"JSON",
-                data:{openid:'', type:2, first:'测试'},
+                data:{openid:'', type:1, first:'测试'},
                 success:function(rslt){
                     console.log(rslt);
                 },
