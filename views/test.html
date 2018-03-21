@@ -31,8 +31,11 @@
     <script>
         //测试微信模板消息推送
         $(function(){
+            var openid = Utils.getUrlquery('openid');
             var noticeBtn = $('#J_doNotice');
-            noticeBtn.on('click',doNotice);
+            noticeBtn.on('click',function(){
+                doNotice(openid)
+            });
             var getSDKbtn = $('#J_getSDK');
             // getSDKbtn.on('click',function(){
             //     getSDK(wx_handle);
@@ -42,12 +45,12 @@
         });
         //获取用户openid
 
-        function doNotice(){
+        function doNotice(openid){
             $.ajax({
                 url:"/wechat/notice",
                 type:"POST",
                 datatype:"JSON",
-                data:{openid:'', type:1, first:'测试'},
+                data:{openid:openid, type:1, first:'测试'},
                 success:function(rslt){
                     console.log(rslt);
                 },

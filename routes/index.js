@@ -44,6 +44,12 @@ router.get('/admin', function(req, res, next) {
 router.get('/test', function(req, res, next) {
   	res.render('test', { title: '测试' });
 });
+router.get('/transA', function(req, res, next) {
+    res.render('transA', { title: '跳转页A' });
+});
+router.get('/transB', function(req, res, next) {
+    res.render('transB', { title: '跳转页B' });
+});
 router.get('/testLogin', function(req, res, next) {
     res.render('testLogin', { title: '测试登录' });
 });

@@ -62,8 +62,28 @@ router.post('/getjssdk', function(req, res, next){
 });
 //获取用户openid
 router.get('/opid',function(req,res,next){
-	wcOpenid(req.query.code,function(res){
-		console.log(res);
+	wcOpenid(req.query.code,function(err, rslt){
+		console.log(rslt);
+		if(err){
+		    res.json({
+		        code:1,
+		        msg:'openid获取失败'
+		    })
+		}else{
+			if(rslt.body.errcode){
+				res.json({
+				    code:2,
+				    msg:rslt.body.errmsg
+				})
+			}else{
+				res.json({
+				    code:0,
+				    msg:'openid信息已发出',
+				    data:JSON.parse(rslt.body).openid
+				})
+			}
+		    
+		}
 	});
 });
 router.use('/',wechat(config, function(req, res, next){

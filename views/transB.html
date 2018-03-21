@@ -19,8 +19,14 @@
 				type:'GET',
 				dataType:'JSON',
 				data:{code:code},
-				success:function(){},
-				error:function(){}
+				success:function(rslt){
+					console.log('获取了openid');
+					console.log(rslt);
+					window.location.href="/test?openid="+rslt.data;
+				},
+				error:function(){
+					console.log('获取openid失败');
+				}
 			})
 		}
 	</script>

@@ -7,15 +7,21 @@ var config = require('./config');//配置参数
 var api = new WechatAPI(config.appid, config.appsecret);
 var request = require('request');
 
-module.export = function(code){
-	var reqUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='+config.appid+'&secret='+config.appsecret+'&code='+code+'&grant_type=authorization_code'
-	request.get('https://api.weixin.qq.com/sns/oauth2/access_token',{
-		appid:config.appid,
-		secret:config.appsecret,
-		code:code,
-		grant_type:'authorization_code'
+module.exports = function(code,cb){
+	console.log('code===='+code);
+	request({
+		url:'https://api.weixin.qq.com/sns/oauth2/access_token',
+		method:'POST',  
+        headers:{  
+            'Content-Type':'application/json', 
+        },
+		qs:{
+			appid:config.appid,
+			secret:config.appsecret,
+			code:code,
+			grant_type:'authorization_code'
+		}
 	},function(err,res){
-		console.log(arguments);
-		cb(res);
+		cb(err,res);
 	})
 }
