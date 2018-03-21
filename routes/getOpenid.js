@@ -11,10 +11,6 @@ module.exports = function(code,cb){
 	console.log('code===='+code);
 	request({
 		url:'https://api.weixin.qq.com/sns/oauth2/access_token',
-		method:'POST',  
-        headers:{  
-            'Content-Type':'application/json', 
-        },
 		qs:{
 			appid:config.appid,
 			secret:config.appsecret,
