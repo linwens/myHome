@@ -5,39 +5,51 @@ exports.Login = function(req, res, next){
         username: decodeURI(req.body.username),
         password: decodeURI(req.body.password)
     });
-    User.find({username:users.username})
-    .then(function(data){
-        if(data&&data!=''){
-            console.log('find:', data);
-            if(data[0].password == users.password){//验证密码
-                //设置cookie
-                //res.cookie('uid', data[0]._id, {maxAge:60*1000, httpOnly: false, secure: false, signed: true});
-                //设置session,存入用户名及登录密码
-                req.session.users = users;
-                console.log(req.session);
-                res.json({
-                    res_code:'1',
-                    res_msg:'登录成功',
-                    data:{
-                        uid:data[0]._id
-                    }
-                })
+    //为游客设置权限
+    if(users.username==='guests'){
+        res.json({
+            res_code:'1',
+            res_msg:'登录成功',
+            data:{
+                type:'guests'
+            }
+        })
+    }else{
+        User.find({username:users.username})
+        .then(function(data){
+            if(data&&data!=''){
+                console.log('find:', data);
+                if(data[0].password == users.password){//验证密码
+                    //设置cookie
+                    //res.cookie('uid', data[0]._id, {maxAge:60*1000, httpOnly: false, secure: false, signed: true});
+                    //设置session,存入用户名及登录密码
+                    req.session.users = users;
+                    console.log(req.session);
+                    res.json({
+                        res_code:'1',
+                        res_msg:'登录成功',
+                        data:{
+                            uid:data[0]._id
+                        }
+                    })
+                }else{
+                    res.json({
+                        res_code:'2',
+                        res_msg:'密码错误'
+                    })
+                }
             }else{
                 res.json({
-                    res_code:'2',
-                    res_msg:'密码错误'
-                })
+                    res_code:'-1',
+                    res_msg:'用户不存在'
+                });
             }
-        }else{
-            res.json({
-                res_code:'-1',
-                res_msg:'用户不存在'
-            });
-        }
-    })
-    .catch(function(err){
-        console.log(err);
-    });
+        })
+        .catch(function(err){
+            console.log(err);
+        });
+    }
+    
 };
 //注册
 exports.Regist = function(req, res, next){
