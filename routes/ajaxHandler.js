@@ -72,4 +72,38 @@ router.post('/removeImg', function(req, res, next){
 router.get('/getImginfo',function(req, res, next){
     Getimginfo(req, res, next);
 });
+//获取IP
+var request = require('request');
+router.get('/getIP',function(req, res, next){
+    request({
+        method:'get',
+        url:'http://ip.chinaz.com/getip.aspx'//站长之家的IP查询工具
+    }, function (error, response, body) {
+        if(error){
+            res.render('error');
+        }else{
+            var data=body.replace(/'/g,'"');
+            var reg = /(^\{|\,)\w+:/g;
+            var aa = body.match(reg);
+            var bb = [];
+            for(var i=0;i<aa.length;i++){
+                bb.push(aa[i].slice(1,aa[i].length-1))
+            }
+            var j = 0;
+            var sss = '';
+            function addKey(str,arr){
+                if(arr.length==j){
+                    sss = str;
+                    return false;
+                }
+                var regExp = new RegExp(arr[j]+':','gi');
+                var newStr = str.replace(regExp,'"'+arr[j]+'":');
+                j++;
+                addKey(newStr,arr);
+            }
+            addKey(data,bb);
+            res.send(sss);
+        }
+    });
+});
 module.exports = router;
